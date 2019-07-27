@@ -1,3 +1,3 @@
 ## [0.0.1] - TODO: Add release date.
 
-[1.0.3] - Updated readme.
+[1.0.4] - Minor typo fixes.
