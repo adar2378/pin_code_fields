@@ -12,23 +12,27 @@ A flutter package which will help you to generate pin code fields.
 
 <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pin_code.gif" width="250" height="480">
 
-The part where you can construct the pin code text field 
-``` Dart
+The part where you can construct the pin code text field
+
+```Dart
 PinCodeTextField(
       length: 6,
-      obsecureText: false,
+      obscureText: false,
       getValues: changeNoticer.sink,
       shouldTriggerFucntions: changeNotifier.stream,
     );
 ```
 
 ChangeNotifier will decide which function to trigger
-``` Dart
+
+```Dart
     changeNoticer.stream.listen(_onData);
     changeNotifier.add(functions.doNothing);
 ```
+
 Listen to the result after calling functions
-``` Dart
+
+```Dart
 void _onData(event) {
     print("dispatched event: $event");
     // if event == false that means there is no error. the error checking was called during the button press
@@ -57,9 +61,10 @@ void _onData(event) {
     }
   }
 ```
+
 This full code is from the example folder. You can run the example to see.
 
-``` Dart
+```Dart
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -103,7 +108,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       };
     pinCodeTextFieldWidget = PinCodeTextField(
       length: 6,
-      obsecureText: false,
+      obscureText: false,
       getValues: changeNoticer.sink,
       shouldTriggerFucntions: changeNotifier.stream,
     );
