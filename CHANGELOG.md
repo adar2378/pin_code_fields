@@ -1,3 +1,3 @@
 ## [0.0.1] - TODO: Add release date.
 
-[1.0.1] - Changed gif file location.
+[1.0.2] - Updated readme.
