@@ -13,7 +13,7 @@ A flutter package which will help you to generate pin code fields.
 <img src="https://github.com/adar2378/pin_code_fields/blob/master/pin_code.gif" width="250" height="480">
 
 The part where you can construct the pin code text field 
-```
+``` Dart
 PinCodeTextField(
       length: 6,
       obsecureText: false,
@@ -23,7 +23,7 @@ PinCodeTextField(
 ```
 This full code is from the example folder. You can run the example to see.
 
-```
+``` Dart
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
