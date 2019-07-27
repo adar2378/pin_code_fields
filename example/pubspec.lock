@@ -80,7 +80,7 @@ packages:
       path: "E:\\Adar\\pin_code_fields"
       relative: false
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   quiver:
     dependency: transitive
     description:
