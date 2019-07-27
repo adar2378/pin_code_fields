@@ -30,12 +30,30 @@ ChangeNotifier will decide which function to trigger
 Listen to the result after calling functions
 ``` Dart
 void _onData(event) {
-    if (event == functions.checkError) {
-      widget.getValues.add(checkError().toString());
-    } else if (event == functions.getSubmittedString) {
-      widget.getValues.add(submitTotalString());
-    } else if (event == functions.doNothing) {
-      widget.getValues.add("");
+    print("dispatched event: $event");
+    // if event == false that means there is no error. the error checking was called during the button press
+    if (event == "false") {
+      if (hasError) {
+        setState(() {
+          hasError = false;
+        });
+      }
+
+      // if no error then we can get the string
+      changeNotifier.add(functions.getSubmittedString);
+    } else if (event == "true") {
+      if (!hasError) {
+        setState(() {
+          hasError = true;
+        });
+      }
+    } else if (event.length > 0) {
+      // there can be 3 situations in total in this code, 1. it will return false .2 return true and 3. will return the string
+      // so if it is not true or false then it must be the string which we called by passing fucntions.getSubmittedString in the changeNotifier
+      print("Submitted text $event");
+      setState(() {
+        submittedString = event;
+      });
     }
   }
 ```
