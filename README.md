@@ -6,6 +6,8 @@ A flutter package which will help you to generate pin code fields.
 
 This code is from the example folder. You can run the example to see.
 
+![Farmers Market Finder Demo](pin_code.gif)
+
 ```
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
