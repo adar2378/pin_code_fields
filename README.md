@@ -6,7 +6,7 @@ A flutter package which will help you to generate pin code fields.
 
 This code is from the example folder. You can run the example to see.
 
-'''
+```
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -230,4 +230,4 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     }
   }
 }
-'''
+```
