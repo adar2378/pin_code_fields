@@ -21,6 +21,24 @@ PinCodeTextField(
       shouldTriggerFucntions: changeNotifier.stream,
     );
 ```
+
+ChangeNotifier will decide which function to trigger
+``` Dart
+    changeNoticer.stream.listen(_onData);
+    changeNotifier.add(functions.doNothing);
+```
+Listen to the result after calling functions
+``` Dart
+void _onData(event) {
+    if (event == functions.checkError) {
+      widget.getValues.add(checkError().toString());
+    } else if (event == functions.getSubmittedString) {
+      widget.getValues.add(submitTotalString());
+    } else if (event == functions.doNothing) {
+      widget.getValues.add("");
+    }
+  }
+```
 This full code is from the example folder. You can run the example to see.
 
 ``` Dart
