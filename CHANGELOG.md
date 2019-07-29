@@ -1,3 +1,5 @@
+[1.1.1] - Minor fixes.
+
 ## [1.1.0] - Added onDone and onError callbacks. Added 3 different types of shapes with custom TextStyle
 
 [1.0.4] - Minor typo fixes.
