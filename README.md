@@ -1,5 +1,7 @@
 # pin_code_fields
 
+<a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
+
 A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs.
 
 ## Features
