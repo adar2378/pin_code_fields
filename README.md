@@ -27,7 +27,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 ```Dart
 PinCodeTextField(
       length: 6, // must be greater than 0
-      obsecureText: false, //optional, default is 0
+      obsecureText: false, //optional, default is false
       shape: PinCodeFieldShape.round, //optional, default is underline
       onDone: (String value) {
         setState(() {

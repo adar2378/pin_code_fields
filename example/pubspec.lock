@@ -80,7 +80,7 @@ packages:
       path: "E:\\Flutter\\pincode"
       relative: false
     source: path
-    version: "1.1.1"
+    version: "1.1.2"
   quiver:
     dependency: transitive
     description:
