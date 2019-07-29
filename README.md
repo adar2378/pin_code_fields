@@ -1,68 +1,60 @@
 # pin_code_fields
 
-A flutter package which will help you to generate pin code fields.
+A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs.
 
 ## Features
 
 - Error handling
 - Automatic focuses the next field
 - Can be set to any length. (3-6 fields recommended)
+- 3 different shapes for text fields
+- Customizable
 
 ## Getting Started
 
 <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pin_code.gif" width="250" height="480">
 
-The part where you can construct the pin code text field
+**The part how you can construct the pin code text field**
 
 ```Dart
 PinCodeTextField(
-      length: 6,
-      obscureText: false,
-      getValues: changeNoticer.sink,
+      length: 6, // must be greater than 0
+      obsecureText: false, //optional, default is 0
+      shape: PinCodeFieldShape.round, //optional, default is underline
+      onDone: (String value) {
+        setState(() {
+          submittedString = value;
+        });
+      },
+      textStyle: TextStyle(fontWeight: FontWeight.bold), //optinal, default is TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)
+      onErrorCheck: (bool value) {
+        setState(() {
+          hasError = value;
+        });
+      },
       shouldTriggerFucntions: changeNotifier.stream,
     );
 ```
 
-ChangeNotifier will decide which function to trigger
+**ChangeNotifier will trigger the submission. If any error found then the onErrorCheck call back will return true**
 
 ```Dart
-    changeNoticer.stream.listen(_onData);
-    changeNotifier.add(functions.doNothing);
+    final changeNotifier = StreamController<Functions>();
 ```
 
-Listen to the result after calling functions
+**Listen to the result after calling functions. If there is no errors then onDone call back will be called**
 
 ```Dart
-void _onData(event) {
-    print("dispatched event: $event");
-    // if event == false that means there is no error. the error checking was called during the button press
-    if (event == "false") {
-      if (hasError) {
-        setState(() {
-          hasError = false;
-        });
-      }
-
-      // if no error then we can get the string
-      changeNotifier.add(functions.getSubmittedString);
-    } else if (event == "true") {
-      if (!hasError) {
-        setState(() {
-          hasError = true;
-        });
-      }
-    } else if (event.length > 0) {
-      // there can be 3 situations in total in this code, 1. it will return false .2 return true and 3. will return the string
-      // so if it is not true or false then it must be the string which we called by passing fucntions.getSubmittedString in the changeNotifier
-      print("Submitted text $event");
-      setState(() {
-        submittedString = event;
-      });
-    }
-  }
+  changeNotifier.add(Functions.submit); // this will invoke the submission
 ```
 
-This full code is from the example folder. You can run the example to see.
+**Shape can be among these 3 types**
+
+```Dart
+enum PinCodeFieldShape { box, underline, round }
+```
+
+**This full code is from the example folder. You can run the example to see.**
 
 ```Dart
 class MyApp extends StatelessWidget {
@@ -92,10 +84,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
   /// this [StreamController] will take input of which function should be called
-  final changeNotifier = StreamController.broadcast();
+  final changeNotifier = StreamController<Functions>();
 
-  /// this [Streamcontroller] will return the value after executing the fucntion
-  final changeNoticer = StreamController.broadcast();
   PinCodeTextField pinCodeTextFieldWidget;
   bool hasError = false;
   String submittedString = "";
@@ -108,20 +98,29 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       };
     pinCodeTextFieldWidget = PinCodeTextField(
       length: 6,
-      obscureText: false,
-      getValues: changeNoticer.sink,
+      obsecureText: false,
+      shape: PinCodeFieldShape.round,
+      onDone: (value) {
+        setState(() {
+          submittedString = value;
+        });
+      },
+      textStyle: TextStyle(fontWeight: FontWeight.bold),
+      onErrorCheck: (value) {
+        setState(() {
+          hasError = value;
+        });
+      },
       shouldTriggerFucntions: changeNotifier.stream,
     );
 
-    changeNoticer.stream.listen(_onData);
-    changeNotifier.add(functions.doNothing);
     super.initState();
   }
 
   @override
   void dispose() {
     changeNotifier.close();
-    changeNoticer.close();
+
     super.dispose();
   }
 
@@ -141,9 +140,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: 10),
               Image.asset(
                 'assets/verify.png',
                 height: MediaQuery.of(context).size.height / 3,
@@ -221,8 +218,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   child: FlatButton(
                     onPressed: () async {
                       /// check the [_onData] fucntion to understand better
-                      changeNotifier.add(functions
-                          .checkError); // at first we will check error on the press of the button.
+                      changeNotifier.add(Functions
+                          .submit); // at first we will check error on the press of the button.
                     },
                     child: Center(
                         child: Text(
@@ -259,33 +256,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ),
     );
   }
-
-  void _onData(event) {
-    print("dispatched event: $event");
-    // if event == false that means there is no error. the error checking was called during the button press
-    if (event == "false") {
-      if (hasError) {
-        setState(() {
-          hasError = false;
-        });
-      }
-
-      // if no error then we can get the string
-      changeNotifier.add(functions.getSubmittedString);
-    } else if (event == "true") {
-      if (!hasError) {
-        setState(() {
-          hasError = true;
-        });
-      }
-    } else if (event.length > 0) {
-      // there can be 3 situations in total in this code, 1. it will return false .2 return true and 3. will return the string
-      // so if it is not true or false then it must be the string which we called by passing fucntions.getSubmittedString in the changeNotifier
-      print("Submitted text $event");
-      setState(() {
-        submittedString = event;
-      });
-    }
-  }
 }
+
 ```

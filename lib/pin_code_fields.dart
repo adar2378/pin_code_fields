@@ -10,25 +10,40 @@ class PinCodeTextField extends StatefulWidget {
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
-  /// you already know what it does i guess :P
+  /// you already know what it does i guess :P default is false
   final bool obsecureText;
 
   /// this stream will decide which functions to be called from [functions]
   final Stream shouldTriggerFucntions;
 
-  /// this sink will add value to a streamcontroller about the result after calling a function inside [PinCodeTextField]
-  final Sink getValues;
+  /// callback which will be triggered if there is no error and will return the complete string
+  final ValueChanged<String> onDone;
+
+  /// this callback will return value if there is any error or not
+  final ValueChanged<bool> onErrorCheck;
+
+  /// this defines the shape of the input fields. Default is underlined
+  final PinCodeFieldShape shape;
+
+  /// the style of the text, default is [fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold]
+  final TextStyle textStyle;
   PinCodeTextField(
-      {this.length,
-      this.obsecureText,
-      this.shouldTriggerFucntions,
-      this.getValues});
+      {@required this.length,
+      this.obsecureText = false,
+      @required this.shouldTriggerFucntions,
+      @required this.onDone,
+      @required this.onErrorCheck,
+      this.shape = PinCodeFieldShape.underline,
+      this.textStyle = const TextStyle(
+          fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)});
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
 }
 
-enum functions { checkError, getSubmittedString, doNothing }
+enum Functions { submit, idle }
+
+enum PinCodeFieldShape { box, underline, round }
 
 class _PinCodeTextFieldState extends State<PinCodeTextField> {
   /// list of total [FocusNode] depending on the total length that the user put in, which is obviously [widget.length]
@@ -42,7 +57,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   /// this [StreamSubscription] will listen to the changes in our [widget.shouldTriggerFucntions]
   StreamSubscription streamSubscription;
-
+  var border;
+  var focusedBorder;
+  PinCodeFieldShape shape;
   @override
   void dispose() {
     streamSubscription.cancel();
@@ -56,8 +73,27 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     }
   }
 
+  final _borderSideValue = BorderSide(width: 1.5, color: Colors.green);
+  _setUpShape() {
+    shape = widget.shape;
+
+    if (shape == PinCodeFieldShape.box) {
+      border = OutlineInputBorder();
+      focusedBorder = OutlineInputBorder(borderSide: _borderSideValue);
+    } else if (shape == PinCodeFieldShape.underline) {
+      border = UnderlineInputBorder();
+      focusedBorder = UnderlineInputBorder(borderSide: _borderSideValue);
+    } else if (shape == PinCodeFieldShape.round) {
+      border = OutlineInputBorder(borderRadius: BorderRadius.circular(25));
+      focusedBorder = OutlineInputBorder(
+          borderSide: _borderSideValue,
+          borderRadius: BorderRadius.circular(25));
+    }
+  }
+
   @override
   void initState() {
+    _setUpShape();
     assert(widget.length > 0);
     listOfFocusNodes =
         List<FocusNode>.generate(widget.length, (index) => FocusNode());
@@ -100,14 +136,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             controller: listOfControllers[i],
             focusNode: listOfFocusNodes[i],
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+            style: widget.textStyle,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              border: border,
               errorText:
                   errorTexts[i], // if null then no error, else will show error
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(width: 1.5, color: Colors.green)),
+              focusedBorder: focusedBorder,
             ),
           ),
         ),
@@ -156,14 +191,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     );
   }
 
-  /// listener fucntion of [streamSubscription]
+  /// listener fucntion of [streamSubscription] and calling the callbacks
   void _onData(event) {
-    if (event == functions.checkError) {
-      widget.getValues.add(checkError().toString());
-    } else if (event == functions.getSubmittedString) {
-      widget.getValues.add(submitTotalString());
-    } else if (event == functions.doNothing) {
-      widget.getValues.add("");
+    if (event == Functions.submit) {
+      if (checkError()) {
+        widget.onErrorCheck(true);
+      } else {
+        widget.onErrorCheck(false);
+        widget.onDone(submitTotalString());
+      }
     }
   }
 }
