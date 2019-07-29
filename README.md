@@ -5,7 +5,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 ## Features
 
 - Error handling
-- Automatic focuses the next field
+- Automatically focuses the next field
 - Can be set to any length. (3-6 fields recommended)
 - 3 different shapes for text fields
 - Customizable
