@@ -53,7 +53,7 @@ PinCodeTextField(
 **Way to trigger the submission**
 
 ```Dart
-  changeNotifier.add(Functions.submit); // this will invoke the submission
+  changeNotifier.add(Functions.submit); // this will invoke the submission. Can be used inside onPressed of a button or from wherever you want to trigger it
 ```
 
 **Shape can be among these 3 types**
