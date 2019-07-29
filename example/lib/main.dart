@@ -33,10 +33,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
   /// this [StreamController] will take input of which function should be called
-  final changeNotifier = StreamController.broadcast();
+  final changeNotifier = StreamController<Functions>();
 
-  /// this [Streamcontroller] will return the value after executing the fucntion
-  final changeNoticer = StreamController.broadcast();
   PinCodeTextField pinCodeTextFieldWidget;
   bool hasError = false;
   String submittedString = "";
@@ -50,19 +48,28 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     pinCodeTextFieldWidget = PinCodeTextField(
       length: 6,
       obsecureText: false,
-      getValues: changeNoticer.sink,
+      shape: PinCodeFieldShape.round,
+      onDone: (value) {
+        setState(() {
+          submittedString = value;
+        });
+      },
+      textStyle: TextStyle(fontWeight: FontWeight.bold),
+      onErrorCheck: (value) {
+        setState(() {
+          hasError = value;
+        });
+      },
       shouldTriggerFucntions: changeNotifier.stream,
     );
 
-    changeNoticer.stream.listen(_onData);
-    changeNotifier.add(functions.doNothing);
     super.initState();
   }
 
   @override
   void dispose() {
     changeNotifier.close();
-    changeNoticer.close();
+
     super.dispose();
   }
 
@@ -82,9 +89,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
+              SizedBox(height: 10),
               Image.asset(
                 'assets/verify.png',
                 height: MediaQuery.of(context).size.height / 3,
@@ -162,8 +167,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   child: FlatButton(
                     onPressed: () async {
                       /// check the [_onData] fucntion to understand better
-                      changeNotifier.add(functions
-                          .checkError); // at first we will check error on the press of the button.
+                      changeNotifier.add(Functions
+                          .submit); // at first we will check error on the press of the button.
                     },
                     child: Center(
                         child: Text(
@@ -199,33 +204,5 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         ),
       ),
     );
-  }
-
-  void _onData(event) {
-    print("dispatched event: $event");
-    // if event == false that means there is no error. the error checking was called during the button press
-    if (event == "false") {
-      if (hasError) {
-        setState(() {
-          hasError = false;
-        });
-      }
-
-      // if no error then we can get the string
-      changeNotifier.add(functions.getSubmittedString);
-    } else if (event == "true") {
-      if (!hasError) {
-        setState(() {
-          hasError = true;
-        });
-      }
-    } else if (event.length > 0) {
-      // there can be 3 situations in total in this code, 1. it will return false .2 return true and 3. will return the string
-      // so if it is not true or false then it must be the string which we called by passing fucntions.getSubmittedString in the changeNotifier
-      print("Submitted text $event");
-      setState(() {
-        submittedString = event;
-      });
-    }
   }
 }
