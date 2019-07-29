@@ -48,7 +48,7 @@ PinCodeTextField(
     final changeNotifier = StreamController<Functions>();
 ```
 
-**Listen to the result after calling functions. If there is no errors then onDone call back will be called**
+**Way to trigger the submission**
 
 ```Dart
   changeNotifier.add(Functions.submit); // this will invoke the submission
