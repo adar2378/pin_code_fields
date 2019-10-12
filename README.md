@@ -141,53 +141,29 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
   /// this [StreamController] will take input of which function should be called
-  final changeNotifier = StreamController<Functions>();
 
-  PinCodeTextField pinCodeTextFieldWidget;
   bool hasError = false;
-  String submittedString = "";
-
+  String currentText = "";
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     onTapRecognizer = TapGestureRecognizer()
       ..onTap = () {
         Navigator.pop(context);
       };
-    pinCodeTextFieldWidget = PinCodeTextField(
-      length: 6,
-      obsecureText: false,
-      shape: PinCodeFieldShape.round,
-      onDone: (value) {
-        setState(() {
-          submittedString = value;
-        });
-      },
-      textStyle: TextStyle(fontWeight: FontWeight.bold),
-      onErrorCheck: (value) {
-        setState(() {
-          hasError = value;
-        });
-      },
-      shouldTriggerFucntions: changeNotifier.stream,
-    );
 
     super.initState();
   }
 
   @override
   void dispose() {
-    changeNotifier.close();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-      ),
+      key: scaffoldKey,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
@@ -197,7 +173,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 10),
+              SizedBox(height: 30),
               Image.asset(
                 'assets/verify.png',
                 height: MediaQuery.of(context).size.height / 3,
@@ -236,14 +212,27 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                  child: pinCodeTextFieldWidget),
+                  child: PinCodeTextField(
+                    length: 6,
+                    obsecureText: false,
+                    animationType: AnimationType.fade,
+                    shape: PinCodeFieldShape.underline,
+                    animationDuration: Duration(milliseconds: 300),
+                    borderRadius: BorderRadius.circular(5),
+                    fieldHeight: 50,
+                    fieldWidth: 40,
+                    currentText: (value) {
+                      setState(() {
+                        currentText = value;
+                      });
+                    },
+                  )),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                // error showing widget
                 child: Text(
-                  hasError
-                      ? "*Please fill up all the cells and press VERIFY again"
-                      : "",
-                  style: TextStyle(color: Colors.red.shade300, fontSize: 12),
+                  hasError ? "*Please fill up all the cells properly" : "",
+                  style: TextStyle(color: Colors.red.shade300, fontSize: 15),
                 ),
               ),
               SizedBox(
@@ -273,10 +262,21 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 child: ButtonTheme(
                   height: 50,
                   child: FlatButton(
-                    onPressed: () async {
-                      /// check the [_onData] fucntion to understand better
-                      changeNotifier.add(Functions
-                          .submit); // at first we will check error on the press of the button.
+                    onPressed: () {
+                      // conditions for validating
+                      if (currentText.length != 6 || currentText != "towtow") {
+                        setState(() {
+                          hasError = true;
+                        });
+                      } else {
+                        setState(() {
+                          hasError = false;
+                          scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Aye!!"),
+                            duration: Duration(seconds: 2),
+                          ));
+                        });
+                      }
                     },
                     child: Center(
                         child: Text(
@@ -302,11 +302,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blurRadius: 5)
                     ]),
               ),
-              Center(
-                  child: Text(
-                submittedString,
-                style: TextStyle(fontSize: 18),
-              )),
             ],
           ),
         ),
@@ -314,5 +309,4 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     );
   }
 }
-
 ```
