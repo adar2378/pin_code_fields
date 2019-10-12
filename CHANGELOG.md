@@ -1,3 +1,25 @@
+## [2.0.0]
+
+### New Features 🥁🥁
+
+- Added new parameters such as backgroundColor, borderRadius, fieldHeight, fieldWidth, mainAxisAlignment, activeColor, inactiveColor, borderWidth, animationType, animationDuration, animationCurve, textInputType
+
+- Supports animation while changing value of pin code field field
+
+- Pressing backspace will focus the previous pin code field
+
+### Breaking Changes 😥😥
+
+- Removed onDone and onErrorCheck callbacks
+
+- Removed shouldTriggerFucntions stream
+
+- Removed Functions enum
+
+- Changed PinCodeFieldShape.round to PinCodeFieldShape.circle
+
+- Can not focus on individual pin code field anymore
+
 [1.1.2] - Minor fixes.
 
 [1.1.1] - Minor fixes.

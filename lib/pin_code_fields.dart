@@ -1,7 +1,5 @@
 library pin_code_fields;
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,193 +11,267 @@ class PinCodeTextField extends StatefulWidget {
   /// you already know what it does i guess :P default is false
   final bool obsecureText;
 
-  /// this stream will decide which functions to be called from [functions]
-  final Stream shouldTriggerFucntions;
-
-  /// callback which will be triggered if there is no error and will return the complete string
-  final ValueChanged<String> onDone;
-
-  /// this callback will return value if there is any error or not
-  final ValueChanged<bool> onErrorCheck;
+  /// returns the current typed text in the fields
+  final ValueChanged<String> currentText;
 
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
-  /// the style of the text, default is [fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold]
+  /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
+
+  /// background color for the whole row of pin code fields. Default is [Colors.white]
+  final Color backgroundColor;
+
+  /// Border radius of each pin code field
+  final BorderRadius borderRadius;
+
+  /// [height] for the pin code field. default is [50.0]
+  final double fieldHeight;
+
+  /// [width] for the pin code field. default is [40.0]
+  final double fieldWidth;
+
+  /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
+  final MainAxisAlignment mainAxisAlignment;
+
+  /// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeColor;
+
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveColor;
+
+  /// Border width for the each input fields. Default is [2.0]
+  final double borderWidth;
+
+  /// [AnimationType] for the text to appear in the pin code field. Default is [AnimationType.slide]
+  final AnimationType animationType;
+
+  /// Duration for the animation. Default is [Duration(milliseconds: 150)]
+  final Duration animationDuration;
+
+  /// [Curve] for the animation. Default is [Curves.easeInOut]
+  final Curve animationCurve;
+
+  /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
+  final TextInputType textInputType;
+
   PinCodeTextField(
       {@required this.length,
       this.obsecureText = false,
-      @required this.shouldTriggerFucntions,
-      @required this.onDone,
-      @required this.onErrorCheck,
+      @required this.currentText,
+      this.backgroundColor = Colors.white,
+      this.borderRadius,
+      this.fieldHeight = 50,
+      this.fieldWidth = 40,
+      this.activeColor = Colors.red,
+      this.inactiveColor = Colors.green,
+      this.borderWidth = 2,
+      this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
+      this.animationDuration = const Duration(milliseconds: 150),
+      this.animationCurve = Curves.easeInOut,
       this.shape = PinCodeFieldShape.underline,
+      this.animationType = AnimationType.slide,
+      this.textInputType = TextInputType.visiblePassword,
       this.textStyle = const TextStyle(
-          fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)});
+          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)});
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
 }
 
-enum Functions { submit, idle }
-
-enum PinCodeFieldShape { box, underline, round }
-
 class _PinCodeTextFieldState extends State<PinCodeTextField> {
-  /// list of total [FocusNode] depending on the total length that the user put in, which is obviously [widget.length]
-  List<FocusNode> listOfFocusNodes;
-
-  /// list of total [TextEditingController]
-  List<TextEditingController> listOfControllers;
-
-  /// error text for each of the cells
-  List<String> errorTexts;
-
-  /// this [StreamSubscription] will listen to the changes in our [widget.shouldTriggerFucntions]
-  StreamSubscription streamSubscription;
-  var border;
-  var focusedBorder;
-  PinCodeFieldShape shape;
-  @override
-  void dispose() {
-    streamSubscription.cancel();
-    _disposeControllers();
-    super.dispose();
-  }
-
-  _disposeControllers() {
-    for (int i = 0; i < listOfControllers.length; i++) {
-      listOfControllers[i].dispose();
-    }
-  }
-
-  final _borderSideValue = BorderSide(width: 1.5, color: Colors.green);
-  _setUpShape() {
-    shape = widget.shape;
-
-    if (shape == PinCodeFieldShape.box) {
-      border = OutlineInputBorder();
-      focusedBorder = OutlineInputBorder(borderSide: _borderSideValue);
-    } else if (shape == PinCodeFieldShape.underline) {
-      border = UnderlineInputBorder();
-      focusedBorder = UnderlineInputBorder(borderSide: _borderSideValue);
-    } else if (shape == PinCodeFieldShape.round) {
-      border = OutlineInputBorder(borderRadius: BorderRadius.circular(25));
-      focusedBorder = OutlineInputBorder(
-          borderSide: _borderSideValue,
-          borderRadius: BorderRadius.circular(25));
-    }
-  }
-
+  TextEditingController _textEditingController;
+  FocusNode _focusNode;
+  List<String> _inputList;
+  int _selectedIndex = 0;
+  int _currentSize = 0;
+  int _previousSize = 0;
+  BorderRadius borderRadius;
   @override
   void initState() {
-    _setUpShape();
-    assert(widget.length > 0);
-    listOfFocusNodes =
-        List<FocusNode>.generate(widget.length, (index) => FocusNode());
-    listOfControllers = List<TextEditingController>.generate(
-        widget.length, (index) => TextEditingController());
-    errorTexts = List<String>.generate(widget.length, (index) => null);
-    streamSubscription = widget.shouldTriggerFucntions.listen(_onData);
+    _checkForInvalidValues();
+    _textEditingController = TextEditingController();
+    _textEditingController.addListener(() {
+      var value = _textEditingController.value.text;
+      if (value.length != _currentSize) {
+        _previousSize = _currentSize;
+        _currentSize = value.length;
+        _selectedIndex = _currentSize;
+        if (_currentSize > _previousSize) {
+          setState(() {
+            _inputList[_selectedIndex - 1] = value[value.length - 1];
+          });
+        } else if (_currentSize < _previousSize) {
+          setState(() {
+            _inputList[_previousSize - 1] = "";
+          });
+        }
+        if (_currentSize == widget.length) {
+          _focusNode.unfocus();
+        }
+        widget.currentText(value);
+      }
+    });
+    if (widget.shape != PinCodeFieldShape.circle &&
+        widget.shape != PinCodeFieldShape.underline) {
+      borderRadius = widget.borderRadius;
+    }
+    _focusNode = FocusNode();
+    _inputList = List<String>(widget.length);
+    _initializeValues();
     super.initState();
   }
 
-  /// generating the [TextField]s
-  List<Widget> _generateTextFields() {
-    var resultList = <Widget>[];
-    for (int i = 0; i < widget.length; i++) {
-      resultList.add(
-        Flexible(
-          flex: 2,
-          child: TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(
-                  1), // this limits the input length of each TextField to be '1'
-            ],
-            onChanged: (value) {
-              if (value.length == 1) {
-                if (errorTexts[i] != null) {
-                  setState(() {
-                    errorTexts[i] =
-                        null; // changing the state of the errorTexts
-                  });
-                }
-                // changing focus after user enters an input
-                if (i != widget.length - 1) {
-                  FocusScope.of(context).requestFocus(listOfFocusNodes[i + 1]);
-                } else {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                }
-              }
-            },
-            obscureText: widget.obsecureText,
-            controller: listOfControllers[i],
-            focusNode: listOfFocusNodes[i],
-            textAlign: TextAlign.center,
-            style: widget.textStyle,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              border: border,
-              errorText:
-                  errorTexts[i], // if null then no error, else will show error
-              focusedBorder: focusedBorder,
-            ),
-          ),
-        ),
-      );
-      if (i != widget.length - 1) {
-        resultList.add(Spacer());
-      }
-    }
-    return resultList;
+  void _checkForInvalidValues() {
+    assert(widget.length != null && widget.length > 0);
+    assert(widget.obsecureText != null);
+    assert(widget.currentText != null);
+    assert(widget.backgroundColor != null);
+    assert(widget.fieldHeight != null && widget.fieldHeight > 0);
+    assert(widget.fieldWidth != null && widget.fieldWidth > 0);
+    assert(widget.activeColor != null);
+    assert(widget.inactiveColor != null);
+    assert(widget.borderWidth != null && widget.borderWidth >= 0);
+    assert(widget.mainAxisAlignment != null);
+    assert(widget.animationDuration != null);
+    assert(widget.animationCurve != null);
+    assert(widget.shape != null);
+    assert(widget.animationType != null);
+    assert(widget.textStyle != null);
+    assert(widget.textInputType != null);
   }
 
-  /// checks errors, will return true if there is any error. and also will make the textField red.
-  bool checkError() {
-    bool errorFound = false;
-    for (int i = 0; i < listOfControllers.length; i++) {
-      if (listOfControllers[i].text == null ||
-          listOfControllers[i].text.length == 0) {
-        errorFound = true;
-        setState(() {
-          errorTexts[i] = "";
-        });
-      } else {
-        if (errorTexts[i] != null) {
-          setState(() {
-            errorTexts[i] = null;
-          });
-        }
-      }
-    }
-    return errorFound;
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _focusNode.dispose();
+    super.dispose();
   }
 
-  /// will return the total string by appending all the strings of each cells
-  String submitTotalString() {
-    String result = "";
-    for (int i = 0; i < listOfControllers.length; i++) {
-      result += listOfControllers[i].text;
+  void _initializeValues() {
+    for (int i = 0; i < _inputList.length; i++) {
+      _inputList[i] = "";
     }
-    return result;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: _generateTextFields(),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: <Widget>[
+        AbsorbPointer(
+          // this is a hidden textfield under the pin code fields. This is why we need a background color to hide it
+          absorbing: true, // it prevents on tap on the text field
+          child: TextField(
+            controller: _textEditingController,
+            focusNode: _focusNode,
+            enabled: false,
+            autocorrect: false,
+            keyboardType: widget.textInputType,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(
+                  widget.length), // this limits the input length
+            ],
+            enableInteractiveSelection: false,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0),
+            ),
+          ),
+        ),
+        Container(
+          color: widget.backgroundColor,
+          height: 20,
+          width: double.infinity,
+        ),
+        Container(
+          color: widget.backgroundColor,
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: widget.mainAxisAlignment,
+            children: _generateFields(),
+          ),
+        ),
+      ],
     );
   }
 
-  /// listener fucntion of [streamSubscription] and calling the callbacks
-  void _onData(event) {
-    if (event == Functions.submit) {
-      if (checkError()) {
-        widget.onErrorCheck(true);
-      } else {
-        widget.onErrorCheck(false);
-        widget.onDone(submitTotalString());
-      }
+  List<Widget> _generateFields() {
+    var result = <Widget>[];
+    for (int i = 0; i < widget.length; i++) {
+      result.add(GestureDetector(
+        onTap: _onFocus,
+        child: AnimatedContainer(
+          curve: widget.animationCurve,
+          duration: widget.animationDuration,
+          width: widget.fieldWidth,
+          height: widget.fieldHeight,
+          decoration: BoxDecoration(
+              shape: widget.shape == PinCodeFieldShape.circle
+                  ? BoxShape.circle
+                  : BoxShape.rectangle,
+              borderRadius: borderRadius,
+              border: widget.shape == PinCodeFieldShape.underline
+                  ? Border(
+                      bottom: BorderSide(
+                      color: _selectedIndex <= i
+                          ? widget.activeColor
+                          : widget.inactiveColor,
+                      width: widget.borderWidth,
+                    ))
+                  : Border.all(
+                      color: _selectedIndex <= i
+                          ? widget.activeColor
+                          : widget.inactiveColor,
+                      width: widget.borderWidth,
+                    )),
+          child: Center(
+              child: AnimatedSwitcher(
+            switchInCurve: widget.animationCurve,
+            switchOutCurve: widget.animationCurve,
+            duration: widget.animationDuration,
+            transitionBuilder: (child, animation) {
+              if (widget.animationType == AnimationType.scale) {
+                return ScaleTransition(
+                  scale: animation,
+                  child: child,
+                );
+              } else if (widget.animationType == AnimationType.fade) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              } else if (widget.animationType == AnimationType.none) {
+                return child;
+              } else {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, .5),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                );
+              }
+            },
+            child: Text(
+              widget.obsecureText && _inputList[i].isNotEmpty
+                  ? "●"
+                  : _inputList[i],
+              key: ValueKey(_inputList[i]),
+              style: widget.textStyle,
+            ),
+          )),
+        ),
+      ));
     }
+    return result;
+  }
+
+  void _onFocus() {
+    _focusNode.requestFocus();
   }
 }
+
+enum AnimationType { scale, slide, fade, none }
+
+enum PinCodeFieldShape { box, underline, circle }

@@ -2,15 +2,72 @@
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
 
-A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs.
+A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs 🤓🤓
 
-## Features
+## Features 💚
 
-- Error handling
-- Automatically focuses the next field
+- Automatically focuses the next field on typing and focuses previous field on deletation
 - Can be set to any length. (3-6 fields recommended)
 - 3 different shapes for text fields
-- Customizable
+- Highly customizable
+- 3 different types of animation for input texts
+- Animated active, inactive field color switching
+- Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "<your desired code>"))
+
+## Properties
+
+```Dart
+/// length of how many cells there should be. 4-6 is recommended by me
+final int length;
+
+/// you already know what it does i guess :P default is false
+final bool obsecureText;
+
+/// returns the current typed text in the fields
+final ValueChanged<String> currentText;
+
+/// this defines the shape of the input fields. Default is underlined
+final PinCodeFieldShape shape;
+
+/// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
+final TextStyle textStyle;
+
+/// background color for the whole row of pin code fields. Default is [Colors.white]
+final Color backgroundColor;
+
+/// Border radius of each pin code field
+final BorderRadius borderRadius;
+
+/// [height] for the pin code field. default is [50.0]
+final double fieldHeight;
+
+/// [width] for the pin code field. default is [40.0]
+final double fieldWidth;
+
+/// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
+final MainAxisAlignment mainAxisAlignment;
+
+/// Colors of the input fields which have inputs. Default is [Colors.green]
+final Color activeColor;
+
+/// Colors of the input fields which don't have inputs. Default is [Colors.red]
+final Color inactiveColor;
+
+/// Border width for the each input fields. Default is [2.0]
+final double borderWidth;
+
+/// [AnimationType] for the text to appear in the pin code field. Default is [AnimationType.slide]
+final AnimationType animationType;
+
+/// Duration for the animation. Default is [Duration(milliseconds: 150)]
+final Duration animationDuration;
+
+/// [Curve] for the animation. Default is [Curves.easeInOut]
+final Curve animationCurve;
+
+/// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
+final TextInputType textInputType;
+```
 
 ## Getting Started
 
@@ -22,44 +79,36 @@ A flutter package which will help you to generate pin code fields. Can be useful
 
 <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic3.png" width="250" height="480">
 
-**The pin code text field widget**
+**The pin code text field widget example**
 
 ```Dart
 PinCodeTextField(
-      length: 6, // must be greater than 0
-      obsecureText: false, //optional, default is false
-      shape: PinCodeFieldShape.round, //optional, default is underline
-      onDone: (String value) {
-        setState(() {
-          submittedString = value;
-        });
-      },
-      textStyle: TextStyle(fontWeight: FontWeight.bold), //optinal, default is TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)
-      onErrorCheck: (bool value) {
-        setState(() {
-          hasError = value;
-        });
-      },
-      shouldTriggerFucntions: changeNotifier.stream,
-    );
-```
-
-**ChangeNotifier will trigger the submission. If any error found then the onErrorCheck call back will return true**
-
-```Dart
-    final changeNotifier = StreamController<Functions>();
-```
-
-**Way to trigger the submission**
-
-```Dart
-  changeNotifier.add(Functions.submit); // this will invoke the submission. Can be used inside onPressed of a button or from wherever you want to trigger it
+  length: 6,
+  obsecureText: false,
+  animationType: AnimationType.fade,
+  shape: PinCodeFieldShape.box,
+  animationDuration: Duration(milliseconds: 300),
+  borderRadius: BorderRadius.circular(5),
+  fieldHeight: 50,
+  fieldWidth: 40,
+  currentText: (value) {
+    setState(() {
+      currentText = value;
+    });
+  },
+)
 ```
 
 **Shape can be among these 3 types**
 
 ```Dart
-enum PinCodeFieldShape { box, underline, round }
+enum PinCodeFieldShape { box, underline, circle }
+```
+
+**Animations can be among these 3 types**
+
+```Dart
+enum AnimationType { scale, slide, fade, none }
 ```
 
 **This full code is from the example folder. You can run the example to see.**
