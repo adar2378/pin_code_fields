@@ -160,32 +160,33 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        AbsorbPointer(
-          // this is a hidden textfield under the pin code fields. This is why we need a background color to hide it
-          absorbing: true, // it prevents on tap on the text field
-          child: TextField(
-            controller: _textEditingController,
-            focusNode: _focusNode,
-            enabled: false,
-            autocorrect: false,
-            keyboardType: widget.textInputType,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(
-                  widget.length), // this limits the input length
-            ],
-            enableInteractiveSelection: false,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(0),
+        Container(
+          color: widget.backgroundColor.withOpacity(1),
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: AbsorbPointer(
+            // this is a hidden textfield under the pin code fields. This is why we need a background color to hide it
+            absorbing: true, // it prevents on tap on the text field
+            child: TextField(
+              controller: _textEditingController,
+              focusNode: _focusNode,
+              enabled: false,
+              autocorrect: false,
+              keyboardType: widget.textInputType,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(
+                    widget.length), // this limits the input length
+              ],
+              enableInteractiveSelection: false,
+              showCursor: true,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(0),
+              ),
             ),
           ),
         ),
         Container(
-          color: widget.backgroundColor,
-          height: 20,
-          width: double.infinity,
-        ),
-        Container(
-          color: widget.backgroundColor,
+          color: widget.backgroundColor.withOpacity(1),
+          constraints: BoxConstraints(minHeight: 30),
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: widget.mainAxisAlignment,
