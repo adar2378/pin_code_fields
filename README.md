@@ -2,6 +2,8 @@
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
 
+<a href="https://www.buymeacoffee.com/cKniSxMPy" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
 A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs 🤓🤓
 
 ## Features 💚
