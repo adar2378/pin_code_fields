@@ -57,7 +57,8 @@ class PinCodeTextField extends StatefulWidget {
   final TextInputType textInputType;
 
   PinCodeTextField(
-      {@required this.length,
+      {Key key,
+      @required this.length,
       this.obsecureText = false,
       @required this.currentText,
       this.backgroundColor = Colors.white,
@@ -74,7 +75,8 @@ class PinCodeTextField extends StatefulWidget {
       this.animationType = AnimationType.slide,
       this.textInputType = TextInputType.visiblePassword,
       this.textStyle = const TextStyle(
-          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)});
+          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
+      : super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -108,6 +110,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           });
         }
         if (_currentSize == widget.length) {
+          print("i am here");
           _focusNode.unfocus();
         }
         widget.currentText(value);
@@ -169,7 +172,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             child: TextField(
               controller: _textEditingController,
               focusNode: _focusNode,
-              enabled: false,
+              enabled: true,
+              autofocus: true,
               autocorrect: false,
               keyboardType: widget.textInputType,
               inputFormatters: [
@@ -269,7 +273,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   void _onFocus() {
-    _focusNode.requestFocus();
+    if (_focusNode.hasFocus) {
+      _focusNode.unfocus();
+    }
+
+    FocusScope.of(context).requestFocus(_focusNode);
   }
 }
 
