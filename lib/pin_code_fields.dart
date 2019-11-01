@@ -173,7 +173,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               controller: _textEditingController,
               focusNode: _focusNode,
               enabled: true,
-              autofocus: true,
+              // autofocus: true,
               autocorrect: false,
               keyboardType: widget.textInputType,
               inputFormatters: [
