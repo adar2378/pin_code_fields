@@ -59,7 +59,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       key: scaffoldKey,
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
           height: MediaQuery.of(context).size.height,
