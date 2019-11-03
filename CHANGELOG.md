@@ -1,3 +1,5 @@
+[2.0.4] - Added autofocus option and fixed bug regarding ugly cursor.
+
 [2.0.3] - Fixed bug regarding keyboard not showing up after dismissing it.
 
 [2.0.2] - Minor fixes.
