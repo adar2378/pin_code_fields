@@ -56,6 +56,8 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
   final TextInputType textInputType;
 
+  final bool autoFocus;
+
   PinCodeTextField(
       {Key key,
       @required this.length,
@@ -74,6 +76,7 @@ class PinCodeTextField extends StatefulWidget {
       this.shape = PinCodeFieldShape.underline,
       this.animationType = AnimationType.slide,
       this.textInputType = TextInputType.visiblePassword,
+      this.autoFocus = false,
       this.textStyle = const TextStyle(
           fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
       : super(key: key);
@@ -110,7 +113,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           });
         }
         if (_currentSize == widget.length) {
-          print("i am here");
           _focusNode.unfocus();
         }
         widget.currentText(value);
@@ -143,6 +145,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.animationType != null);
     assert(widget.textStyle != null);
     assert(widget.textInputType != null);
+    assert(widget.autoFocus != null);
   }
 
   @override
@@ -172,8 +175,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             child: TextField(
               controller: _textEditingController,
               focusNode: _focusNode,
-              enabled: true,
-              // autofocus: true,
+              enabled: false,
+              autofocus: widget.autoFocus,
               autocorrect: false,
               keyboardType: widget.textInputType,
               inputFormatters: [
@@ -181,7 +184,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                     widget.length), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: true,
+              showCursor: false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
               ),
