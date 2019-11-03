@@ -55,6 +55,9 @@ class PinCodeTextField extends StatefulWidget {
 
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
   final TextInputType textInputType;
+  
+  /// Whether to show cursor
+  final bool showCursor;
 
   PinCodeTextField(
       {Key key,
@@ -75,7 +78,8 @@ class PinCodeTextField extends StatefulWidget {
       this.animationType = AnimationType.slide,
       this.textInputType = TextInputType.visiblePassword,
       this.textStyle = const TextStyle(
-          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
+          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+      this.showCursor = true})
       : super(key: key);
 
   @override
@@ -143,6 +147,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.animationType != null);
     assert(widget.textStyle != null);
     assert(widget.textInputType != null);
+    assert(widget.showCursor != null);
   }
 
   @override
@@ -181,7 +186,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                     widget.length), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: true,
+              showCursor: widget.showCursor,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
               ),
