@@ -1,7 +1,11 @@
 library pin_code_fields;
 
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:io' show Platform;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
@@ -99,7 +103,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
       var value = _textEditingController.value.text;
-      if (value.length != _currentSize) {
+      if (value.length - _currentSize > 1) {
+        print("I was here");
+        setPastedText(value);
+      } else if (value.length != _currentSize) {
         _previousSize = _currentSize;
         _currentSize = value.length;
         _selectedIndex = _currentSize;
@@ -183,7 +190,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 LengthLimitingTextInputFormatter(
                     widget.length), // this limits the input length
               ],
-              enableInteractiveSelection: false,
+              enableInteractiveSelection: true,
               showCursor: false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
@@ -209,6 +216,62 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     for (int i = 0; i < widget.length; i++) {
       result.add(GestureDetector(
         onTap: _onFocus,
+        onLongPress: () async {
+          var data = await Clipboard.getData('text/plain');
+          if (data.text.isNotEmpty) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Platform.isAndroid
+                      ? AlertDialog(
+                          title: Text("Paste Code"),
+                          content: RichText(
+                            text: TextSpan(
+                                text: "Do you want paste this code ",
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        .color),
+                                children: [
+                                  TextSpan(
+                                      text: data.text,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .color))
+                                ]),
+                          ),
+                          actions: _getActionButtons(data.text),
+                        )
+                      : CupertinoAlertDialog(
+                          title: Text("Paste Code"),
+                          content: RichText(
+                            text: TextSpan(
+                                text: "Do you want paste this code ",
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .button
+                                        .color),
+                                children: [
+                                  TextSpan(
+                                      text: data.text,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .color))
+                                ]),
+                          ),
+                          actions: _getActionButtons(data.text),
+                        );
+                });
+          }
+        },
         child: AnimatedContainer(
           curve: widget.animationCurve,
           duration: widget.animationDuration,
@@ -281,6 +344,67 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     }
 
     FocusScope.of(context).requestFocus(_focusNode);
+  }
+
+  void setPastedText(String data) async {
+    for (int i = 0; i < min(data.length, widget.length); i++) {
+      if (i == 0) {
+        setState(() {
+          _inputList[i] = data[i];
+          _previousSize = _currentSize;
+          _currentSize = i;
+          _selectedIndex = _currentSize;
+        });
+      } else {
+        setState(() {
+          _inputList[i] = data[i];
+          _previousSize = _currentSize;
+          _currentSize = i + 1;
+          _selectedIndex = _currentSize;
+        });
+      }
+    }
+    setState(() {});
+  }
+
+  List<Widget> _getActionButtons(String data) {
+    var resultList = <Widget>[];
+    if (Platform.isAndroid) {
+      resultList.addAll([
+        FlatButton(
+          child: Text("Yes"),
+          onPressed: () {
+            _textEditingController.text = data;
+            // setPastedText(data);
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ]);
+    } else if (Platform.isIOS) {
+      resultList.addAll([
+        CupertinoDialogAction(
+          child: Text("Yes"),
+          onPressed: () {
+            _textEditingController.text = data;
+            // setPastedText(data);
+            Navigator.pop(context);
+          },
+        ),
+        CupertinoDialogAction(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ]);
+    }
+    return resultList;
   }
 }
 
