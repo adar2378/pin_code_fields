@@ -1,3 +1,5 @@
+[2.1.1] - Fixed bug regarding ios autofill not triggering currentText callback
+
 ## [2.1.0]
 
 ### New Features 🥁🥁
