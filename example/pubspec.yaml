@@ -24,7 +24,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   pin_code_fields:
-    path: /Users/adar/Development/Flutter_workspace/pin_code/pin_code_fields
+    path: ..//
+  flare_flutter: ^1.7.1
   # change the path later
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/verify.png
+    - assets/otp.flr
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

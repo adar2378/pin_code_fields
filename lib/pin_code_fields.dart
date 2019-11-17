@@ -104,7 +104,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     _textEditingController.addListener(() {
       var value = _textEditingController.value.text;
       if (value.length - _currentSize > 1) {
-        print("I was here");
         setPastedText(value);
       } else if (value.length != _currentSize) {
         _previousSize = _currentSize;

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -67,11 +68,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           child: ListView(
             children: <Widget>[
               SizedBox(height: 30),
-              Image.asset(
-                'assets/verify.png',
+              Container(
                 height: MediaQuery.of(context).size.height / 3,
-                fit: BoxFit.fitHeight,
+                child: FlareActor(
+                  "assets/otp.flr",
+                  animation: "otp",
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.center,
+                ),
               ),
+              // Image.asset(
+              //   'assets/verify.png',
+              //   height: MediaQuery.of(context).size.height / 3,
+              //   fit: BoxFit.fitHeight,
+              // ),
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
