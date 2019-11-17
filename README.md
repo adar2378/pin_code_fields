@@ -2,7 +2,7 @@
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
 
-<a href="https://www.patreon.com/bePatron?u=26622525" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+<a href = "https://www.patreon.com/bePatron?u=26622525"><img src = "https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="250"></a>
 
 A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs 🤓🤓
 
@@ -77,11 +77,13 @@ final Curve animationCurve;
 final TextInputType textInputType;
 ```
 
+#### Flare animation credit: https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview
+
 ## Getting Started
 
 #### Demo
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pin_code.gif" width="250" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pin_code.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/android_paste.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/ios_pasting.gif" width="240" height="480">
 
 #### Different Shapes
 
