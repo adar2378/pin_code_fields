@@ -1,3 +1,12 @@
+## [2.1.0]
+
+### New Features 🥁🥁
+
+- Added otp code pasting by pressing and holding the fields.
+- iOS autofill support
+- Revamped the example app with flare animation.
+- Minor bug fixes
+
 [2.0.4] - Added autofocus option and fixed bug regarding ugly cursor.
 
 [2.0.3] - Fixed bug regarding keyboard not showing up after dismissing it.

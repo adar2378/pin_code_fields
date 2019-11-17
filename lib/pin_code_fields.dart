@@ -60,6 +60,7 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
   final TextInputType textInputType;
 
+  /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;
 
   PinCodeTextField(
@@ -223,6 +224,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 builder: (context) {
                   return Platform.isAndroid
                       ? AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
                           title: Text("Paste Code"),
                           content: RichText(
                             text: TextSpan(
@@ -237,10 +240,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                                       text: data.text,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .color)),
+                                          color: Colors.green.shade600)),
                                   TextSpan(
                                       text: " ?",
                                       style: TextStyle(
@@ -267,10 +267,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                                       text: data.text,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .color)),
+                                          color: Colors.green.shade600)),
                                   TextSpan(
                                       text: " ?",
                                       style: TextStyle(
@@ -385,16 +382,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (Platform.isAndroid) {
       resultList.addAll([
         FlatButton(
-          child: Text("Yes"),
+          child: Text("Cancel"),
           onPressed: () {
-            _textEditingController.text = data;
-            // setPastedText(data);
             Navigator.pop(context);
           },
         ),
         FlatButton(
-          child: Text("No"),
+          child: Text("Paste"),
           onPressed: () {
+            _textEditingController.text = data;
+            // setPastedText(data);
             Navigator.pop(context);
           },
         ),
@@ -402,16 +399,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     } else if (Platform.isIOS) {
       resultList.addAll([
         CupertinoDialogAction(
-          child: Text("Yes"),
+          child: Text("Cancel"),
           onPressed: () {
-            _textEditingController.text = data;
-            // setPastedText(data);
             Navigator.pop(context);
           },
         ),
         CupertinoDialogAction(
-          child: Text("No"),
+          child: Text("Paste"),
           onPressed: () {
+            _textEditingController.text = data;
+            // setPastedText(data);
             Navigator.pop(context);
           },
         ),

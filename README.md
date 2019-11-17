@@ -2,7 +2,7 @@
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
 
-<a href="https://www.buymeacoffee.com/cKniSxMPy" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+<a href="https://www.patreon.com/bePatron?u=26622525" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs 🤓🤓
 
@@ -14,6 +14,9 @@ A flutter package which will help you to generate pin code fields. Can be useful
 - Highly customizable
 - 3 different types of animation for input texts
 - Animated active, inactive field color switching
+- Autofocus option
+- Otp-code pasting from clipboard
+- iOS autofill support
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "<your desired code>"))
 
 ## Properties
@@ -45,6 +48,9 @@ final double fieldHeight;
 
 /// [width] for the pin code field. default is [40.0]
 final double fieldWidth;
+
+/// If the pin code field should be autofocused or not. Default is [false]
+final bool autoFocus;
 
 /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
 final MainAxisAlignment mainAxisAlignment;
