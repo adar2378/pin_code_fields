@@ -189,7 +189,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 LengthLimitingTextInputFormatter(
                     widget.length), // this limits the input length
               ],
-              enableInteractiveSelection: true,
+              enableInteractiveSelection: false,
               showCursor: false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
@@ -240,6 +240,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                                           color: Theme.of(context)
                                               .textTheme
                                               .button
+                                              .color)),
+                                  TextSpan(
+                                      text: " ?",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .button
                                               .color))
                                 ]),
                           ),
@@ -260,6 +267,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                                       text: data.text,
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .button
+                                              .color)),
+                                  TextSpan(
+                                      text: " ?",
+                                      style: TextStyle(
                                           color: Theme.of(context)
                                               .textTheme
                                               .button
