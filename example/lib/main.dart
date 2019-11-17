@@ -126,6 +126,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     backgroundColor: Colors.white,
                     fieldWidth: 40,
                     currentText: (value) {
+                      print(value);
                       setState(() {
                         currentText = value;
                       });

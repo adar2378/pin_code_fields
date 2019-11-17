@@ -357,7 +357,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   void setPastedText(String data) async {
+    String resultedString="";
     for (int i = 0; i < min(data.length, widget.length); i++) {
+      resultedString += data[i];
       if (i == 0) {
         setState(() {
           _inputList[i] = data[i];
@@ -375,6 +377,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       }
     }
     setState(() {});
+    widget.currentText(resultedString);
   }
 
   List<Widget> _getActionButtons(String data) {
