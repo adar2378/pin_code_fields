@@ -42,8 +42,14 @@ class PinCodeTextField extends StatefulWidget {
   /// Colors of the input fields which have inputs. Default is [Colors.green]
   final Color activeColor;
 
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedColor;
+
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveColor;
+
+  /// Colors of the input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey]
+  final Color disabledColor;
 
   /// Border width for the each input fields. Default is [2.0]
   final double borderWidth;
@@ -63,6 +69,9 @@ class PinCodeTextField extends StatefulWidget {
   /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;
 
+  /// Should pass a [FocusNode] to manage it from the parent
+  final FocusNode focusNode;
+
   PinCodeTextField(
       {Key key,
       @required this.length,
@@ -72,8 +81,10 @@ class PinCodeTextField extends StatefulWidget {
       this.borderRadius,
       this.fieldHeight = 50,
       this.fieldWidth = 40,
-      this.activeColor = Colors.red,
-      this.inactiveColor = Colors.green,
+      this.activeColor = Colors.green,
+      this.selectedColor = Colors.blue,
+      this.inactiveColor = Colors.red,
+      this.disabledColor = Colors.grey,
       this.borderWidth = 2,
       this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
       this.animationDuration = const Duration(milliseconds: 150),
@@ -82,6 +93,7 @@ class PinCodeTextField extends StatefulWidget {
       this.animationType = AnimationType.slide,
       this.textInputType = TextInputType.visiblePassword,
       this.autoFocus = false,
+      this.focusNode,
       this.textStyle = const TextStyle(
           fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
       : super(key: key);
@@ -98,6 +110,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   int _currentSize = 0;
   int _previousSize = 0;
   BorderRadius borderRadius;
+
   @override
   void initState() {
     _checkForInvalidValues();
@@ -122,23 +135,31 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         if (_currentSize == widget.length) {
           _focusNode.unfocus();
         }
-        widget.currentText(value);
+        if (_isEnabled) {
+          widget.currentText(value);
+        }
       }
     });
     if (widget.shape != PinCodeFieldShape.circle &&
         widget.shape != PinCodeFieldShape.underline) {
       borderRadius = widget.borderRadius;
     }
-    _focusNode = FocusNode();
+    _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(_focusNodeListener);
     _inputList = List<String>(widget.length);
     _initializeValues();
     super.initState();
   }
 
+  /// Only calls [setState] every time the FocusScope updates so that it can reflect the color changes.
+  void _focusNodeListener() {
+    setState(() {});
+  }
+
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
-    assert(widget.currentText != null);
+    // assert(widget.currentText != null); // Had to remove this check, instead using [_isEnabled]
     assert(widget.backgroundColor != null);
     assert(widget.fieldHeight != null && widget.fieldHeight > 0);
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
@@ -158,6 +179,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   @override
   void dispose() {
     _textEditingController.dispose();
+    _focusNode.removeListener(_focusNodeListener);
     _focusNode.dispose();
     super.dispose();
   }
@@ -166,6 +188,25 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     for (int i = 0; i < _inputList.length; i++) {
       _inputList[i] = "";
     }
+  }
+
+  /// Checking if the function [currentText] is set, if not return false
+  bool get _isEnabled {
+    return widget.currentText != null ? true : false;
+  }
+
+  Color _getColorFromIndex(int index) {
+    if (!_isEnabled) {
+      return widget.disabledColor;
+    }
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+        _focusNode.hasFocus) {
+      return widget.selectedColor;
+    } else if (_selectedIndex > index) {
+      return widget.activeColor;
+    }
+    return widget.inactiveColor;
   }
 
   @override
@@ -182,7 +223,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             child: TextField(
               controller: _textEditingController,
               focusNode: _focusNode,
-              enabled: false,
+              enabled: _isEnabled,
               autofocus: widget.autoFocus,
               autocorrect: false,
               keyboardType: widget.textInputType,
@@ -217,69 +258,71 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       result.add(GestureDetector(
         onTap: _onFocus,
         onLongPress: () async {
-          var data = await Clipboard.getData('text/plain');
-          if (data.text.isNotEmpty) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return Platform.isAndroid
-                      ? AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          title: Text("Paste Code"),
-                          content: RichText(
-                            text: TextSpan(
-                                text: "Do you want paste this code ",
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .color),
-                                children: [
-                                  TextSpan(
-                                      text: data.text,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.green.shade600)),
-                                  TextSpan(
-                                      text: " ?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .color))
-                                ]),
-                          ),
-                          actions: _getActionButtons(data.text),
-                        )
-                      : CupertinoAlertDialog(
-                          title: Text("Paste Code"),
-                          content: RichText(
-                            text: TextSpan(
-                                text: "Do you want paste this code ",
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .color),
-                                children: [
-                                  TextSpan(
-                                      text: data.text,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.green.shade600)),
-                                  TextSpan(
-                                      text: " ?",
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .button
-                                              .color))
-                                ]),
-                          ),
-                          actions: _getActionButtons(data.text),
-                        );
-                });
+          if (_isEnabled) {
+            var data = await Clipboard.getData("text/plain");
+            if (data.text.isNotEmpty) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Platform.isAndroid
+                        ? AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            title: Text("Paste Code"),
+                            content: RichText(
+                              text: TextSpan(
+                                  text: "Do you want paste this code ",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .button
+                                          .color),
+                                  children: [
+                                    TextSpan(
+                                        text: data.text,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green.shade600)),
+                                    TextSpan(
+                                        text: " ?",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                .color))
+                                  ]),
+                            ),
+                            actions: _getActionButtons(data.text),
+                          )
+                        : CupertinoAlertDialog(
+                            title: Text("Paste Code"),
+                            content: RichText(
+                              text: TextSpan(
+                                  text: "Do you want paste this code ",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .button
+                                          .color),
+                                  children: [
+                                    TextSpan(
+                                        text: data.text,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green.shade600)),
+                                    TextSpan(
+                                        text: " ?",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                .color))
+                                  ]),
+                            ),
+                            actions: _getActionButtons(data.text),
+                          );
+                  });
+            }
           }
         },
         child: AnimatedContainer(
@@ -295,15 +338,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               border: widget.shape == PinCodeFieldShape.underline
                   ? Border(
                       bottom: BorderSide(
-                      color: _selectedIndex <= i
-                          ? widget.activeColor
-                          : widget.inactiveColor,
+                      color: _getColorFromIndex(i),
                       width: widget.borderWidth,
                     ))
                   : Border.all(
-                      color: _selectedIndex <= i
-                          ? widget.activeColor
-                          : widget.inactiveColor,
+                      color: _getColorFromIndex(i),
                       width: widget.borderWidth,
                     )),
           child: Center(
@@ -357,7 +396,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   void setPastedText(String data) async {
-    String resultedString="";
+    String resultedString = "";
     for (int i = 0; i < min(data.length, widget.length); i++) {
       resultedString += data[i];
       if (i == 0) {
