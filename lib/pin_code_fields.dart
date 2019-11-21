@@ -75,7 +75,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Should pass a [FocusNode] to manage it from the parent
   final FocusNode focusNode;
 
-  /// Should pass a [FocusNode] to manage it from the parent
+  /// A list of [TextInputFormatter] that goes to the TextField
   final List<TextInputFormatter> inputFormatters;
 
   PinCodeTextField(
