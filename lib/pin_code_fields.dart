@@ -18,6 +18,9 @@ class PinCodeTextField extends StatefulWidget {
   /// returns the current typed text in the fields
   final ValueChanged<String> currentText;
 
+  /// returns the typed text when all pins are set
+  final ValueChanged<String> onComplete;
+
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
@@ -72,11 +75,15 @@ class PinCodeTextField extends StatefulWidget {
   /// Should pass a [FocusNode] to manage it from the parent
   final FocusNode focusNode;
 
+  /// Should pass a [FocusNode] to manage it from the parent
+  final List<TextInputFormatter> inputFormatters;
+
   PinCodeTextField(
       {Key key,
       @required this.length,
       this.obsecureText = false,
       @required this.currentText,
+      this.onComplete,
       this.backgroundColor = Colors.white,
       this.borderRadius,
       this.fieldHeight = 50,
@@ -94,6 +101,7 @@ class PinCodeTextField extends StatefulWidget {
       this.textInputType = TextInputType.visiblePassword,
       this.autoFocus = false,
       this.focusNode,
+      this.inputFormatters = const [],
       this.textStyle = const TextStyle(
           fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
       : super(key: key);
@@ -133,6 +141,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           });
         }
         if (_currentSize == widget.length) {
+          if (widget.onComplete != null) {
+            widget.onComplete(value);
+          }
           _focusNode.unfocus();
         }
         if (_isEnabled) {
@@ -145,15 +156,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       borderRadius = widget.borderRadius;
     }
     _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(_focusNodeListener);
+    _focusNode.addListener(() => setState(
+        () {})); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>(widget.length);
     _initializeValues();
     super.initState();
-  }
-
-  /// Only calls [setState] every time the FocusScope updates so that it can reflect the color changes.
-  void _focusNodeListener() {
-    setState(() {});
   }
 
   void _checkForInvalidValues() {
@@ -179,7 +186,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   @override
   void dispose() {
     _textEditingController.dispose();
-    _focusNode.removeListener(_focusNodeListener);
     _focusNode.dispose();
     super.dispose();
   }
@@ -228,6 +234,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               autocorrect: false,
               keyboardType: widget.textInputType,
               inputFormatters: [
+                ...widget.inputFormatters,
                 LengthLimitingTextInputFormatter(
                     widget.length), // this limits the input length
               ],
