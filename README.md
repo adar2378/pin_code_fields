@@ -95,16 +95,6 @@ A flutter package which will help you to generate pin code fields. Can be useful
   final bool enabled;
 ```
 
-## Getting Started
-
-#### Demo
-
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
-
-#### Different Shapes
-
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic3.png" width="250" height="480">
-
 ## Contributors ✨
 
 Thanks to everyone whoever suggested their thoughts to improve this package. And special thanks goes to these people:
@@ -115,6 +105,16 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 <td align="center"><a href="http://atiq.info/"><img src="http://atiq.info/images/logo.png" width="100px;" alt="Atiq"/><br /><sub><b>Atiqur Rahaman</b></sub></a><br /><a href="https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview" title="UX & Flare Animation">🎨</a></td>
   </tr>
 </table>
+
+## Getting Started
+
+#### Demo
+
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
+
+#### Different Shapes
+
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic3.png" width="250" height="480">
 
 **The pin code text field widget example**
 
