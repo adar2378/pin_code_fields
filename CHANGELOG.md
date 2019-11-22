@@ -1,3 +1,5 @@
+[2.2.0+1] - Documentation updated
+
 ## [2.2.0]
 
 Better performance overall
