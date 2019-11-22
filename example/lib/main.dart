@@ -119,7 +119,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     length: 6,
                     obsecureText: false,
                     animationType: AnimationType.fade,
-                    shape: PinCodeFieldShape.underline,
+                    shape: PinCodeFieldShape.box,
                     animationDuration: Duration(milliseconds: 300),
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
