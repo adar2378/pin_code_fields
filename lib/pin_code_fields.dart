@@ -16,10 +16,10 @@ class PinCodeTextField extends StatefulWidget {
   final bool obsecureText;
 
   /// returns the current typed text in the fields
-  final ValueChanged<String> currentText;
+  final ValueChanged<String> onChanged;
 
   /// returns the typed text when all pins are set
-  final ValueChanged<String> onComplete;
+  final ValueChanged<String> onCompleted;
 
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
@@ -78,33 +78,40 @@ class PinCodeTextField extends StatefulWidget {
   /// A list of [TextInputFormatter] that goes to the TextField
   final List<TextInputFormatter> inputFormatters;
 
-  PinCodeTextField(
-      {Key key,
-      @required this.length,
-      this.obsecureText = false,
-      @required this.currentText,
-      this.onComplete,
-      this.backgroundColor = Colors.white,
-      this.borderRadius,
-      this.fieldHeight = 50,
-      this.fieldWidth = 40,
-      this.activeColor = Colors.green,
-      this.selectedColor = Colors.blue,
-      this.inactiveColor = Colors.red,
-      this.disabledColor = Colors.grey,
-      this.borderWidth = 2,
-      this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
-      this.animationDuration = const Duration(milliseconds: 150),
-      this.animationCurve = Curves.easeInOut,
-      this.shape = PinCodeFieldShape.underline,
-      this.animationType = AnimationType.slide,
-      this.textInputType = TextInputType.visiblePassword,
-      this.autoFocus = false,
-      this.focusNode,
-      this.inputFormatters = const [],
-      this.textStyle = const TextStyle(
-          fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)})
-      : super(key: key);
+  /// Enable or disable the Field. Default is [true]
+  final bool enabled;
+
+  PinCodeTextField({
+    Key key,
+    @required this.length,
+    this.obsecureText = false,
+    this.onChanged,
+    this.onCompleted,
+    this.backgroundColor = Colors.white,
+    this.borderRadius,
+    this.fieldHeight = 50,
+    this.fieldWidth = 40,
+    this.activeColor = Colors.green,
+    this.selectedColor = Colors.blue,
+    this.inactiveColor = Colors.red,
+    this.disabledColor = Colors.grey,
+    this.borderWidth = 2,
+    this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
+    this.animationDuration = const Duration(milliseconds: 150),
+    this.animationCurve = Curves.easeInOut,
+    this.shape = PinCodeFieldShape.underline,
+    this.animationType = AnimationType.slide,
+    this.textInputType = TextInputType.visiblePassword,
+    this.autoFocus = false,
+    this.focusNode,
+    this.enabled = true,
+    this.inputFormatters = const <TextInputFormatter>[],
+    this.textStyle = const TextStyle(
+      fontSize: 20,
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+    ),
+  }) : super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -115,8 +122,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   FocusNode _focusNode;
   List<String> _inputList;
   int _selectedIndex = 0;
-  int _currentSize = 0;
-  int _previousSize = 0;
   BorderRadius borderRadius;
 
   @override
@@ -124,40 +129,31 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     _checkForInvalidValues();
     _textEditingController = TextEditingController();
     _textEditingController.addListener(() {
-      var value = _textEditingController.value.text;
-      if (value.length - _currentSize > 1) {
-        setPastedText(value);
-      } else if (value.length != _currentSize) {
-        _previousSize = _currentSize;
-        _currentSize = value.length;
-        _selectedIndex = _currentSize;
-        if (_currentSize > _previousSize) {
-          setState(() {
-            _inputList[_selectedIndex - 1] = value[value.length - 1];
-          });
-        } else if (_currentSize < _previousSize) {
-          setState(() {
-            _inputList[_previousSize - 1] = "";
-          });
-        }
-        if (_currentSize == widget.length) {
-          if (widget.onComplete != null) {
-            widget.onComplete(value);
+      var currentText = _textEditingController.text;
+
+      if (widget.enabled && _inputList.join("") != currentText) {
+        if (currentText.length == widget.length) {
+          if (widget.onCompleted != null) {
+            widget.onCompleted(currentText);
           }
           _focusNode.unfocus();
         }
-        if (_isEnabled) {
-          widget.currentText(value);
+        if (widget.onChanged != null) {
+          widget.onChanged(currentText);
         }
       }
+
+      setTextToInput(currentText);
     });
+
     if (widget.shape != PinCodeFieldShape.circle &&
         widget.shape != PinCodeFieldShape.underline) {
       borderRadius = widget.borderRadius;
     }
     _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(() => setState(
-        () {})); // Rebuilds on every change to reflect the correct color on each field.
+    _focusNode.addListener(() {
+      setState(() {});
+    }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>(widget.length);
     _initializeValues();
     super.initState();
@@ -166,7 +162,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
-    // assert(widget.currentText != null); // Had to remove this check, instead using [_isEnabled]
     assert(widget.backgroundColor != null);
     assert(widget.fieldHeight != null && widget.fieldHeight > 0);
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
@@ -196,13 +191,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     }
   }
 
-  /// Checking if the function [currentText] is set, if not return false
-  bool get _isEnabled {
-    return widget.currentText != null ? true : false;
-  }
-
   Color _getColorFromIndex(int index) {
-    if (!_isEnabled) {
+    if (!widget.enabled) {
       return widget.disabledColor;
     }
     if (((_selectedIndex == index) ||
@@ -229,7 +219,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             child: TextField(
               controller: _textEditingController,
               focusNode: _focusNode,
-              enabled: _isEnabled,
+              enabled: widget.enabled,
               autofocus: widget.autoFocus,
               autocorrect: false,
               keyboardType: widget.textInputType,
@@ -265,7 +255,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       result.add(GestureDetector(
         onTap: _onFocus,
         onLongPress: () async {
-          if (_isEnabled) {
+          if (widget.enabled) {
             var data = await Clipboard.getData("text/plain");
             if (data.text.isNotEmpty) {
               showDialog(
@@ -402,32 +392,22 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     FocusScope.of(context).requestFocus(_focusNode);
   }
 
-  void setPastedText(String data) async {
-    String resultedString = "";
-    for (int i = 0; i < min(data.length, widget.length); i++) {
-      resultedString += data[i];
-      if (i == 0) {
-        setState(() {
-          _inputList[i] = data[i];
-          _previousSize = _currentSize;
-          _currentSize = i;
-          _selectedIndex = _currentSize;
-        });
-      } else {
-        setState(() {
-          _inputList[i] = data[i];
-          _previousSize = _currentSize;
-          _currentSize = i + 1;
-          _selectedIndex = _currentSize;
-        });
-      }
+  void setTextToInput(String data) async {
+    var replaceInputList = List<String>(widget.length);
+
+    for (int i = 0; i < widget.length; i++) {
+      replaceInputList[i] = data.length > i ? data[i] : "";
     }
-    setState(() {});
-    widget.currentText(resultedString);
+
+    setState(() {
+      _selectedIndex = data.length;
+      _inputList = replaceInputList;
+    });
   }
 
   List<Widget> _getActionButtons(String data) {
     var resultList = <Widget>[];
+    var formattedText = data.substring(0, min(data.length, widget.length));
     if (Platform.isAndroid) {
       resultList.addAll([
         FlatButton(
@@ -439,8 +419,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         FlatButton(
           child: Text("Paste"),
           onPressed: () {
-            _textEditingController.text = data;
-            // setPastedText(data);
+            _textEditingController.text = formattedText;
             Navigator.pop(context);
           },
         ),
@@ -456,8 +435,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         CupertinoDialogAction(
           child: Text("Paste"),
           onPressed: () {
-            _textEditingController.text = data;
-            // setPastedText(data);
+            _textEditingController.text = formattedText;
             Navigator.pop(context);
           },
         ),
