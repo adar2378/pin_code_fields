@@ -19,7 +19,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 - iOS autofill support
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "<your desired code>"))
 
-## Properties
+## Properties 🔖
 
 ```Dart
 /// length of how many cells there should be. 3-8 is recommended by me
@@ -106,7 +106,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   </tr>
 </table>
 
-## Getting Started
+## Getting Started ⚡️
 
 #### Demo
 
