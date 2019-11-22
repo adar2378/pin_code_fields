@@ -95,8 +95,6 @@ A flutter package which will help you to generate pin code fields. Can be useful
   final bool enabled;
 ```
 
-#### Flare animation credit: https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview
-
 ## Getting Started
 
 #### Demo
@@ -106,6 +104,17 @@ A flutter package which will help you to generate pin code fields. Can be useful
 #### Different Shapes
 
 <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic3.png" width="250" height="480">
+
+## Contributors ✨
+
+Thanks to everyone whoever suggested their thoughts to improve this package. And special thanks goes to these people:
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/EmmanuelVlad"><img src="https://avatars0.githubusercontent.com/u/21370666?v=3" width="100px;" alt="Emmanuel Vlad"/><br /><sub><b>Emmanuel Vlad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=EmmanuelVlad" title="Code">💻</a></td>
+<td align="center"><a href="http://atiq.info/"><img src="http://atiq.info/images/logo.png" width="100px;" alt="Atiq"/><br /><sub><b>Atiqur Rahaman</b></sub></a><br /><a href="https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview" title="UX & Flare Animation">🎨</a></td>
+  </tr>
+</table>
 
 **The pin code text field widget example**
 
