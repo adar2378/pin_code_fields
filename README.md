@@ -114,7 +114,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 
 #### Different Shapes
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pic3.png" width="250" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/box.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/circle.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/underline.png" width="250" height="480">
 
 **The pin code text field widget example**
 
