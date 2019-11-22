@@ -85,7 +85,7 @@ class PinCodeTextField extends StatefulWidget {
     Key key,
     @required this.length,
     this.obsecureText = false,
-    this.onChanged,
+    @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
     this.borderRadius,
