@@ -162,7 +162,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
-    assert(widget.backgroundColor != null);
     assert(widget.fieldHeight != null && widget.fieldHeight > 0);
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
     assert(widget.activeColor != null);
@@ -211,10 +210,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         Container(
-          color: widget.backgroundColor.withOpacity(1),
           padding: const EdgeInsets.only(bottom: 4.0),
           child: AbsorbPointer(
-            // this is a hidden textfield under the pin code fields. This is why we need a background color to hide it
+            // this is a hidden textfield under the pin code fields.
             absorbing: true, // it prevents on tap on the text field
             child: TextField(
               controller: _textEditingController,
@@ -232,12 +230,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               showCursor: false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
+                border: InputBorder.none,
               ),
+              style: TextStyle(color: Colors.transparent),
             ),
           ),
         ),
         Container(
-          color: widget.backgroundColor.withOpacity(1),
+          color: widget.backgroundColor,
           constraints: BoxConstraints(minHeight: 30),
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
