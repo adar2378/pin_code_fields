@@ -1,3 +1,26 @@
+## [2.2.0]
+
+Better performance overall
+
+### Features  ✨
+- Colors:
+  - `selectedColor` is the color set on the current index. Default is `Colors.blue`
+  - `disabledColor` is the color if the TextField is disabled. Default is `Colors.grey`
+- Optional `focusNode` can be passed to the constructor to manage it from outside.
+  - Added a listener to the focusNode which triggers a rebuild on every change so it'll reflect the correct color on each pin.
+- Added a new constructor parameter called `enabled`. Default is true
+- Added an optional constructor parameter: `void Function(String) onCompleted`. which triggers when all fields are filled.
+
+### Fixes  🐛
+- Colors:
+  - `activeColor` and `inactiveColor` were swapped
+- Keyboard does not show up onTap #4
+
+### Breaking changes ⚠️  
+- Renamed `currentText` to `onChanged`
+
+---
+
 [2.1.1] - Fixed bug regarding ios autofill not triggering currentText callback
 
 ## [2.1.0]

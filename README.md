@@ -13,7 +13,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 - 3 different shapes for text fields
 - Highly customizable
 - 3 different types of animation for input texts
-- Animated active, inactive field color switching
+- Animated active, inactive, selected and disabled field color switching
 - Autofocus option
 - Otp-code pasting from clipboard
 - iOS autofill support
@@ -22,59 +22,77 @@ A flutter package which will help you to generate pin code fields. Can be useful
 ## Properties
 
 ```Dart
-/// length of how many cells there should be. 4-6 is recommended by me
-final int length;
+/// length of how many cells there should be. 3-8 is recommended by me
+  final int length;
 
-/// you already know what it does i guess :P default is false
-final bool obsecureText;
+  /// you already know what it does i guess :P default is false
+  final bool obsecureText;
 
-/// returns the current typed text in the fields
-final ValueChanged<String> currentText;
+  /// returns the current typed text in the fields
+  final ValueChanged<String> onChanged;
 
-/// this defines the shape of the input fields. Default is underlined
-final PinCodeFieldShape shape;
+  /// returns the typed text when all pins are set
+  final ValueChanged<String> onCompleted;
 
-/// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
-final TextStyle textStyle;
+  /// this defines the shape of the input fields. Default is underlined
+  final PinCodeFieldShape shape;
 
-/// background color for the whole row of pin code fields. Default is [Colors.white]
-final Color backgroundColor;
+  /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
+  final TextStyle textStyle;
 
-/// Border radius of each pin code field
-final BorderRadius borderRadius;
+  /// background color for the whole row of pin code fields. Default is [Colors.white]
+  final Color backgroundColor;
 
-/// [height] for the pin code field. default is [50.0]
-final double fieldHeight;
+  /// Border radius of each pin code field
+  final BorderRadius borderRadius;
 
-/// [width] for the pin code field. default is [40.0]
-final double fieldWidth;
+  /// [height] for the pin code field. default is [50.0]
+  final double fieldHeight;
 
-/// If the pin code field should be autofocused or not. Default is [false]
-final bool autoFocus;
+  /// [width] for the pin code field. default is [40.0]
+  final double fieldWidth;
 
-/// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
-final MainAxisAlignment mainAxisAlignment;
+  /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
+  final MainAxisAlignment mainAxisAlignment;
 
-/// Colors of the input fields which have inputs. Default is [Colors.green]
-final Color activeColor;
+  /// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeColor;
 
-/// Colors of the input fields which don't have inputs. Default is [Colors.red]
-final Color inactiveColor;
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedColor;
 
-/// Border width for the each input fields. Default is [2.0]
-final double borderWidth;
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveColor;
 
-/// [AnimationType] for the text to appear in the pin code field. Default is [AnimationType.slide]
-final AnimationType animationType;
+  /// Colors of the input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey]
+  final Color disabledColor;
 
-/// Duration for the animation. Default is [Duration(milliseconds: 150)]
-final Duration animationDuration;
+  /// Border width for the each input fields. Default is [2.0]
+  final double borderWidth;
 
-/// [Curve] for the animation. Default is [Curves.easeInOut]
-final Curve animationCurve;
+  /// [AnimationType] for the text to appear in the pin code field. Default is [AnimationType.slide]
+  final AnimationType animationType;
 
-/// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
-final TextInputType textInputType;
+  /// Duration for the animation. Default is [Duration(milliseconds: 150)]
+  final Duration animationDuration;
+
+  /// [Curve] for the animation. Default is [Curves.easeInOut]
+  final Curve animationCurve;
+
+  /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
+  final TextInputType textInputType;
+
+  /// If the pin code field should be autofocused or not. Default is [false]
+  final bool autoFocus;
+
+  /// Should pass a [FocusNode] to manage it from the parent
+  final FocusNode focusNode;
+
+  /// A list of [TextInputFormatter] that goes to the TextField
+  final List<TextInputFormatter> inputFormatters;
+
+  /// Enable or disable the Field. Default is [true]
+  final bool enabled;
 ```
 
 #### Flare animation credit: https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview
@@ -101,7 +119,7 @@ PinCodeTextField(
   borderRadius: BorderRadius.circular(5),
   fieldHeight: 50,
   fieldWidth: 40,
-  currentText: (value) {
+  onChanged: (value) {
     setState(() {
       currentText = value;
     });
@@ -231,7 +249,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
                     fieldWidth: 40,
-                    currentText: (value) {
+                    onChanged: (value) {
                       setState(() {
                         currentText = value;
                       });
