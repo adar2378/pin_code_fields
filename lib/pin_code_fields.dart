@@ -143,7 +143,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         }
       }
 
-      setTextToInput(currentText);
+      _setTextToInput(currentText);
     });
 
     if (widget.shape != PinCodeFieldShape.circle &&
@@ -189,7 +189,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       _inputList[i] = "";
     }
   }
-
+  // selects the right color for the field
   Color _getColorFromIndex(int index) {
     if (!widget.enabled) {
       return widget.disabledColor;
@@ -227,12 +227,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                     widget.length), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: false,
+              showCursor: false, // this cursor must remain hidden
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
                 border: InputBorder.none,
               ),
-              style: TextStyle(color: Colors.transparent),
+              style: TextStyle(color: Colors.transparent),// it is a hidden textfield which should remain transparent
             ),
           ),
         ),
@@ -392,7 +392,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     FocusScope.of(context).requestFocus(_focusNode);
   }
 
-  void setTextToInput(String data) async {
+  void _setTextToInput(String data) async {
     var replaceInputList = List<String>(widget.length);
 
     for (int i = 0; i < widget.length; i++) {
