@@ -287,7 +287,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               enableInteractiveSelection: false,
               showCursor: false, // this cursor must remain hidden
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none,
               ),
               style: TextStyle(
@@ -298,18 +298,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         ),
         GestureDetector(
           onTap: _onFocus,
-          onLongPress: () async {
-            if (widget.enabled) {
-              var data = await Clipboard.getData("text/plain");
-              if (data.text.isNotEmpty) {
-                _showPasteDialog(data.text);
-              }
-            }
-          },
+          onLongPress: widget.enabled
+              ? () async {
+                  var data = await Clipboard.getData("text/plain");
+                  if (data.text.isNotEmpty) {
+                    _showPasteDialog(data.text);
+                  }
+                }
+              : null,
           child: Container(
             color: widget.backgroundColor,
-            constraints: BoxConstraints(minHeight: 30),
-            padding: EdgeInsets.symmetric(vertical: 8),
+            constraints: const BoxConstraints(minHeight: 30),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Row(
               mainAxisAlignment: widget.mainAxisAlignment,
               children: _generateFields(),
