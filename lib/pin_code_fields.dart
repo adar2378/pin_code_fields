@@ -210,56 +210,67 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         .trim()
         .substring(0, min(pastedText.trim().length, widget.length));
     return showDialog(
-        context: context,
-        builder: (context) {
-          return Platform.isAndroid
-              ? AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  title: Text("Paste Code"),
-                  content: RichText(
-                    text: TextSpan(
-                        text: "Do you want paste this code ",
+      context: context,
+      builder: (context) {
+        return Platform.isAndroid
+            ? AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                title: Text("Paste Code"),
+                content: RichText(
+                  text: TextSpan(
+                    text: "Do you want paste this code ",
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.button.color),
+                    children: [
+                      TextSpan(
+                        text: formattedPastedText,
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.button.color),
-                        children: [
-                          TextSpan(
-                              text: formattedPastedText,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green.shade600)),
-                          TextSpan(
-                              text: " ?",
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).textTheme.button.color))
-                        ]),
-                  ),
-                  actions: _getActionButtons(formattedPastedText),
-                )
-              : CupertinoAlertDialog(
-                  title: Text("Paste Code"),
-                  content: RichText(
-                    text: TextSpan(
-                        text: "Do you want paste this code ",
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ?",
                         style: TextStyle(
-                            color: Theme.of(context).textTheme.button.color),
-                        children: [
-                          TextSpan(
-                              text: formattedPastedText,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green.shade600)),
-                          TextSpan(
-                              text: " ?",
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).textTheme.button.color))
-                        ]),
+                          color: Theme.of(context).textTheme.button.color,
+                        ),
+                      )
+                    ],
                   ),
-                  actions: _getActionButtons(formattedPastedText),
-                );
-        });
+                ),
+                actions: _getActionButtons(formattedPastedText),
+              )
+            : CupertinoAlertDialog(
+                title: Text("Paste Code"),
+                content: RichText(
+                  text: TextSpan(
+                    text: "Do you want paste this code ",
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.button.color,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: formattedPastedText,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ?",
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.button.color,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                actions: _getActionButtons(formattedPastedText),
+              );
+      },
+    );
   }
 
   @override
@@ -282,7 +293,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               inputFormatters: [
                 ...widget.inputFormatters,
                 LengthLimitingTextInputFormatter(
-                    widget.length), // this limits the input length
+                  widget.length,
+                ), // this limits the input length
               ],
               enableInteractiveSelection: false,
               showCursor: false, // this cursor must remain hidden
@@ -291,8 +303,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 border: InputBorder.none,
               ),
               style: TextStyle(
-                  color: Colors
-                      .transparent), // it is a hidden textfield which should remain transparent
+                color: Colors.transparent,
+              ), // it is a hidden textfield which should remain transparent
             ),
           ),
         ),
@@ -323,12 +335,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   List<Widget> _generateFields() {
     var result = <Widget>[];
     for (int i = 0; i < widget.length; i++) {
-      result.add(AnimatedContainer(
-        curve: widget.animationCurve,
-        duration: widget.animationDuration,
-        width: widget.fieldWidth,
-        height: widget.fieldHeight,
-        decoration: BoxDecoration(
+      result.add(
+        AnimatedContainer(
+          curve: widget.animationCurve,
+          duration: widget.animationDuration,
+          width: widget.fieldWidth,
+          height: widget.fieldHeight,
+          decoration: BoxDecoration(
             shape: widget.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
@@ -336,50 +349,54 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
                     bottom: BorderSide(
-                    color: _getColorFromIndex(i),
-                    width: widget.borderWidth,
-                  ))
+                      color: _getColorFromIndex(i),
+                      width: widget.borderWidth,
+                    ),
+                  )
                 : Border.all(
                     color: _getColorFromIndex(i),
                     width: widget.borderWidth,
-                  )),
-        child: Center(
-            child: AnimatedSwitcher(
-          switchInCurve: widget.animationCurve,
-          switchOutCurve: widget.animationCurve,
-          duration: widget.animationDuration,
-          transitionBuilder: (child, animation) {
-            if (widget.animationType == AnimationType.scale) {
-              return ScaleTransition(
-                scale: animation,
-                child: child,
-              );
-            } else if (widget.animationType == AnimationType.fade) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            } else if (widget.animationType == AnimationType.none) {
-              return child;
-            } else {
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, .5),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              );
-            }
-          },
-          child: Text(
-            widget.obsecureText && _inputList[i].isNotEmpty
-                ? "●"
-                : _inputList[i],
-            key: ValueKey(_inputList[i]),
-            style: widget.textStyle,
+                  ),
           ),
-        )),
-      ));
+          child: Center(
+            child: AnimatedSwitcher(
+              switchInCurve: widget.animationCurve,
+              switchOutCurve: widget.animationCurve,
+              duration: widget.animationDuration,
+              transitionBuilder: (child, animation) {
+                if (widget.animationType == AnimationType.scale) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                } else if (widget.animationType == AnimationType.fade) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                } else if (widget.animationType == AnimationType.none) {
+                  return child;
+                } else {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, .5),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  );
+                }
+              },
+              child: Text(
+                widget.obsecureText && _inputList[i].isNotEmpty
+                    ? "●"
+                    : _inputList[i],
+                key: ValueKey(_inputList[i]),
+                style: widget.textStyle,
+              ),
+            ),
+          ),
+        ),
+      );
     }
     return result;
   }
