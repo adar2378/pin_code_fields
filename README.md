@@ -19,7 +19,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 - iOS autofill support
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "<your desired code>"))
 
-## Properties
+## Properties 🔖
 
 ```Dart
 /// length of how many cells there should be. 3-8 is recommended by me
@@ -95,17 +95,27 @@ A flutter package which will help you to generate pin code fields. Can be useful
   final bool enabled;
 ```
 
-#### Flare animation credit: https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview
+## Contributors ✨
 
-## Getting Started
+Thanks to everyone whoever suggested their thoughts to improve this package. And special thanks goes to these people:
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/EmmanuelVlad"><img src="https://avatars0.githubusercontent.com/u/21370666?v=3" width="100px;" alt="Emmanuel Vlad"/><br /><sub><b>Emmanuel Vlad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=EmmanuelVlad" title="Code">💻</a></td>
+<td align="center"><a href="https://atiq.info/"><img src="https://atiq.info/images/logo.png" width="100px;" alt="Atiq"/><br /><sub><b>Atiqur Rahaman</b></sub></a><br /><a href="https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview" title="UX & Flare Animation">🎨</a></td>
+<td align="center"><a href="https://github.com/thallessantos"><img src="https://avatars2.githubusercontent.com/u/13054457?v=3" width="100px;" alt="Thalles Santos"/><br /><sub><b>Thalles Santos</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=thallessantos" title="Code">💻</a></td>
+  </tr>
+</table>
+
+## Getting Started ⚡️
 
 #### Demo
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pin_code.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/android_paste.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/ios_pasting.gif" width="240" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
 
 #### Different Shapes
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic1.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic2.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/pic3.png" width="250" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/box.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/circle.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/underline.png" width="250" height="480">
 
 **The pin code text field widget example**
 

@@ -85,7 +85,7 @@ class PinCodeTextField extends StatefulWidget {
     Key key,
     @required this.length,
     this.obsecureText = false,
-    this.onChanged,
+    @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
     this.borderRadius,
@@ -143,7 +143,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         }
       }
 
-      setTextToInput(currentText);
+      _setTextToInput(currentText);
     });
 
     if (widget.shape != PinCodeFieldShape.circle &&
@@ -162,7 +162,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
-    assert(widget.backgroundColor != null);
     assert(widget.fieldHeight != null && widget.fieldHeight > 0);
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
     assert(widget.activeColor != null);
@@ -190,7 +189,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       _inputList[i] = "";
     }
   }
-
+  // selects the right color for the field
   Color _getColorFromIndex(int index) {
     if (!widget.enabled) {
       return widget.disabledColor;
@@ -211,10 +210,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         Container(
-          color: widget.backgroundColor.withOpacity(1),
           padding: const EdgeInsets.only(bottom: 4.0),
           child: AbsorbPointer(
-            // this is a hidden textfield under the pin code fields. This is why we need a background color to hide it
+            // this is a hidden textfield under the pin code fields.
             absorbing: true, // it prevents on tap on the text field
             child: TextField(
               controller: _textEditingController,
@@ -229,15 +227,17 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                     widget.length), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: false,
+              showCursor: false, // this cursor must remain hidden
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(0),
+                border: InputBorder.none,
               ),
+              style: TextStyle(color: Colors.transparent),// it is a hidden textfield which should remain transparent
             ),
           ),
         ),
         Container(
-          color: widget.backgroundColor.withOpacity(1),
+          color: widget.backgroundColor,
           constraints: BoxConstraints(minHeight: 30),
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
@@ -392,7 +392,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     FocusScope.of(context).requestFocus(_focusNode);
   }
 
-  void setTextToInput(String data) async {
+  void _setTextToInput(String data) async {
     var replaceInputList = List<String>(widget.length);
 
     for (int i = 0; i < widget.length; i++) {

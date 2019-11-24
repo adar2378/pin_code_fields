@@ -1,3 +1,11 @@
+[2.2.0+4] - Documentation updated
+
+[2.2.0+3] - Documentation updated
+
+[2.2.0+2] - Allowed transparent background color
+
+[2.2.0+1] - Documentation updated
+
 ## [2.2.0]
 
 Better performance overall
