@@ -81,8 +81,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable or disable the Field. Default is [true]
   final bool enabled;
 
+  /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
   final String dialogTitle;
 
+  /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
   final String dialogContent;
 
   PinCodeTextField({

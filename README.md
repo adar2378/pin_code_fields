@@ -93,6 +93,13 @@ A flutter package which will help you to generate pin code fields. Can be useful
 
   /// Enable or disable the Field. Default is [true]
   final bool enabled;
+
+  /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
+  final String dialogTitle;
+
+  /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
+  final String dialogContent;
+
 ```
 
 ## Contributors ✨
@@ -111,7 +118,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 
 #### Demo
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480">        <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480">      <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
 
 #### Different Shapes
 
