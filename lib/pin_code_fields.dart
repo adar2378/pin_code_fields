@@ -87,6 +87,12 @@ class PinCodeTextField extends StatefulWidget {
   /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
   final String dialogContent;
 
+  /// Affirmative action text for the [AlertDialog]. Default to "Paste"
+  final String affirmativeText;
+
+  /// Negative action text for the [AlertDialog]. Default to "Cancel"
+  final String negavtiveText;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -114,6 +120,8 @@ class PinCodeTextField extends StatefulWidget {
     this.inputFormatters = const <TextInputFormatter>[],
     this.dialogContent = "Do you want to paste this code ",
     this.dialogTitle = "Paste Code",
+    this.affirmativeText = "Paste",
+    this.negavtiveText = "Cancel",
     this.textStyle = const TextStyle(
       fontSize: 20,
       color: Colors.black,
@@ -183,6 +191,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.textStyle != null);
     assert(widget.textInputType != null);
     assert(widget.autoFocus != null);
+    assert(widget.affirmativeText != null && widget.affirmativeText.isNotEmpty);
+    assert(widget.negavtiveText != null && widget.negavtiveText.isNotEmpty);
+    assert(widget.dialogTitle != null && widget.dialogTitle.isNotEmpty);
+    assert(widget.dialogContent != null && widget.dialogContent.isNotEmpty);
   }
 
   @override
@@ -435,13 +447,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (Platform.isAndroid) {
       resultList.addAll([
         FlatButton(
-          child: Text("Cancel"),
+          child: Text(widget.negavtiveText),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         FlatButton(
-          child: Text("Paste"),
+          child: Text(widget.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
             Navigator.pop(context);
@@ -451,13 +463,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     } else if (Platform.isIOS) {
       resultList.addAll([
         CupertinoDialogAction(
-          child: Text("Cancel"),
+          child: Text(widget.negavtiveText),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         CupertinoDialogAction(
-          child: Text("Paste"),
+          child: Text(widget.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
             Navigator.pop(context);

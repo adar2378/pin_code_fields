@@ -1,3 +1,5 @@
+[2.2.1+2] - Added two more parameters, affirmativeText and negativeText
+
 [2.2.1+1] - Added two more parameters, dialogTitle and dialogContent
 
 [2.2.1] - Reformatted the code, made the whole widget clickable

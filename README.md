@@ -100,6 +100,11 @@ A flutter package which will help you to generate pin code fields. Can be useful
   /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
   final String dialogContent;
 
+   /// Affirmative action text for the [AlertDialog]. Default to "Paste"
+  final String affirmativeText;
+
+  /// Negative action text for the [AlertDialog]. Default to "Cancel"
+  final String negavtiveText;
 ```
 
 ## Contributors ✨
