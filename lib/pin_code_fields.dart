@@ -81,6 +81,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable or disable the Field. Default is [true]
   final bool enabled;
 
+  final String dialogTitle;
+
+  final String dialogContent;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -106,6 +110,8 @@ class PinCodeTextField extends StatefulWidget {
     this.focusNode,
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
+    this.dialogContent = "Do you want to paste this code ",
+    this.dialogTitle = "Paste Code",
     this.textStyle = const TextStyle(
       fontSize: 20,
       color: Colors.black,
@@ -217,10 +223,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                title: Text("Paste Code"),
+                title: Text(widget.dialogTitle),
                 content: RichText(
                   text: TextSpan(
-                    text: "Do you want paste this code ",
+                    text: widget.dialogContent,
                     style: TextStyle(
                         color: Theme.of(context).textTheme.button.color),
                     children: [
@@ -243,10 +249,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 actions: _getActionButtons(formattedPastedText),
               )
             : CupertinoAlertDialog(
-                title: Text("Paste Code"),
+                title: Text(widget.dialogTitle),
                 content: RichText(
                   text: TextSpan(
-                    text: "Do you want paste this code ",
+                    text: widget.dialogContent,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.button.color,
                     ),
