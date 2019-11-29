@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 void main() => runApp(MyApp());
@@ -33,7 +34,7 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
-  /// this [StreamController] will take input of which function should be called
+  TextEditingController textEditingController = TextEditingController();
 
   bool hasError = false;
   String currentText = "";
@@ -125,6 +126,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     fieldHeight: 50,
                     backgroundColor: Colors.white,
                     fieldWidth: 40,
+                    controller: textEditingController,
+                    onCompleted: (v) {
+                      print("Completed");
+                    },
                     onChanged: (value) {
                       print(value);
                       setState(() {
@@ -206,12 +211,26 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blurRadius: 5)
                     ]),
               ),
-              // Center(
-              //     child: Text(
-              //   submittedString,
-              //   style: TextStyle(fontSize: 18),
-              // )
-              // ),
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text("Clear"),
+                    onPressed: () {
+                      textEditingController.clear();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Set Text"),
+                    onPressed: () {
+                      textEditingController.text = "12348";
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),

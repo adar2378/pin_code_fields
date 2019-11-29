@@ -93,9 +93,12 @@ class PinCodeTextField extends StatefulWidget {
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
   final String negavtiveText;
 
+  final TextEditingController controller;
+
   PinCodeTextField({
     Key key,
     @required this.length,
+    this.controller,
     this.obsecureText = false,
     @required this.onChanged,
     this.onCompleted,
@@ -143,24 +146,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   @override
   void initState() {
     _checkForInvalidValues();
-    _textEditingController = TextEditingController();
-    _textEditingController.addListener(() {
-      var currentText = _textEditingController.text;
-
-      if (widget.enabled && _inputList.join("") != currentText) {
-        if (currentText.length == widget.length) {
-          if (widget.onCompleted != null) {
-            widget.onCompleted(currentText);
-          }
-          _focusNode.unfocus();
-        }
-        if (widget.onChanged != null) {
-          widget.onChanged(currentText);
-        }
-      }
-
-      _setTextToInput(currentText);
-    });
+    _assignController();
 
     if (widget.shape != PinCodeFieldShape.circle &&
         widget.shape != PinCodeFieldShape.underline) {
@@ -175,6 +161,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     super.initState();
   }
 
+  // validating all the values
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
@@ -195,6 +182,36 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.negavtiveText != null && widget.negavtiveText.isNotEmpty);
     assert(widget.dialogTitle != null && widget.dialogTitle.isNotEmpty);
     assert(widget.dialogContent != null && widget.dialogContent.isNotEmpty);
+  }
+
+  // Assigning the text controller, if empty assiging a new one.
+  void _assignController() {
+    if (widget.controller == null) {
+      _textEditingController = TextEditingController();
+    } else {
+      _textEditingController = widget.controller;
+    }
+    _textEditingController.addListener(() {
+      var currentText = _textEditingController.text;
+
+      if (widget.enabled && _inputList.join("") != currentText) {
+        if (currentText.length >= widget.length) {
+          if (widget.onCompleted != null) {
+            if (currentText.length > widget.length) {
+              // removing extra text longer than the length
+              currentText = currentText.substring(0, widget.length);
+            }
+            widget.onCompleted(currentText);
+          }
+          _focusNode.unfocus();
+        }
+        if (widget.onChanged != null) {
+          widget.onChanged(currentText);
+        }
+      }
+
+      _setTextToInput(currentText);
+    });
   }
 
   @override
