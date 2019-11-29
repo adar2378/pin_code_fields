@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 void main() => runApp(MyApp());
@@ -226,7 +223,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   FlatButton(
                     child: Text("Set Text"),
                     onPressed: () {
-                      textEditingController.text = "12348";
+                      textEditingController.text = "123456";
                     },
                   ),
                 ],

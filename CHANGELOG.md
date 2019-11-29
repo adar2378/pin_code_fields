@@ -1,3 +1,15 @@
+## [2.3.0]
+
+Better Performance overall
+
+### Updates  ✨
+
+- Optional: Exposed `controller` so that one can control the texts programmatically
+- Updated the example code with clear and set manual text buttons.
+- Fixed minor bugs and optimized code
+
+---
+
 [2.2.1+2] - Added two more parameters, affirmativeText and negativeText
 
 [2.2.1+1] - Added two more parameters, dialogTitle and dialogContent

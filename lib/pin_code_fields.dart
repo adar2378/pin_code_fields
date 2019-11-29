@@ -93,6 +93,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
   final String negavtiveText;
 
+  /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
 
   PinCodeTextField({
