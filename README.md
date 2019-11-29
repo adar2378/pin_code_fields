@@ -17,7 +17,7 @@ A flutter package which will help you to generate pin code fields. Can be useful
 - Autofocus option
 - Otp-code pasting from clipboard
 - iOS autofill support
-- Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "<your desired code>"))
+- Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "your desired code"))
 
 ## Properties 🔖
 
