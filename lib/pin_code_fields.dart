@@ -28,6 +28,7 @@ class PinCodeTextField extends StatefulWidget {
   final TextStyle textStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
+  /// Can't be null or [Colors.transparent]
   final Color backgroundColor;
 
   /// Border radius of each pin code field
@@ -170,6 +171,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
     assert(widget.activeColor != null);
     assert(widget.inactiveColor != null);
+    assert(widget.backgroundColor != null &&
+        widget.backgroundColor != Colors.transparent);
     assert(widget.borderWidth != null && widget.borderWidth >= 0);
     assert(widget.mainAxisAlignment != null);
     assert(widget.animationDuration != null);
@@ -335,7 +338,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 ), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: false, // this cursor must remain hidden
+              showCursor: true, // this cursor must remain hidden
+              cursorColor: widget
+                  .backgroundColor, // using same as background color so tha it can blend into the view
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none,

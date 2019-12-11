@@ -4,7 +4,7 @@
 
 <a href = "https://www.patreon.com/bePatron?u=26622525"><img src = "https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="250"></a>
 
-A flutter package which will help you to generate pin code fields. Can be useful for OTP or pin code inputs 🤓🤓
+A flutter package which will help you to generate pin code fields with beautiful design and animations. Can be useful for OTP or pin code inputs 🤓🤓
 
 ## Features 💚
 
