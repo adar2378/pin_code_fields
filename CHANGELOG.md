@@ -1,3 +1,5 @@
+[2.3.0+3] Fixed bug regarding misplaced cursor selection.
+
 [2.3.0+2] - Fixed bug where after opening keyboard the view will not automatically scroll up.
 
 [2.3.0+1] - Updated documentation

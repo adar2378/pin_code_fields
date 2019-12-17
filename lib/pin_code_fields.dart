@@ -341,13 +341,17 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               showCursor: true, // this cursor must remain hidden
               cursorColor: widget
                   .backgroundColor, // using same as background color so tha it can blend into the view
+              cursorWidth: 0.01,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none,
               ),
               style: TextStyle(
                 color: Colors.transparent,
-              ), // it is a hidden textfield which should remain transparent
+                height: .01,
+                fontSize:
+                    0.01, // it is a hidden textfield which should remain transparent and extremely small
+              ),
             ),
           ),
         ),

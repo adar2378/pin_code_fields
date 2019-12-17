@@ -54,7 +54,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blue.shade50,
       key: scaffoldKey,
       body: GestureDetector(
         onTap: () {
@@ -121,7 +121,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     animationDuration: Duration(milliseconds: 300),
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.blue.shade50,
                     fieldWidth: 40,
                     controller: textEditingController,
                     onCompleted: (v) {
