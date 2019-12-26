@@ -9,6 +9,9 @@ import 'dart:io' show Platform;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
+  /// Last Pin if provided
+  final String lastPin;
+  
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
@@ -99,6 +102,7 @@ class PinCodeTextField extends StatefulWidget {
 
   PinCodeTextField({
     Key key,
+    this.lastPin,
     @required this.length,
     this.controller,
     this.obsecureText = false,
@@ -160,6 +164,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>(widget.length);
     _initializeValues();
+    _setTextToInput(widget.lastPin ?? "");
+    
     super.initState();
   }
 
@@ -226,8 +232,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   void _initializeValues() {
-    for (int i = 0; i < _inputList.length; i++) {
-      _inputList[i] = "";
+    if (widget.lastPin != null) {
+      _textEditingController.text = widget.lastPin;
+      for (int i = 0; i < widget.lastPin.length; i++) {
+        _inputList[i] = widget.lastPin[i];
+      }
+      setState(() {});
+    } else {
+      for (int i = 0; i < _inputList.length; i++) {
+        _inputList[i] = "";
+      }
     }
   }
 
