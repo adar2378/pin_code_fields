@@ -92,7 +92,7 @@ class PinCodeTextField extends StatefulWidget {
   final String affirmativeText;
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
-  final String negavtiveText;
+  final String negativeText;
 
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
@@ -126,7 +126,7 @@ class PinCodeTextField extends StatefulWidget {
     this.dialogContent = "Do you want to paste this code ",
     this.dialogTitle = "Paste Code",
     this.affirmativeText = "Paste",
-    this.negavtiveText = "Cancel",
+    this.negativeText = "Cancel",
     this.textStyle = const TextStyle(
       fontSize: 20,
       color: Colors.black,
@@ -183,7 +183,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.textInputType != null);
     assert(widget.autoFocus != null);
     assert(widget.affirmativeText != null && widget.affirmativeText.isNotEmpty);
-    assert(widget.negavtiveText != null && widget.negavtiveText.isNotEmpty);
+    assert(widget.negativeText != null && widget.negativeText.isNotEmpty);
     assert(widget.dialogTitle != null && widget.dialogTitle.isNotEmpty);
     assert(widget.dialogContent != null && widget.dialogContent.isNotEmpty);
   }
@@ -474,7 +474,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (Platform.isAndroid) {
       resultList.addAll([
         FlatButton(
-          child: Text(widget.negavtiveText),
+          child: Text(widget.negativeText),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -490,7 +490,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     } else if (Platform.isIOS) {
       resultList.addAll([
         CupertinoDialogAction(
-          child: Text(widget.negavtiveText),
+          child: Text(widget.negativeText),
           onPressed: () {
             Navigator.pop(context);
           },
