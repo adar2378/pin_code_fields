@@ -104,7 +104,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final String affirmativeText;
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
-  final String negavtiveText;
+  final String negativeText;
   
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
