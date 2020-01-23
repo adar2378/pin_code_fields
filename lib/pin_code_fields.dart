@@ -1,11 +1,11 @@
 library pin_code_fields;
 
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
@@ -97,6 +97,18 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
 
+  /// Enabled Color fill for individual pin fields, default is [false]
+  final bool enableActiveFill;
+
+  /// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeFillColor;
+
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedFillColor;
+
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveFillColor;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -132,6 +144,10 @@ class PinCodeTextField extends StatefulWidget {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
+    this.enableActiveFill = false,
+    this.activeFillColor = Colors.green,
+    this.selectedFillColor = Colors.blue,
+    this.inactiveFillColor = Colors.red,
   }) : super(key: key);
 
   @override
@@ -186,6 +202,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.negativeText != null && widget.negativeText.isNotEmpty);
     assert(widget.dialogTitle != null && widget.dialogTitle.isNotEmpty);
     assert(widget.dialogContent != null && widget.dialogContent.isNotEmpty);
+    assert(widget.enableActiveFill != null);
+    assert(widget.activeFillColor != null);
+    assert(widget.inactiveFillColor != null);
   }
 
   // Assigning the text controller, if empty assiging a new one.
@@ -244,6 +263,21 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
       return widget.activeColor;
     }
     return widget.inactiveColor;
+  }
+
+// selects the right fill color for the field
+  Color _getFillColorFromIndex(int index) {
+    if (!widget.enabled) {
+      return widget.disabledColor;
+    }
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+        _focusNode.hasFocus) {
+      return widget.selectedFillColor;
+    } else if (_selectedIndex > index) {
+      return widget.activeFillColor;
+    }
+    return widget.inactiveFillColor;
   }
 
   Future<void> _showPasteDialog(String pastedText) {
@@ -338,9 +372,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 ), // this limits the input length
               ],
               enableInteractiveSelection: false,
-              showCursor: true, // this cursor must remain hidden
-              cursorColor: widget
-                  .backgroundColor, // using same as background color so tha it can blend into the view
+              showCursor: true,
+              // this cursor must remain hidden
+              cursorColor: widget.backgroundColor,
+              // using same as background color so tha it can blend into the view
               cursorWidth: 0.01,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
@@ -350,7 +385,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 color: Colors.transparent,
                 height: .01,
                 fontSize:
-                    0.01, // it is a hidden textfield which should remain transparent and extremely small
+                0.01, // it is a hidden textfield which should remain transparent and extremely small
               ),
             ),
           ),
@@ -389,21 +424,24 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           width: widget.fieldWidth,
           height: widget.fieldHeight,
           decoration: BoxDecoration(
+            color: widget.enableActiveFill
+                ? _getFillColorFromIndex(i)
+                : Colors.transparent,
             shape: widget.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
             borderRadius: borderRadius,
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
-                    bottom: BorderSide(
-                      color: _getColorFromIndex(i),
-                      width: widget.borderWidth,
-                    ),
-                  )
+              bottom: BorderSide(
+                color: _getColorFromIndex(i),
+                width: widget.borderWidth,
+              ),
+            )
                 : Border.all(
-                    color: _getColorFromIndex(i),
-                    width: widget.borderWidth,
-                  ),
+              color: _getColorFromIndex(i),
+              width: widget.borderWidth,
+            ),
           ),
           child: Center(
             child: AnimatedSwitcher(
