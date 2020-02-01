@@ -1,11 +1,11 @@
 library pin_code_fields;
 
 import 'dart:math';
+import 'dart:io' show Platform;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io' show Platform;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
@@ -82,6 +82,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable or disable the Field. Default is [true]
   final bool enabled;
 
+  /// Enable or disable alert Dialog. Default is [true]
+  final bool dialogEnabled;
+
   /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
   final String dialogTitle;
 
@@ -92,7 +95,7 @@ class PinCodeTextField extends StatefulWidget {
   final String affirmativeText;
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
-  final String negativeText;
+  final String negavtiveText;
 
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
@@ -122,11 +125,12 @@ class PinCodeTextField extends StatefulWidget {
     this.autoFocus = false,
     this.focusNode,
     this.enabled = true,
+    this.dialogEnabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
     this.dialogContent = "Do you want to paste this code ",
     this.dialogTitle = "Paste Code",
     this.affirmativeText = "Paste",
-    this.negativeText = "Cancel",
+    this.negavtiveText = "Cancel",
     this.textStyle = const TextStyle(
       fontSize: 20,
       color: Colors.black,
@@ -183,7 +187,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.textInputType != null);
     assert(widget.autoFocus != null);
     assert(widget.affirmativeText != null && widget.affirmativeText.isNotEmpty);
-    assert(widget.negativeText != null && widget.negativeText.isNotEmpty);
+    assert(widget.negavtiveText != null && widget.negavtiveText.isNotEmpty);
     assert(widget.dialogTitle != null && widget.dialogTitle.isNotEmpty);
     assert(widget.dialogContent != null && widget.dialogContent.isNotEmpty);
   }
@@ -357,7 +361,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
         ),
         GestureDetector(
           onTap: _onFocus,
-          onLongPress: widget.enabled
+          // it`s check if whole widget and dialog enabled then showing dialog box
+          onLongPress: widget.enabled && widget.dialogEnabled
               ? () async {
                   var data = await Clipboard.getData("text/plain");
                   if (data.text.isNotEmpty) {
@@ -474,7 +479,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (Platform.isAndroid) {
       resultList.addAll([
         FlatButton(
-          child: Text(widget.negativeText),
+          child: Text(widget.negavtiveText),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -490,7 +495,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     } else if (Platform.isIOS) {
       resultList.addAll([
         CupertinoDialogAction(
-          child: Text(widget.negativeText),
+          child: Text(widget.negavtiveText),
           onPressed: () {
             Navigator.pop(context);
           },
