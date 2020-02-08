@@ -108,6 +108,18 @@ A flutter package which will help you to generate pin code fields with beautiful
   
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
+
+  /// Enabled Color fill for individual pin fields, default is [false]
+  final bool enableActiveFill;
+
+  /// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeFillColor;
+
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedFillColor;
+
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveFillColor;
 ```
 
 ## Contributors ✨
