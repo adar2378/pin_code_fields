@@ -187,8 +187,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
     assert(widget.activeColor != null);
     assert(widget.inactiveColor != null);
-    assert(widget.backgroundColor != null &&
-        widget.backgroundColor != Colors.transparent);
+    assert(widget.backgroundColor != null);
     assert(widget.borderWidth != null && widget.borderWidth >= 0);
     assert(widget.mainAxisAlignment != null);
     assert(widget.animationDuration != null);
@@ -378,14 +377,19 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               // using same as background color so tha it can blend into the view
               cursorWidth: 0.01,
               decoration: InputDecoration(
+                fillColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
                 contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
               ),
               style: TextStyle(
                 color: Colors.transparent,
                 height: .01,
                 fontSize:
-                0.01, // it is a hidden textfield which should remain transparent and extremely small
+                    0.01, // it is a hidden textfield which should remain transparent and extremely small
               ),
             ),
           ),
@@ -433,15 +437,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             borderRadius: borderRadius,
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
-              bottom: BorderSide(
-                color: _getColorFromIndex(i),
-                width: widget.borderWidth,
-              ),
-            )
+                    bottom: BorderSide(
+                      color: _getColorFromIndex(i),
+                      width: widget.borderWidth,
+                    ),
+                  )
                 : Border.all(
-              color: _getColorFromIndex(i),
-              width: widget.borderWidth,
-            ),
+                    color: _getColorFromIndex(i),
+                    width: widget.borderWidth,
+                  ),
           ),
           child: Center(
             child: AnimatedSwitcher(
