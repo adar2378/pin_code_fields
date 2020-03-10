@@ -216,6 +216,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.enableActiveFill != null);
     assert(widget.activeFillColor != null);
     assert(widget.inactiveFillColor != null);
+    assert(widget.selectedFillColor != null);
     assert(widget.textCapitalization != null);
     assert(widget.textInputAction != null);
   }
@@ -252,6 +253,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   @override
   void dispose() {
+    print("*** Disposing _textEditingController and _focusNode for pin code field ***");
     _textEditingController.dispose();
     _focusNode.dispose();
     super.dispose();
