@@ -130,7 +130,9 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <tr>
     <td align="center"><a href="https://github.com/EmmanuelVlad"><img src="https://avatars0.githubusercontent.com/u/21370666?v=3" width="100px;" alt="Emmanuel Vlad"/><br /><sub><b>Emmanuel Vlad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=EmmanuelVlad" title="Code">💻</a></td>
 <td align="center"><a href="https://atiq.info/"><img src="https://atiq.info/images/logo.png" width="100px;" alt="Atiq"/><br /><sub><b>Atiqur Rahaman</b></sub></a><br /><a href="https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview" title="UX & Flare Animation">🎨</a></td>
+<td align="center"><a href="https://github.com/RemeJuan"><img src="https://avatars1.githubusercontent.com/u/864552?v=3" width="100px;" alt="Reme Le Hane"/><br /><sub><b>Reme Le Hane</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=RemeJuan" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/thallessantos"><img src="https://avatars2.githubusercontent.com/u/13054457?v=3" width="100px;" alt="Thalles Santos"/><br /><sub><b>Thalles Santos</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=thallessantos" title="Code">💻</a></td>
+<td align="center"><a href="https://github.com/ThinkDigitalSoftware"><img src="https://avatars3.githubusercontent.com/u/23037821?v=3" width="100px;" alt="Jonathan White"/><br /><sub><b>ThinkDigitalSoftware</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ThinkDigitalSoftware" title="Code">💻</a></td>
   </tr>
 </table>
 

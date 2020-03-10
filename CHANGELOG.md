@@ -1,3 +1,16 @@
+## [2.4.0]
+
+Better Performance overall
+
+### Updates  ✨
+ - Optional: Exposed TextCapitalization, TextInputAction.
+ - Added background color customization for each cell(SelectedCell, UnselectedCell and InactiveCell). But you must set `enableActiveFill = true`.
+ - Added warning messages
+ - Fixed typos & Optimzied code
+ 
+
+---
+
 [2.3.0+3] Fixed bug regarding misplaced cursor selection.
 
 [2.3.0+2] - Fixed bug where after opening keyboard the view will not automatically scroll up.
