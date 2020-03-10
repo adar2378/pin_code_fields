@@ -28,7 +28,6 @@ class PinCodeTextField extends StatefulWidget {
   final TextStyle textStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
-  /// Can't be null or [Colors.transparent]
   final Color backgroundColor;
 
   /// Border radius of each pin code field
@@ -397,6 +396,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
               ),
               style: TextStyle(
                 color: Colors.transparent,
