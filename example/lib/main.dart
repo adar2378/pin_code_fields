@@ -31,7 +31,8 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController textEditingController = TextEditingController()
+    ..text = "123456";
 
   bool hasError = false;
   String currentText = "";
@@ -123,6 +124,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     fieldHeight: 50,
                     backgroundColor: Colors.blue.shade50,
                     fieldWidth: 40,
+                    activeFillColor: Colors.white,
+                    enableActiveFill: true,
+                    
                     controller: textEditingController,
                     onCompleted: (v) {
                       print("Completed");

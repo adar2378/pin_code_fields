@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   pin_code_fields:
     path: ..//
-  flare_flutter: ^1.7.1
+  flare_flutter: 1.7.1
   # change the path later
 dev_dependencies:
   flutter_test:

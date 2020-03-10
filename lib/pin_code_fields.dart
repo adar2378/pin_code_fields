@@ -109,6 +109,14 @@ class PinCodeTextField extends StatefulWidget {
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
+  /// Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
+  /// - Copied from 'https://api.flutter.dev/flutter/services/TextCapitalization-class.html'
+  /// Default is [TextCapitalization.none]
+  final TextCapitalization textCapitalization;
+
+  final TextInputAction textInputAction;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -148,6 +156,8 @@ class PinCodeTextField extends StatefulWidget {
     this.activeFillColor = Colors.green,
     this.selectedFillColor = Colors.blue,
     this.inactiveFillColor = Colors.red,
+    this.textCapitalization = TextCapitalization.none,
+    this.textInputAction = TextInputAction.done,
   }) : super(key: key);
 
   @override
@@ -163,6 +173,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   @override
   void initState() {
+    print(
+        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
     _checkForInvalidValues();
     _assignController();
 
@@ -187,8 +199,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.fieldWidth != null && widget.fieldWidth > 0);
     assert(widget.activeColor != null);
     assert(widget.inactiveColor != null);
-    assert(widget.backgroundColor != null &&
-        widget.backgroundColor != Colors.transparent);
+    assert(widget.backgroundColor != null);
     assert(widget.borderWidth != null && widget.borderWidth >= 0);
     assert(widget.mainAxisAlignment != null);
     assert(widget.animationDuration != null);
@@ -205,6 +216,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     assert(widget.enableActiveFill != null);
     assert(widget.activeFillColor != null);
     assert(widget.inactiveFillColor != null);
+    assert(widget.textCapitalization != null);
+    assert(widget.textInputAction != null);
   }
 
   // Assigning the text controller, if empty assiging a new one.
@@ -359,12 +372,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             // this is a hidden textfield under the pin code fields.
             absorbing: true, // it prevents on tap on the text field
             child: TextField(
+              textInputAction: widget.textInputAction,
               controller: _textEditingController,
               focusNode: _focusNode,
               enabled: widget.enabled,
               autofocus: widget.autoFocus,
               autocorrect: false,
               keyboardType: widget.textInputType,
+              textCapitalization: widget.textCapitalization,
               inputFormatters: [
                 ...widget.inputFormatters,
                 LengthLimitingTextInputFormatter(
@@ -385,7 +400,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 color: Colors.transparent,
                 height: .01,
                 fontSize:
-                0.01, // it is a hidden textfield which should remain transparent and extremely small
+                    0.01, // it is a hidden textfield which should remain transparent and extremely small
               ),
             ),
           ),
@@ -433,15 +448,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
             borderRadius: borderRadius,
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
-              bottom: BorderSide(
-                color: _getColorFromIndex(i),
-                width: widget.borderWidth,
-              ),
-            )
+                    bottom: BorderSide(
+                      color: _getColorFromIndex(i),
+                      width: widget.borderWidth,
+                    ),
+                  )
                 : Border.all(
-              color: _getColorFromIndex(i),
-              width: widget.borderWidth,
-            ),
+                    color: _getColorFromIndex(i),
+                    width: widget.borderWidth,
+                  ),
           ),
           child: Center(
             child: AnimatedSwitcher(
