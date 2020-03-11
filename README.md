@@ -1,4 +1,6 @@
-# pin_code_fields
+<p align="center">
+  <img width="460"  src="https://i.ibb.co/NmxSXQT/twitter-profile-image.png">
+</p>
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
 
