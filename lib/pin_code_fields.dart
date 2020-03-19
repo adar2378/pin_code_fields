@@ -108,6 +108,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// Auto dismiss the keyboard upon inputting the value for the last field Default is [true]
+  final bool autoDismissKeyboard;
+
   /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
   /// Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
   /// - Copied from 'https://api.flutter.dev/flutter/services/TextCapitalization-class.html'
@@ -157,6 +160,7 @@ class PinCodeTextField extends StatefulWidget {
     this.inactiveFillColor = Colors.red,
     this.textCapitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
+    this.autoDismissKeyboard = true,
   }) : super(key: key);
 
   @override
@@ -172,13 +176,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   @override
   void initState() {
-    print(
-        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
+    print("IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
     _checkForInvalidValues();
     _assignController();
 
-    if (widget.shape != PinCodeFieldShape.circle &&
-        widget.shape != PinCodeFieldShape.underline) {
+    if (widget.shape != PinCodeFieldShape.circle && widget.shape != PinCodeFieldShape.underline) {
       borderRadius = widget.borderRadius;
     }
     _focusNode = widget.focusNode ?? FocusNode();
@@ -237,9 +239,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               // removing extra text longer than the length
               currentText = currentText.substring(0, widget.length);
             }
-            widget.onCompleted(currentText);
+            //  delay the onComplete event handler to give the onChange event handler enough time to complete
+            Future.delayed(Duration(milliseconds: 300), () => widget.onCompleted(currentText));
           }
-          _focusNode.unfocus();
+
+          if (widget.autoDismissKeyboard) _focusNode.unfocus();
         }
         if (widget.onChanged != null) {
           widget.onChanged(currentText);
@@ -269,8 +273,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (!widget.enabled) {
       return widget.disabledColor;
     }
-    if (((_selectedIndex == index) ||
-            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+    if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus) {
       return widget.selectedColor;
     } else if (_selectedIndex > index) {
@@ -284,8 +287,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (!widget.enabled) {
       return widget.disabledColor;
     }
-    if (((_selectedIndex == index) ||
-            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+    if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus) {
       return widget.selectedFillColor;
     } else if (_selectedIndex > index) {
@@ -295,9 +297,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   Future<void> _showPasteDialog(String pastedText) {
-    var formattedPastedText = pastedText
-        .trim()
-        .substring(0, min(pastedText.trim().length, widget.length));
+    var formattedPastedText = pastedText.trim().substring(0, min(pastedText.trim().length, widget.length));
     return showDialog(
       context: context,
       builder: (context) {
@@ -310,8 +310,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 content: RichText(
                   text: TextSpan(
                     text: widget.dialogContent,
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color),
+                    style: TextStyle(color: Theme.of(context).textTheme.button.color),
                     children: [
                       TextSpan(
                         text: formattedPastedText,
@@ -387,6 +386,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                   widget.length,
                 ), // this limits the input length
               ],
+              // trigger on the complete event handler from the keyboard
+              onSubmitted: widget.onCompleted,
               enableInteractiveSelection: false,
               showCursor: true,
               // this cursor must remain hidden
@@ -402,8 +403,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               style: TextStyle(
                 color: Colors.transparent,
                 height: .01,
-                fontSize:
-                    0.01, // it is a hidden textfield which should remain transparent and extremely small
+                fontSize: 0.01, // it is a hidden textfield which should remain transparent and extremely small
               ),
             ),
           ),
@@ -442,12 +442,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           width: widget.fieldWidth,
           height: widget.fieldHeight,
           decoration: BoxDecoration(
-            color: widget.enableActiveFill
-                ? _getFillColorFromIndex(i)
-                : Colors.transparent,
-            shape: widget.shape == PinCodeFieldShape.circle
-                ? BoxShape.circle
-                : BoxShape.rectangle,
+            color: widget.enableActiveFill ? _getFillColorFromIndex(i) : Colors.transparent,
+            shape: widget.shape == PinCodeFieldShape.circle ? BoxShape.circle : BoxShape.rectangle,
             borderRadius: borderRadius,
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
@@ -490,9 +486,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 }
               },
               child: Text(
-                widget.obsecureText && _inputList[i].isNotEmpty
-                    ? "●"
-                    : _inputList[i],
+                widget.obsecureText && _inputList[i].isNotEmpty ? "●" : _inputList[i],
                 key: ValueKey(_inputList[i]),
                 style: widget.textStyle,
               ),
