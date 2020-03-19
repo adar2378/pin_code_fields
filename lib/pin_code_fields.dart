@@ -21,6 +21,9 @@ class PinCodeTextField extends StatefulWidget {
   /// returns the typed text when all pins are set
   final ValueChanged<String> onCompleted;
 
+  /// returns the typed text when user presses done/next action on the keyboard
+  final ValueChanged<String> onSubmitted;
+
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
@@ -119,49 +122,50 @@ class PinCodeTextField extends StatefulWidget {
 
   final TextInputAction textInputAction;
 
-  PinCodeTextField({
-    Key key,
-    @required this.length,
-    this.controller,
-    this.obsecureText = false,
-    @required this.onChanged,
-    this.onCompleted,
-    this.backgroundColor = Colors.white,
-    this.borderRadius,
-    this.fieldHeight = 50,
-    this.fieldWidth = 40,
-    this.activeColor = Colors.green,
-    this.selectedColor = Colors.blue,
-    this.inactiveColor = Colors.red,
-    this.disabledColor = Colors.grey,
-    this.borderWidth = 2,
-    this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
-    this.animationDuration = const Duration(milliseconds: 150),
-    this.animationCurve = Curves.easeInOut,
-    this.shape = PinCodeFieldShape.underline,
-    this.animationType = AnimationType.slide,
-    this.textInputType = TextInputType.visiblePassword,
-    this.autoFocus = false,
-    this.focusNode,
-    this.enabled = true,
-    this.inputFormatters = const <TextInputFormatter>[],
-    this.dialogContent = "Do you want to paste this code ",
-    this.dialogTitle = "Paste Code",
-    this.affirmativeText = "Paste",
-    this.negativeText = "Cancel",
-    this.textStyle = const TextStyle(
-      fontSize: 20,
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-    ),
-    this.enableActiveFill = false,
-    this.activeFillColor = Colors.green,
-    this.selectedFillColor = Colors.blue,
-    this.inactiveFillColor = Colors.red,
-    this.textCapitalization = TextCapitalization.none,
-    this.textInputAction = TextInputAction.done,
-    this.autoDismissKeyboard = true,
-  }) : super(key: key);
+  PinCodeTextField(
+      {Key key,
+      @required this.length,
+      this.controller,
+      this.obsecureText = false,
+      @required this.onChanged,
+      this.onCompleted,
+      this.backgroundColor = Colors.white,
+      this.borderRadius,
+      this.fieldHeight = 50,
+      this.fieldWidth = 40,
+      this.activeColor = Colors.green,
+      this.selectedColor = Colors.blue,
+      this.inactiveColor = Colors.red,
+      this.disabledColor = Colors.grey,
+      this.borderWidth = 2,
+      this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
+      this.animationDuration = const Duration(milliseconds: 150),
+      this.animationCurve = Curves.easeInOut,
+      this.shape = PinCodeFieldShape.underline,
+      this.animationType = AnimationType.slide,
+      this.textInputType = TextInputType.visiblePassword,
+      this.autoFocus = false,
+      this.focusNode,
+      this.enabled = true,
+      this.inputFormatters = const <TextInputFormatter>[],
+      this.dialogContent = "Do you want to paste this code ",
+      this.dialogTitle = "Paste Code",
+      this.affirmativeText = "Paste",
+      this.negativeText = "Cancel",
+      this.textStyle = const TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ),
+      this.enableActiveFill = false,
+      this.activeFillColor = Colors.green,
+      this.selectedFillColor = Colors.blue,
+      this.inactiveFillColor = Colors.red,
+      this.textCapitalization = TextCapitalization.none,
+      this.textInputAction = TextInputAction.done,
+      this.autoDismissKeyboard = true,
+      this.onSubmitted})
+      : super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -387,7 +391,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 ), // this limits the input length
               ],
               // trigger on the complete event handler from the keyboard
-              onSubmitted: widget.onCompleted,
+              onSubmitted: widget.onSubmitted,
               enableInteractiveSelection: false,
               showCursor: true,
               // this cursor must remain hidden
