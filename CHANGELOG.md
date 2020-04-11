@@ -1,3 +1,15 @@
+## [2.5.0]
+
+Better Performance overall
+
+### Updates  ✨
+ - Added errorAnimationController to trigger shake animation. Can be used for errors.
+ - Added autoDisposeControllers which can be set to true for auto TextEidtingController and FocusNode disposal.
+ - Fixed typos & Optimzied code
+ 
+
+---
+
 ## [2.4.0]
 
 Better Performance overall

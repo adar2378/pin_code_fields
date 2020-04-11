@@ -115,7 +115,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Auto dismiss the keyboard upon inputting the value for the last field. Default is [true]
   final bool autoDismissKeyboard;
 
-  /// Auto dispose the [controller] upon the destruction of widget from the widget tree. Default is [true]
+  /// Auto dispose the [controller] and [FocusNode] upon the destruction of widget from the widget tree. Default is [true]
   final bool autoDisposeControllers;
 
   /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
@@ -125,6 +125,7 @@ class PinCodeTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   final TextInputAction textInputAction;
+
   /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
 
@@ -263,6 +264,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(widget.selectedFillColor != null);
     assert(widget.textCapitalization != null);
     assert(widget.textInputAction != null);
+    assert(widget.autoDisposeControllers != null);
   }
 
   // Assigning the text controller, if empty assiging a new one.

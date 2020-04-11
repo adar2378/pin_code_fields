@@ -188,12 +188,12 @@ enum PinCodeFieldShape { box, underline, circle }
 enum AnimationType { scale, slide, fade, none }
 ```
 
-**Trigger Error animation**
-Create a StreamController<ErrorAnimationType>
+**Trigger Error animation**<br>
+1. Create a StreamController<ErrorAnimationType>
 ```Dart
 StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
 ```
-And pass the controller like this.
+2. And pass the controller like this.
 ```Dart
 PinCodeTextField(
   length: 6,
@@ -212,7 +212,7 @@ PinCodeTextField(
   },
 )
 ```
-Then you can trigger the animation just by writing this:
+3. Then you can trigger the animation just by writing this:
 ```Dart
 errorController.add(ErrorAnimationType.shake); // This will shake the pin code field
 ```
