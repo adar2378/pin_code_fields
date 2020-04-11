@@ -111,8 +111,11 @@ class PinCodeTextField extends StatefulWidget {
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
-  /// Auto dismiss the keyboard upon inputting the value for the last field Default is [true]
+  /// Auto dismiss the keyboard upon inputting the value for the last field. Default is [true]
   final bool autoDismissKeyboard;
+
+  /// Auto dispose the [controller] upon the destruction of widget from the widget tree. Default is [true]
+  final bool autoDisposeControllers;
 
   /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
   /// Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
@@ -164,6 +167,7 @@ class PinCodeTextField extends StatefulWidget {
       this.textCapitalization = TextCapitalization.none,
       this.textInputAction = TextInputAction.done,
       this.autoDismissKeyboard = true,
+      this.autoDisposeControllers = true,
       this.onSubmitted})
       : super(key: key);
 
@@ -180,11 +184,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   @override
   void initState() {
-    print("IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
+    print(
+        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
     _checkForInvalidValues();
     _assignController();
 
-    if (widget.shape != PinCodeFieldShape.circle && widget.shape != PinCodeFieldShape.underline) {
+    if (widget.shape != PinCodeFieldShape.circle &&
+        widget.shape != PinCodeFieldShape.underline) {
       borderRadius = widget.borderRadius;
     }
     _focusNode = widget.focusNode ?? FocusNode();
@@ -244,7 +250,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               currentText = currentText.substring(0, widget.length);
             }
             //  delay the onComplete event handler to give the onChange event handler enough time to complete
-            Future.delayed(Duration(milliseconds: 300), () => widget.onCompleted(currentText));
+            Future.delayed(Duration(milliseconds: 300),
+                () => widget.onCompleted(currentText));
           }
 
           if (widget.autoDismissKeyboard) _focusNode.unfocus();
@@ -260,9 +267,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
 
   @override
   void dispose() {
-    print("*** Disposing _textEditingController and _focusNode for pin code field ***");
-    _textEditingController.dispose();
-    _focusNode.dispose();
+    if (widget.autoDisposeControllers) {
+      _textEditingController.dispose();
+      _focusNode.dispose();
+      print("*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
+    }
+
+    
     super.dispose();
   }
 
@@ -277,7 +288,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (!widget.enabled) {
       return widget.disabledColor;
     }
-    if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus) {
       return widget.selectedColor;
     } else if (_selectedIndex > index) {
@@ -291,7 +303,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
     if (!widget.enabled) {
       return widget.disabledColor;
     }
-    if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus) {
       return widget.selectedFillColor;
     } else if (_selectedIndex > index) {
@@ -301,7 +314,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
   }
 
   Future<void> _showPasteDialog(String pastedText) {
-    var formattedPastedText = pastedText.trim().substring(0, min(pastedText.trim().length, widget.length));
+    var formattedPastedText = pastedText
+        .trim()
+        .substring(0, min(pastedText.trim().length, widget.length));
     return showDialog(
       context: context,
       builder: (context) {
@@ -314,7 +329,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 content: RichText(
                   text: TextSpan(
                     text: widget.dialogContent,
-                    style: TextStyle(color: Theme.of(context).textTheme.button.color),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.button.color),
                     children: [
                       TextSpan(
                         text: formattedPastedText,
@@ -407,7 +423,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
               style: TextStyle(
                 color: Colors.transparent,
                 height: .01,
-                fontSize: 0.01, // it is a hidden textfield which should remain transparent and extremely small
+                fontSize:
+                    0.01, // it is a hidden textfield which should remain transparent and extremely small
               ),
             ),
           ),
@@ -446,8 +463,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
           width: widget.fieldWidth,
           height: widget.fieldHeight,
           decoration: BoxDecoration(
-            color: widget.enableActiveFill ? _getFillColorFromIndex(i) : Colors.transparent,
-            shape: widget.shape == PinCodeFieldShape.circle ? BoxShape.circle : BoxShape.rectangle,
+            color: widget.enableActiveFill
+                ? _getFillColorFromIndex(i)
+                : Colors.transparent,
+            shape: widget.shape == PinCodeFieldShape.circle
+                ? BoxShape.circle
+                : BoxShape.rectangle,
             borderRadius: borderRadius,
             border: widget.shape == PinCodeFieldShape.underline
                 ? Border(
@@ -490,7 +511,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> {
                 }
               },
               child: Text(
-                widget.obsecureText && _inputList[i].isNotEmpty ? "●" : _inputList[i],
+                widget.obsecureText && _inputList[i].isNotEmpty
+                    ? "●"
+                    : _inputList[i],
                 key: ValueKey(_inputList[i]),
                 style: widget.textStyle,
               ),
