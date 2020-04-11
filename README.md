@@ -19,6 +19,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - Autofocus option
 - Otp-code pasting from clipboard
 - iOS autofill support
+- Error animation. Currently have shake animation only. Watch the example app for how to integrate.
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "your desired code"))
 
 ## Properties 🔖
@@ -122,6 +123,12 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
+
+  final TextCapitalization textCapitalization;
+
+  final TextInputAction textInputAction;
+  /// Triggers the error animation
+  final StreamController<ErrorAnimationType> errorAnimationController;
 ```
 
 ## Contributors ✨
@@ -143,7 +150,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 
 #### Demo
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pincode_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pin_code_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
 
 #### Different Shapes
 
@@ -181,6 +188,35 @@ enum PinCodeFieldShape { box, underline, circle }
 enum AnimationType { scale, slide, fade, none }
 ```
 
+**Trigger Error animation**
+Create a StreamController<ErrorAnimationType>
+```Dart
+StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
+```
+And pass the controller like this.
+```Dart
+PinCodeTextField(
+  length: 6,
+  obsecureText: false,
+  animationType: AnimationType.fade,
+  shape: PinCodeFieldShape.box,
+  animationDuration: Duration(milliseconds: 300),
+  borderRadius: BorderRadius.circular(5),
+  errorAnimationController: errorController, // Pass it here
+  fieldHeight: 50,
+  fieldWidth: 40,
+  onChanged: (value) {
+    setState(() {
+      currentText = value;
+    });
+  },
+)
+```
+Then you can trigger the animation just by writing this:
+```Dart
+errorController.add(ErrorAnimationType.shake); // This will shake the pin code field
+```
+
 **This full code is from the example folder. You can run the example to see.**
 
 ```Dart
@@ -210,7 +246,10 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
-  /// this [StreamController] will take input of which function should be called
+  TextEditingController textEditingController = TextEditingController()
+    ..text = "123456";
+  
+  StreamController<ErrorAnimationType> errorController;
 
   bool hasError = false;
   String currentText = "";
@@ -221,22 +260,24 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ..onTap = () {
         Navigator.pop(context);
       };
-
+    errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
 
   @override
   void dispose() {
+    errorController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue.shade50,
       key: scaffoldKey,
       body: GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -244,11 +285,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           child: ListView(
             children: <Widget>[
               SizedBox(height: 30),
-              Image.asset(
-                'assets/verify.png',
+              Container(
                 height: MediaQuery.of(context).size.height / 3,
-                fit: BoxFit.fitHeight,
+                child: FlareActor(
+                  "assets/otp.flr",
+                  animation: "otp",
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.center,
+                ),
               ),
+              // Image.asset(
+              //   'assets/verify.png',
+              //   height: MediaQuery.of(context).size.height / 3,
+              //   fit: BoxFit.fitHeight,
+              // ),
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -286,12 +336,22 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     length: 6,
                     obsecureText: false,
                     animationType: AnimationType.fade,
-                    shape: PinCodeFieldShape.underline,
+                    shape: PinCodeFieldShape.box,
                     animationDuration: Duration(milliseconds: 300),
                     borderRadius: BorderRadius.circular(5),
                     fieldHeight: 50,
+                    backgroundColor: Colors.blue.shade50,
                     fieldWidth: 40,
+                    activeFillColor: Colors.white,
+                    enableActiveFill: true,
+                    errorAnimationController: errorController,
+                    controller: textEditingController,
+                    onCompleted: (v) {
+                      
+                      print("Completed");
+                    },
                     onChanged: (value) {
+                      print(value);
                       setState(() {
                         currentText = value;
                       });
@@ -299,7 +359,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   )),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                // error showing widget
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
                   style: TextStyle(color: Colors.red.shade300, fontSize: 15),
@@ -335,6 +394,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     onPressed: () {
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
+                        errorController.add(ErrorAnimationType.shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
                         });
@@ -372,6 +432,26 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           blurRadius: 5)
                     ]),
               ),
+              SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text("Clear"),
+                    onPressed: () {
+                      textEditingController.clear();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Set Text"),
+                    onPressed: () {
+                      textEditingController.text = "123456";
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),

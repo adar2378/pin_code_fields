@@ -125,7 +125,7 @@ class PinCodeTextField extends StatefulWidget {
   final TextCapitalization textCapitalization;
 
   final TextInputAction textInputAction;
-
+  /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
 
   PinCodeTextField({
