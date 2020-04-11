@@ -1,3 +1,5 @@
+[2.5.1] Documentation update
+
 ## [2.5.0]
 
 Better Performance overall

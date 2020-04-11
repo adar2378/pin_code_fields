@@ -37,6 +37,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// returns the typed text when all pins are set
   final ValueChanged<String> onCompleted;
 
+  /// returns the typed text when user presses done/next action on the keyboard
+  final ValueChanged<String> onSubmitted;
+
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
@@ -103,12 +106,12 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
   final String dialogContent;
 
-   /// Affirmative action text for the [AlertDialog]. Default to "Paste"
+  /// Affirmative action text for the [AlertDialog]. Default to "Paste"
   final String affirmativeText;
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
   final String negativeText;
-  
+
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
 
@@ -124,9 +127,20 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// Auto dismiss the keyboard upon inputting the value for the last field. Default is [true]
+  final bool autoDismissKeyboard;
+
+  /// Auto dispose the [controller] and [FocusNode] upon the destruction of widget from the widget tree. Default is [true]
+  final bool autoDisposeControllers;
+
+  /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
+  /// Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
+  /// - Copied from 'https://api.flutter.dev/flutter/services/TextCapitalization-class.html'
+  /// Default is [TextCapitalization.none]
   final TextCapitalization textCapitalization;
 
   final TextInputAction textInputAction;
+
   /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
 ```
