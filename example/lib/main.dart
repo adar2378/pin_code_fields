@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   TextEditingController textEditingController = TextEditingController()
     ..text = "123456";
+  
+  StreamController<ErrorAnimationType> errorController;
 
   bool hasError = false;
   String currentText = "";
@@ -43,12 +47,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ..onTap = () {
         Navigator.pop(context);
       };
-
+    errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
 
   @override
   void dispose() {
+    errorController.close();
     super.dispose();
   }
 
@@ -126,9 +131,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     fieldWidth: 40,
                     activeFillColor: Colors.white,
                     enableActiveFill: true,
-                    
+                    errorAnimationController: errorController,
                     controller: textEditingController,
                     onCompleted: (v) {
+                      
                       print("Completed");
                     },
                     onChanged: (value) {
@@ -175,6 +181,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     onPressed: () {
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
+                        errorController.add(ErrorAnimationType.shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
                         });
