@@ -187,8 +187,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   List<String> _inputList;
   int _selectedIndex = 0;
   BorderRadius borderRadius;
+
   // AnimationController for the error animation
   AnimationController _controller;
+
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
 
@@ -471,7 +473,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             onLongPress: widget.enabled
                 ? () async {
                     var data = await Clipboard.getData("text/plain");
-                    if (data.text.isNotEmpty) {
+                    if (data?.text?.isNotEmpty ?? false) {
                       _showPasteDialog(data.text);
                     }
                   }
