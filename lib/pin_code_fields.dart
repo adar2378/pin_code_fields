@@ -566,9 +566,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _onFocus() {
     if (_focusNode.hasFocus) {
       _focusNode.unfocus();
+      Future.delayed(const Duration(microseconds: 1), () => FocusScope.of(context).requestFocus(_focusNode));
     }
-
-    FocusScope.of(context).requestFocus(_focusNode);
+    else {
+      FocusScope.of(context).requestFocus(_focusNode);
+    }
   }
 
   void _setTextToInput(String data) async {
