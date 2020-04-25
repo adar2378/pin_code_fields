@@ -129,6 +129,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
 
+  /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
+  /// e.g. validate if text is number. Default will be pasted as received.
+  final bool Function(String text) beforeTextPaste;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -174,6 +178,7 @@ class PinCodeTextField extends StatefulWidget {
     this.autoDisposeControllers = true,
     this.onSubmitted,
     this.errorAnimationController,
+    this.beforeTextPaste,
   }) : super(key: key);
 
   @override
@@ -187,8 +192,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   List<String> _inputList;
   int _selectedIndex = 0;
   BorderRadius borderRadius;
+
   // AnimationController for the error animation
   AnimationController _controller;
+
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
 
@@ -471,8 +478,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             onLongPress: widget.enabled
                 ? () async {
                     var data = await Clipboard.getData("text/plain");
-                    if (data.text.isNotEmpty) {
-                      _showPasteDialog(data.text);
+                    if (data?.text?.isNotEmpty ?? false) {
+                      if (widget.beforeTextPaste != null) {
+                        if (widget.beforeTextPaste(data.text)) {
+                          _showPasteDialog(data.text);
+                        }
+                      } else {
+                        _showPasteDialog(data.text);
+                      }
                     }
                   }
                 : null,

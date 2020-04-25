@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String phoneNumber;
+
   PinCodeVerificationScreen(this.phoneNumber);
+
   @override
   _PinCodeVerificationScreenState createState() =>
       _PinCodeVerificationScreenState();
@@ -35,12 +37,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   TextEditingController textEditingController = TextEditingController()
     ..text = "123456";
-  
+
   StreamController<ErrorAnimationType> errorController;
 
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     onTapRecognizer = TapGestureRecognizer()
@@ -134,7 +137,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     errorAnimationController: errorController,
                     controller: textEditingController,
                     onCompleted: (v) {
-                      
                       print("Completed");
                     },
                     onChanged: (value) {
@@ -142,6 +144,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       setState(() {
                         currentText = value;
                       });
+                    },
+                    beforeTextPaste: (text) {
+                      print("Allowing to paste $text");
+                      return true;
                     },
                   )),
               Padding(
@@ -181,7 +187,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     onPressed: () {
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
-                        errorController.add(ErrorAnimationType.shake); // Triggering error shake animation
+                        errorController.add(ErrorAnimationType
+                            .shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
                         });
