@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="460"  src="https://i.ibb.co/NmxSXQT/twitter-profile-image.png">
+  <img width="460"  src="https://i.ibb.co/X5qxF7x/export-banner.png">
 </p>
 
 <a href = "https://pub.dev/packages/pin_code_fields"><img src="https://img.shields.io/pub/v/pin_code_fields"></a>
