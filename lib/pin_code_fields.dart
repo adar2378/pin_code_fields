@@ -89,8 +89,10 @@ class PinCodeTextField extends StatefulWidget {
   /// e.g. validate if text is number. Default will be pasted as received.
   final bool Function(String text) beforeTextPaste;
 
+  /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig dialogConfig;
 
+  /// Theme for the pin cells. Read more [PinTheme]
   final PinTheme pinTheme;
 
   PinCodeTextField({
@@ -160,9 +162,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig.negativeText);
     }
 
-    if(widget.pinTheme == null){
+    if (widget.pinTheme == null) {
       _pinTheme = PinTheme();
-    }else{
+    } else {
       _pinTheme = widget.pinTheme;
     }
 
@@ -209,15 +211,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
     assert(widget.obsecureText != null);
-    assert(
-        _pinTheme.fieldHeight != null && _pinTheme.fieldHeight > 0);
-    assert(
-        _pinTheme.fieldWidth != null && _pinTheme.fieldWidth > 0);
+    assert(_pinTheme.fieldHeight != null && _pinTheme.fieldHeight > 0);
+    assert(_pinTheme.fieldWidth != null && _pinTheme.fieldWidth > 0);
     assert(_pinTheme.activeColor != null);
     assert(_pinTheme.inactiveColor != null);
     assert(widget.backgroundColor != null);
-    assert(_pinTheme.borderWidth != null &&
-        _pinTheme.borderWidth >= 0);
+    assert(_pinTheme.borderWidth != null && _pinTheme.borderWidth >= 0);
     assert(widget.mainAxisAlignment != null);
     assert(widget.animationDuration != null);
     assert(widget.animationCurve != null);

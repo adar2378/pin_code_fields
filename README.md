@@ -40,41 +40,14 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// returns the typed text when user presses done/next action on the keyboard
   final ValueChanged<String> onSubmitted;
 
-  /// this defines the shape of the input fields. Default is underlined
-  final PinCodeFieldShape shape;
-
   /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
   final Color backgroundColor;
 
-  /// Border radius of each pin code field
-  final BorderRadius borderRadius;
-
-  /// [height] for the pin code field. default is [50.0]
-  final double fieldHeight;
-
-  /// [width] for the pin code field. default is [40.0]
-  final double fieldWidth;
-
   /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
   final MainAxisAlignment mainAxisAlignment;
-
-  /// Colors of the input fields which have inputs. Default is [Colors.green]
-  final Color activeColor;
-
-  /// Color of the input field which is currently selected. Default is [Colors.blue]
-  final Color selectedColor;
-
-  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
-  final Color inactiveColor;
-
-  /// Colors of the input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey]
-  final Color disabledColor;
-
-  /// Border width for the each input fields. Default is [2.0]
-  final double borderWidth;
 
   /// [AnimationType] for the text to appear in the pin code field. Default is [AnimationType.slide]
   final AnimationType animationType;
@@ -100,32 +73,8 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Enable or disable the Field. Default is [true]
   final bool enabled;
 
-  /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
-  final String dialogTitle;
-
-  /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
-  final String dialogContent;
-
-  /// Affirmative action text for the [AlertDialog]. Default to "Paste"
-  final String affirmativeText;
-
-  /// Negative action text for the [AlertDialog]. Default to "Cancel"
-  final String negativeText;
-
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
-
-  /// Enabled Color fill for individual pin fields, default is [false]
-  final bool enableActiveFill;
-
-  /// Colors of the input fields which have inputs. Default is [Colors.green]
-  final Color activeFillColor;
-
-  /// Color of the input field which is currently selected. Default is [Colors.blue]
-  final Color selectedFillColor;
-
-  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
-  final Color inactiveFillColor;
 
   /// Auto dismiss the keyboard upon inputting the value for the last field. Default is [true]
   final bool autoDismissKeyboard;
@@ -143,6 +92,71 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
+
+  /// Configuration for paste dialog. Read more [DialogConfig]
+  final DialogConfig dialogConfig;
+
+  /// Theme for the pin cells. Read more [PinTheme]
+  final PinTheme pinTheme;
+
+  /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
+  /// e.g. validate if text is number. Default will be pasted as received.
+  final bool Function(String text) beforeTextPaste;
+```
+
+** PinTheme
+```Dart
+/// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeColor;
+
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedColor;
+
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveColor;
+
+  /// Colors of the input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey]
+  final Color disabledColor;
+
+  /// Colors of the input fields which have inputs. Default is [Colors.green]
+  final Color activeFillColor;
+
+  /// Color of the input field which is currently selected. Default is [Colors.blue]
+  final Color selectedFillColor;
+
+  /// Colors of the input fields which don't have inputs. Default is [Colors.red]
+  final Color inactiveFillColor;
+
+  /// Border radius of each pin code field
+  final BorderRadius borderRadius;
+
+  /// [height] for the pin code field. default is [50.0]
+  final double fieldHeight;
+
+  /// [width] for the pin code field. default is [40.0]
+  final double fieldWidth;
+
+  /// Border width for the each input fields. Default is [2.0]
+  final double borderWidth;
+
+  /// this defines the shape of the input fields. Default is underlined
+  final PinCodeFieldShape shape;
+
+```
+
+** DialogConfig
+```Dart
+/// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
+  final String dialogTitle;
+
+  /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
+  final String dialogContent;
+
+  /// Affirmative action text for the [AlertDialog]. Default to "Paste"
+  final String affirmativeText;
+
+  /// Negative action text for the [AlertDialog]. Default to "Cancel"
+  final String negativeText;
 ```
 
 ## Contributors ✨
@@ -153,9 +167,11 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <tr>
     <td align="center"><a href="https://github.com/EmmanuelVlad"><img src="https://avatars0.githubusercontent.com/u/21370666?v=3" width="100px;" alt="Emmanuel Vlad"/><br /><sub><b>Emmanuel Vlad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=EmmanuelVlad" title="Code">💻</a></td>
 <td align="center"><a href="https://atiq.info/"><img src="https://atiq.info/images/logo.png" width="100px;" alt="Atiq"/><br /><sub><b>Atiqur Rahaman</b></sub></a><br /><a href="https://www.2dimensions.com/a/atiq31416/files/flare/otp-verification/preview" title="UX & Flare Animation">🎨</a></td>
+<td align="center"><a href="https://github.com/milind-mevada-stl"><img src="https://avatars2.githubusercontent.com/u/29375516?v=3" width="100px;" alt="Milind Mevada"/><br /><sub><b>Milind Mevada</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=milind-mevada-stl" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/RemeJuan"><img src="https://avatars1.githubusercontent.com/u/864552?v=3" width="100px;" alt="Reme Le Hane"/><br /><sub><b>Reme Le Hane</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields" title="Documentation">📖</a><a href="https://github.com/adar2378/pin_code_fields/commits?author=RemeJuan" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/TabooSun"><img src="https://avatars2.githubusercontent.com/u/31196825?v=3" width="100px;" alt="TabooSun"/><br /><sub><b>TabooSun</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=TabooSun" title="Code">💻</<a></td>
 <td align="center"><a href="https://github.com/thallessantos"><img src="https://avatars2.githubusercontent.com/u/13054457?v=3" width="100px;" alt="Thalles Santos"/><br /><sub><b>Thalles Santos</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=thallessantos" title="Code">💻</a></td>
+<td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars2.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/ThinkDigitalSoftware"><img src="https://avatars3.githubusercontent.com/u/23037821?v=3" width="100px;" alt="Jonathan White"/><br /><sub><b>ThinkDigitalSoftware</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ThinkDigitalSoftware" title="Code">💻</a></td>
   </tr>
 </table>
@@ -177,15 +193,32 @@ PinCodeTextField(
   length: 6,
   obsecureText: false,
   animationType: AnimationType.fade,
-  shape: PinCodeFieldShape.box,
+  pinTheme: PinTheme(
+    shape: PinCodeFieldShape.box,
+    borderRadius: BorderRadius.circular(5),
+    fieldHeight: 50,
+    fieldWidth: 40,
+    activeFillColor: Colors.white,
+  ),
   animationDuration: Duration(milliseconds: 300),
-  borderRadius: BorderRadius.circular(5),
-  fieldHeight: 50,
-  fieldWidth: 40,
+  backgroundColor: Colors.blue.shade50,
+  enableActiveFill: true,
+  errorAnimationController: errorController,
+  controller: textEditingController,
+  onCompleted: (v) {
+    print("Completed");
+  },
   onChanged: (value) {
+    print(value);
     setState(() {
       currentText = value;
     });
+  },
+  beforeTextPaste: (text) {
+    print("Allowing to paste $text");
+    //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+    //but you can show anything you want here, like your pop up saying wrong paste format or etc
+    return true;
   },
 )
 ```
@@ -213,12 +246,8 @@ PinCodeTextField(
   length: 6,
   obsecureText: false,
   animationType: AnimationType.fade,
-  shape: PinCodeFieldShape.box,
   animationDuration: Duration(milliseconds: 300),
-  borderRadius: BorderRadius.circular(5),
   errorAnimationController: errorController, // Pass it here
-  fieldHeight: 50,
-  fieldWidth: 40,
   onChanged: (value) {
     setState(() {
       currentText = value;
@@ -251,7 +280,9 @@ class MyApp extends StatelessWidget {
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String phoneNumber;
+
   PinCodeVerificationScreen(this.phoneNumber);
+
   @override
   _PinCodeVerificationScreenState createState() =>
       _PinCodeVerificationScreenState();
@@ -262,12 +293,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   TextEditingController textEditingController = TextEditingController()
     ..text = "123456";
-  
+
   StreamController<ErrorAnimationType> errorController;
 
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     onTapRecognizer = TapGestureRecognizer()
@@ -350,18 +382,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     length: 6,
                     obsecureText: false,
                     animationType: AnimationType.fade,
-                    shape: PinCodeFieldShape.box,
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(5),
+                      fieldHeight: 50,
+                      fieldWidth: 40,
+                      activeFillColor: Colors.white,
+                    ),
                     animationDuration: Duration(milliseconds: 300),
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
                     backgroundColor: Colors.blue.shade50,
-                    fieldWidth: 40,
-                    activeFillColor: Colors.white,
                     enableActiveFill: true,
                     errorAnimationController: errorController,
                     controller: textEditingController,
                     onCompleted: (v) {
-                      
                       print("Completed");
                     },
                     onChanged: (value) {
@@ -369,6 +402,12 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       setState(() {
                         currentText = value;
                       });
+                    },
+                    beforeTextPaste: (text) {
+                      print("Allowing to paste $text");
+                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                      return true;
                     },
                   )),
               Padding(
@@ -408,7 +447,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     onPressed: () {
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
-                        errorController.add(ErrorAnimationType.shake); // Triggering error shake animation
+                        errorController.add(ErrorAnimationType
+                            .shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
                         });
@@ -473,4 +513,5 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     );
   }
 }
+
 ```
