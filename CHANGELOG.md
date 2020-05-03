@@ -1,3 +1,19 @@
+## [3.0.0]
+
+Better performance overall
+
+### Features  ✨
+- Added new parameter called `bool Function(String text) beforeTextPaste`, a callback method to validate if text can be pasted. 
+- Introduced `PinTheme` & `DialogConfig`
+- Added an optional constructor parameter: `void Function(String) onCompleted`. which triggers when all fields are filled.
+
+### Fixes  🐛
+- When pressing the back button to close the keyboard, you can't open the keyboard back up again. #51
+- When we long press on the OTP field to paste the code & if clipboard data is NULL, it gets crashed. #45
+
+### Breaking changes ⚠️  
+- Removed all the color, cell height, width & dialogconfiguration and moved them in `PinTheme` and `DialogConfig`
+
 [2.5.1] Documentation update
 
 ## [2.5.0]
