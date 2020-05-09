@@ -104,7 +104,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final bool Function(String text) beforeTextPaste;
 ```
 
-** PinTheme
+**PinTheme
 ```Dart
 /// Colors of the input fields which have inputs. Default is [Colors.green]
   final Color activeColor;
@@ -144,7 +144,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 
 ```
 
-** DialogConfig
+**DialogConfig
 ```Dart
 /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
   final String dialogTitle;
