@@ -1,3 +1,13 @@
+## [3.0.1]
+
+Better Performance overall
+
+### Updates  ✨
+ - Fixed bug where calling setState will not reflect the change on the parent view
+ 
+
+---
+
 ## [3.0.0]
 
 Better performance overall
