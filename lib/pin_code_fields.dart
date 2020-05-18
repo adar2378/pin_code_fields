@@ -95,6 +95,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Theme for the pin cells. Read more [PinTheme]
   final PinTheme pinTheme;
 
+  /// Brightness dark or light choices for iOS keyboard.
+  final Brightness keyboardAppearance;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -127,6 +130,7 @@ class PinCodeTextField extends StatefulWidget {
     this.beforeTextPaste,
     this.dialogConfig,
     this.pinTheme,
+    this.keyboardAppearance = Brightness.light,
   }) : super(key: key);
 
   @override
@@ -403,6 +407,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 autofocus: widget.autoFocus,
                 autocorrect: false,
                 keyboardType: widget.textInputType,
+                keyboardAppearance: widget.keyboardAppearance,
                 textCapitalization: widget.textCapitalization,
                 inputFormatters: [
                   ...widget.inputFormatters,
