@@ -146,27 +146,19 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
-  DialogConfig _dialogConfig;
-  PinTheme _pinTheme;
-  @override
-  void initState() {
-    print(
-        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
-    if (widget.dialogConfig == null) {
-      _dialogConfig = DialogConfig();
-    } else if (widget.dialogConfig != null) {
-      _dialogConfig = DialogConfig(
+  DialogConfig get _dialogConfig => widget.dialogConfig == null
+      ? DialogConfig()
+      : DialogConfig(
           affirmativeText: widget.dialogConfig.affirmativeText,
           dialogContent: widget.dialogConfig.dialogContent,
           dialogTitle: widget.dialogConfig.dialogTitle,
           negativeText: widget.dialogConfig.negativeText);
-    }
+  PinTheme get _pinTheme => widget.pinTheme ?? PinTheme();
 
-    if (widget.pinTheme == null) {
-      _pinTheme = PinTheme();
-    } else {
-      _pinTheme = widget.pinTheme;
-    }
+  @override
+  void initState() {
+    print(
+        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
 
     _checkForInvalidValues();
     _assignController();
