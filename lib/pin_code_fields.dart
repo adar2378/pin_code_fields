@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/models/dialog_config.dart';
@@ -161,8 +162,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void initState() {
-    print(
-        "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
+    if (!kReleaseMode) {
+      print(
+          "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
+    }
 
     _checkForInvalidValues();
     _assignController();
@@ -276,8 +279,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.autoDisposeControllers) {
       _textEditingController.dispose();
       _focusNode.dispose();
-      print(
-          "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
+      if (!kReleaseMode) {
+        print(
+            "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
+      }
     }
     _controller.dispose();
     super.dispose();
