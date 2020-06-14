@@ -1,3 +1,5 @@
+[3.1.2] Documentation update
+
 [3.1.1] Documentation update
 
 ## [3.1.0]

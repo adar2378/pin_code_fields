@@ -103,6 +103,17 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
   /// e.g. validate if text is number. Default will be pasted as received.
   final bool Function(String text) beforeTextPaste;
+
+  /// Validator for the [TextFormField]
+  final FormFieldValidator<String> validator;
+
+  /// enables auto validation for the [TextFormField]
+  /// Default is false
+  final bool autoValidate;
+
+  /// The vertical padding from the [PinCodeTextField] to the error text
+  /// Default is 16.
+  final double errorTextSpace;
 ```
 
 **PinTheme**
@@ -143,18 +154,6 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
-
-  /// Validator for the [TextFormField]
-  final FormFieldValidator<String> validator;
-
-  /// enables auto validation for the [TextFormField]
-  /// Default is false
-  final bool autoValidate;
-
-  /// The vertical padding from the [PinCodeTextField] to the error text
-  /// Default is 16.
-  final double errorTextSpace;
-
 ```
 
 **DialogConfig**
