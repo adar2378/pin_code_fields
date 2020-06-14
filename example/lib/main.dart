@@ -43,6 +43,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   void dispose() {
     errorController.close();
+
     super.dispose();
   }
 
@@ -119,46 +121,57 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                  child: PinCodeTextField(
-                    length: 6,
-                    obsecureText: false,
-                    animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      activeFillColor: hasError ? Colors.orange : Colors.white,
-                    ),
-                    animationDuration: Duration(milliseconds: 300),
-                    backgroundColor: Colors.blue.shade50,
-                    enableActiveFill: true,
-                    errorAnimationController: errorController,
-                    controller: textEditingController,
-                    onCompleted: (v) {
-                      print("Completed");
-                    },
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        currentText = value;
-                      });
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return true;
-                    },
-                  )),
+              Form(
+                key: formKey,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 30),
+                    child: PinCodeTextField(
+                      length: 6,
+                      obsecureText: false,
+                      animationType: AnimationType.fade,
+                      validator: (v) {
+                        if (v.length < 3) {
+                          return "I'm from validator";
+                        } else {
+                          return null;
+                        }
+                      },
+                      pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 50,
+                        fieldWidth: 40,
+                        activeFillColor:
+                            hasError ? Colors.orange : Colors.white,
+                      ),
+                      animationDuration: Duration(milliseconds: 300),
+                      backgroundColor: Colors.blue.shade50,
+                      enableActiveFill: true,
+                      errorAnimationController: errorController,
+                      controller: textEditingController,
+                      onCompleted: (v) {
+                        print("Completed");
+                      },
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          currentText = value;
+                        });
+                      },
+                      beforeTextPaste: (text) {
+                        print("Allowing to paste $text");
+                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                        return true;
+                      },
+                    )),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(color: Colors.red.shade300, fontSize: 15),
+                  style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(
@@ -189,6 +202,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   height: 50,
                   child: FlatButton(
                     onPressed: () {
+                      formKey.currentState.validate();
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
                         errorController.add(ErrorAnimationType

@@ -99,6 +99,17 @@ class PinCodeTextField extends StatefulWidget {
   /// Brightness dark or light choices for iOS keyboard.
   final Brightness keyboardAppearance;
 
+  /// Validator for the [TextFormField]
+  final FormFieldValidator<String> validator;
+
+  /// enables auto validation for the [TextFormField]
+  /// Default is false
+  final bool autoValidate;
+
+  /// The vertical padding from the [PinCodeTextField] to the error text
+  /// Default is 16.
+  final double errorTextSpace;
+
   PinCodeTextField({
     Key key,
     @required this.length,
@@ -132,6 +143,9 @@ class PinCodeTextField extends StatefulWidget {
     this.dialogConfig,
     this.pinTheme,
     this.keyboardAppearance = Brightness.light,
+    this.validator,
+    this.autoValidate = false,
+    this.errorTextSpace = 16,
   }) : super(key: key);
 
   @override
@@ -239,6 +253,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(widget.textCapitalization != null);
     assert(widget.textInputAction != null);
     assert(widget.autoDisposeControllers != null);
+    assert(widget.autoValidate != null);
   }
 
   // Assigning the text controller, if empty assiging a new one.
@@ -396,15 +411,17 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   Widget build(BuildContext context) {
     return SlideTransition(
       position: _offsetAnimation,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: AbsorbPointer(
+      child: Container(
+        // adding the extra space at the bottom to show the error text from validator
+        height: widget.pinTheme.fieldHeight + widget.errorTextSpace,
+        color: widget.backgroundColor,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: <Widget>[
+            AbsorbPointer(
               // this is a hidden textfield under the pin code fields.
               absorbing: true, // it prevents on tap on the text field
-              child: TextField(
+              child: TextFormField(
                 textInputAction: widget.textInputAction,
                 controller: _textEditingController,
                 focusNode: _focusNode,
@@ -414,6 +431,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 keyboardType: widget.textInputType,
                 keyboardAppearance: widget.keyboardAppearance,
                 textCapitalization: widget.textCapitalization,
+                validator: widget.validator,
+                autovalidate: widget.autoValidate,
                 inputFormatters: [
                   ...widget.inputFormatters,
                   LengthLimitingTextInputFormatter(
@@ -421,7 +440,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   ), // this limits the input length
                 ],
                 // trigger on the complete event handler from the keyboard
-                onSubmitted: widget.onSubmitted,
+                onFieldSubmitted: widget.onSubmitted,
                 enableInteractiveSelection: false,
                 showCursor: true,
                 // this cursor must remain hidden
@@ -442,34 +461,34 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 ),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: _onFocus,
-            onLongPress: widget.enabled
-                ? () async {
-                    var data = await Clipboard.getData("text/plain");
-                    if (data?.text?.isNotEmpty ?? false) {
-                      if (widget.beforeTextPaste != null) {
-                        if (widget.beforeTextPaste(data.text)) {
-                          _showPasteDialog(data.text);
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: _onFocus,
+                onLongPress: widget.enabled
+                    ? () async {
+                        var data = await Clipboard.getData("text/plain");
+                        if (data?.text?.isNotEmpty ?? false) {
+                          if (widget.beforeTextPaste != null) {
+                            if (widget.beforeTextPaste(data.text)) {
+                              _showPasteDialog(data.text);
+                            }
+                          } else {
+                            _showPasteDialog(data.text);
+                          }
                         }
-                      } else {
-                        _showPasteDialog(data.text);
                       }
-                    }
-                  }
-                : null,
-            child: Container(
-              color: widget.backgroundColor,
-              constraints: const BoxConstraints(minHeight: 30),
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Row(
-                mainAxisAlignment: widget.mainAxisAlignment,
-                children: _generateFields(),
+                    : null,
+                child: Row(
+                  mainAxisAlignment: widget.mainAxisAlignment,
+                  children: _generateFields(),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -105,6 +105,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ```
 
 **PinTheme**
+
 ```Dart
 /// Colors of the input fields which have inputs. Default is [Colors.green]
   final Color activeColor;
@@ -142,9 +143,21 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
+  /// Validator for the [TextFormField]
+  final FormFieldValidator<String> validator;
+
+  /// enables auto validation for the [TextFormField]
+  /// Default is false
+  final bool autoValidate;
+
+  /// The vertical padding from the [PinCodeTextField] to the error text
+  /// Default is 16.
+  final double errorTextSpace;
+
 ```
 
 **DialogConfig**
+
 ```Dart
 /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
   final String dialogTitle;
@@ -173,6 +186,11 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 <td align="center"><a href="https://github.com/thallessantos"><img src="https://avatars2.githubusercontent.com/u/13054457?v=3" width="100px;" alt="Thalles Santos"/><br /><sub><b>Thalles Santos</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=thallessantos" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars2.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
 <td align="center"><a href="https://github.com/ThinkDigitalSoftware"><img src="https://avatars3.githubusercontent.com/u/23037821?v=3" width="100px;" alt="Jonathan White"/><br /><sub><b>ThinkDigitalSoftware</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ThinkDigitalSoftware" title="Code">💻</a></td>
+  </tr>
+
+  <tr>
+  <td align="center"><a href="https://github.com/JeffryHermanto"><img src="https://avatars0.githubusercontent.com/u/35820325?v=3" width="100px;" alt="Jeffry Hermanto"/><br /><sub><b>Jeffry Hermanto</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=JeffryHermanto" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars3.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
   </tr>
 </table>
 
@@ -236,11 +254,15 @@ enum AnimationType { scale, slide, fade, none }
 ```
 
 **Trigger Error animation**<br>
+
 1. Create a StreamController<ErrorAnimationType>
+
 ```Dart
 StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
 ```
+
 2. And pass the controller like this.
+
 ```Dart
 PinCodeTextField(
   length: 6,
@@ -255,7 +277,9 @@ PinCodeTextField(
   },
 )
 ```
+
 3. Then you can trigger the animation just by writing this:
+
 ```Dart
 errorController.add(ErrorAnimationType.shake); // This will shake the pin code field
 ```
@@ -299,6 +323,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool hasError = false;
   String currentText = "";
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -313,6 +338,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   @override
   void dispose() {
     errorController.close();
+
     super.dispose();
   }
 
@@ -375,46 +401,57 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-                  child: PinCodeTextField(
-                    length: 6,
-                    obsecureText: false,
-                    animationType: AnimationType.fade,
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.box,
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: 40,
-                      activeFillColor: Colors.white,
-                    ),
-                    animationDuration: Duration(milliseconds: 300),
-                    backgroundColor: Colors.blue.shade50,
-                    enableActiveFill: true,
-                    errorAnimationController: errorController,
-                    controller: textEditingController,
-                    onCompleted: (v) {
-                      print("Completed");
-                    },
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        currentText = value;
-                      });
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return true;
-                    },
-                  )),
+              Form(
+                key: formKey,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 30),
+                    child: PinCodeTextField(
+                      length: 6,
+                      obsecureText: false,
+                      animationType: AnimationType.fade,
+                      validator: (v) {
+                        if (v.length < 3) {
+                          return "I'm from validator";
+                        } else {
+                          return null;
+                        }
+                      },
+                      pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(5),
+                        fieldHeight: 50,
+                        fieldWidth: 40,
+                        activeFillColor:
+                            hasError ? Colors.orange : Colors.white,
+                      ),
+                      animationDuration: Duration(milliseconds: 300),
+                      backgroundColor: Colors.blue.shade50,
+                      enableActiveFill: true,
+                      errorAnimationController: errorController,
+                      controller: textEditingController,
+                      onCompleted: (v) {
+                        print("Completed");
+                      },
+                      onChanged: (value) {
+                        print(value);
+                        setState(() {
+                          currentText = value;
+                        });
+                      },
+                      beforeTextPaste: (text) {
+                        print("Allowing to paste $text");
+                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                        return true;
+                      },
+                    )),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(color: Colors.red.shade300, fontSize: 15),
+                  style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(
@@ -445,6 +482,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   height: 50,
                   child: FlatButton(
                     onPressed: () {
+                      formKey.currentState.validate();
                       // conditions for validating
                       if (currentText.length != 6 || currentText != "towtow") {
                         errorController.add(ErrorAnimationType

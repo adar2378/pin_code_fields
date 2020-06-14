@@ -1,3 +1,14 @@
+## [3.1.0]
+
+Better performance overall
+
+### Features  ✨
+- Added new parameter called `validator`, `autoValidate` & `errorTextSpace`. 
+
+### Breaking changes ⚠️  
+- The internal `TextField` has been changed to `TextFormField` to work with `Form`
+- The debug logs will not be printed in release builds.
+
 ## [3.0.1]
 
 Better Performance overall
