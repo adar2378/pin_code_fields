@@ -20,6 +20,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - Otp-code pasting from clipboard
 - iOS autofill support
 - Error animation. Currently have shake animation only. Watch the example app for how to integrate.
+- Works with Flutter's Form. You can use Form validator right off the bat.
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "your desired code"))
 
 ## Properties 🔖
