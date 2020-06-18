@@ -595,14 +595,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         FlatButton(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         FlatButton(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
       ]);
@@ -611,14 +611,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         CupertinoDialogAction(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         CupertinoDialogAction(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
       ]);
