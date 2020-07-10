@@ -437,6 +437,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(0),
                   border: InputBorder.none,
+                  fillColor: widget.backgroundColor,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
