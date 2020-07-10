@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../pin_code_fields.dart';
+part of pin_code_fields;
 
 class PinTheme {
   /// Colors of the input fields which have inputs. Default is [Colors.green]
@@ -39,7 +37,7 @@ class PinTheme {
   /// this defines the shape of the input fields. Default is underlined
   final PinCodeFieldShape shape;
 
-  PinTheme._internal({
+  const PinTheme.defaults({
     this.borderRadius = BorderRadius.zero,
     this.fieldHeight = 50,
     this.fieldWidth = 40,
@@ -67,8 +65,8 @@ class PinTheme {
       double fieldWidth,
       double borderWidth,
       PinCodeFieldShape shape}) {
-    final defaultValues = PinTheme._internal();
-    return PinTheme._internal(
+    final defaultValues = PinTheme.defaults();
+    return PinTheme.defaults(
       activeColor:
           activeColor == null ? defaultValues.activeColor : activeColor,
       activeFillColor: activeFillColor == null

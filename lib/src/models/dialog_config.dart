@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of pin_code_fields;
 
 class DialogConfig {
   /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
