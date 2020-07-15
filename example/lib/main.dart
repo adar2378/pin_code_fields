@@ -35,8 +35,8 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
-  TextEditingController textEditingController = TextEditingController()
-    ..text = "123456";
+  TextEditingController textEditingController = TextEditingController();
+  // ..text = "123456";
 
   StreamController<ErrorAnimationType> errorController;
 
@@ -86,11 +86,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   alignment: Alignment.center,
                 ),
               ),
-              // Image.asset(
-              //   'assets/verify.png',
-              //   height: MediaQuery.of(context).size.height / 3,
-              //   fit: BoxFit.fitHeight,
-              // ),
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -171,7 +166,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(

@@ -5,7 +5,7 @@ homepage: https://github.com/adar2378
 repository: https://github.com/adar2378/pin_code_fields
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:

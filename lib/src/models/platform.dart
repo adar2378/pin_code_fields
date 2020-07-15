@@ -1,0 +1,1 @@
+enum Platform { iOS, other }

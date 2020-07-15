@@ -333,17 +333,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return showDialog(
       context: context,
       builder: (context) {
-        return Platform.isAndroid
-            ? AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+        return _dialogConfig.platform == Platform.iOS
+            ? CupertinoAlertDialog(
                 title: Text(_dialogConfig.dialogTitle),
                 content: RichText(
                   text: TextSpan(
                     text: _dialogConfig.dialogContent,
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color),
+                      color: Theme.of(context).textTheme.button.color,
+                    ),
                     children: [
                       TextSpan(
                         text: formattedPastedText,
@@ -363,14 +361,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 ),
                 actions: _getActionButtons(formattedPastedText),
               )
-            : CupertinoAlertDialog(
+            : AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 title: Text(_dialogConfig.dialogTitle),
                 content: RichText(
                   text: TextSpan(
                     text: _dialogConfig.dialogContent,
                     style: TextStyle(
-                      color: Theme.of(context).textTheme.button.color,
-                    ),
+                        color: Theme.of(context).textTheme.button.color),
                     children: [
                       TextSpan(
                         text: formattedPastedText,
@@ -445,7 +445,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   color: Colors.transparent,
                   height: .01,
                   fontSize:
-                      0.01, // it is a hidden textfield which should remain transparent and extremely small
+                      1, // it is a hidden textfield which should remain transparent and extremely small
                 ),
               ),
             ),
@@ -578,15 +578,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   List<Widget> _getActionButtons(String pastedText) {
     var resultList = <Widget>[];
-    if (Platform.isAndroid) {
+    if (_dialogConfig.platform == Platform.iOS) {
       resultList.addAll([
-        FlatButton(
+        CupertinoDialogAction(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        FlatButton(
+        CupertinoDialogAction(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
@@ -594,15 +594,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           },
         ),
       ]);
-    } else if (Platform.isIOS) {
+    } else {
       resultList.addAll([
-        CupertinoDialogAction(
+        FlatButton(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        CupertinoDialogAction(
+        FlatButton(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
