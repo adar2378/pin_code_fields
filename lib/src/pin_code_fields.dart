@@ -444,8 +444,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 style: TextStyle(
                   color: Colors.transparent,
                   height: .01,
-                  fontSize:
-                      1, // it is a hidden textfield which should remain transparent and extremely small
+                  fontSize: kIsWeb
+                      ? 1
+                      : 0.01, // it is a hidden textfield which should remain transparent and extremely small
                 ),
               ),
             ),
