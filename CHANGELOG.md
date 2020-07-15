@@ -1,3 +1,13 @@
+# [4.0.0]
+
+### Features ✨
+
+- Added support for flutter-web
+
+### Breaking changes ⚠️
+
+- Replaced internal automatic OS selection for dialog styles, you can select which style you want by configuring with the DialogConfig
+
 [3.1.2] Documentation update
 
 [3.1.1] Documentation update
@@ -6,10 +16,12 @@
 
 Better performance overall
 
-### Features  ✨
-- Added new parameter called `validator`, `autoValidate` & `errorTextSpace`. 
+### Features ✨
 
-### Breaking changes ⚠️  
+- Added new parameter called `validator`, `autoValidate` & `errorTextSpace`.
+
+### Breaking changes ⚠️
+
 - The internal `TextField` has been changed to `TextFormField` to work with `Form`
 - The debug logs will not be printed in release builds.
 
@@ -17,9 +29,9 @@ Better performance overall
 
 Better Performance overall
 
-### Updates  ✨
- - Fixed bug where calling setState will not reflect the change on the parent view
- 
+### Updates ✨
+
+- Fixed bug where calling setState will not reflect the change on the parent view
 
 ---
 
@@ -27,16 +39,19 @@ Better Performance overall
 
 Better performance overall
 
-### Features  ✨
-- Added new parameter called `bool Function(String text) beforeTextPaste`, a callback method to validate if text can be pasted. 
+### Features ✨
+
+- Added new parameter called `bool Function(String text) beforeTextPaste`, a callback method to validate if text can be pasted.
 - Introduced `PinTheme` & `DialogConfig`
 - Added an optional constructor parameter: `void Function(String) onCompleted`. which triggers when all fields are filled.
 
-### Fixes  🐛
+### Fixes 🐛
+
 - When pressing the back button to close the keyboard, you can't open the keyboard back up again. #51
 - When we long press on the OTP field to paste the code & if clipboard data is NULL, it gets crashed. #45
 
-### Breaking changes ⚠️  
+### Breaking changes ⚠️
+
 - Removed all the color, cell height, width & dialogconfiguration and moved them in `PinTheme` and `DialogConfig`
 
 [2.5.1] Documentation update
@@ -45,11 +60,11 @@ Better performance overall
 
 Better Performance overall
 
-### Updates  ✨
- - Added errorAnimationController to trigger shake animation. Can be used for errors.
- - Added autoDisposeControllers which can be set to true for auto TextEidtingController and FocusNode disposal.
- - Fixed typos & Optimzied code
- 
+### Updates ✨
+
+- Added errorAnimationController to trigger shake animation. Can be used for errors.
+- Added autoDisposeControllers which can be set to true for auto TextEidtingController and FocusNode disposal.
+- Fixed typos & Optimzied code
 
 ---
 
@@ -57,12 +72,12 @@ Better Performance overall
 
 Better Performance overall
 
-### Updates  ✨
- - Optional: Exposed TextCapitalization, TextInputAction.
- - Added background color customization for each cell(SelectedCell, UnselectedCell and InactiveCell). But you must set `enableActiveFill = true`.
- - Added warning messages
- - Fixed typos & Optimzied code
- 
+### Updates ✨
+
+- Optional: Exposed TextCapitalization, TextInputAction.
+- Added background color customization for each cell(SelectedCell, UnselectedCell and InactiveCell). But you must set `enableActiveFill = true`.
+- Added warning messages
+- Fixed typos & Optimzied code
 
 ---
 
@@ -76,7 +91,7 @@ Better Performance overall
 
 Better Performance overall
 
-### Updates  ✨
+### Updates ✨
 
 - Optional: Exposed `controller` so that one can control the texts programmatically
 - Updated the example code with clear and set manual text buttons.
@@ -102,7 +117,8 @@ Better Performance overall
 
 Better performance overall
 
-### Features  ✨
+### Features ✨
+
 - Colors:
   - `selectedColor` is the color set on the current index. Default is `Colors.blue`
   - `disabledColor` is the color if the TextField is disabled. Default is `Colors.grey`
@@ -111,12 +127,14 @@ Better performance overall
 - Added a new constructor parameter called `enabled`. Default is true
 - Added an optional constructor parameter: `void Function(String) onCompleted`. which triggers when all fields are filled.
 
-### Fixes  🐛
+### Fixes 🐛
+
 - Colors:
   - `activeColor` and `inactiveColor` were swapped
 - Keyboard does not show up onTap #4
 
-### Breaking changes ⚠️  
+### Breaking changes ⚠️
+
 - Renamed `currentText` to `onChanged`
 
 ---

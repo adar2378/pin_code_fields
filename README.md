@@ -170,6 +170,9 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
   final String negativeText;
+
+  /// The default dialog theme, should it be iOS or other(including web and Android)
+  final Platform platform; //enum Platform { iOS, other } other indicates for web and android
 ```
 
 ## Contributors ✨
@@ -191,6 +194,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <tr>
   <td align="center"><a href="https://github.com/JeffryHermanto"><img src="https://avatars0.githubusercontent.com/u/35820325?v=3" width="100px;" alt="Jeffry Hermanto"/><br /><sub><b>Jeffry Hermanto</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=JeffryHermanto" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars3.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/ened"><img src="https://avatars0.githubusercontent.com/u/269860?v=3" width="100px;" alt="Sebastian Roth"/><br /><sub><b>Sebastian Roth</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ened" title="Code">💻</a></td>
   </tr>
 </table>
 
