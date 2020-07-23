@@ -89,6 +89,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Validator for the [TextFormField]
   final FormFieldValidator<String> validator;
 
+  /// An optional method to call with the final value when the form is saved via
+  /// [FormState.save].
+  final FormFieldSetter<String> onSaved;
+
   /// enables auto validation for the [TextFormField]
   /// Default is false
   final bool autoValidate;
@@ -131,6 +135,7 @@ class PinCodeTextField extends StatefulWidget {
     this.pinTheme = const PinTheme.defaults(),
     this.keyboardAppearance = Brightness.light,
     this.validator,
+    this.onSaved,
     this.autoValidate = false,
     this.errorTextSpace = 16,
   }) : super(key: key);
@@ -419,6 +424,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 keyboardAppearance: widget.keyboardAppearance,
                 textCapitalization: widget.textCapitalization,
                 validator: widget.validator,
+                onSaved: widget.onSaved,
                 autovalidate: widget.autoValidate,
                 inputFormatters: [
                   ...widget.inputFormatters,
