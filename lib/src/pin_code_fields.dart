@@ -77,8 +77,9 @@ class PinCodeTextField extends StatefulWidget {
   /// e.g. validate if text is number. Default will be pasted as received.
   final bool Function(String text) beforeTextPaste;
 
-  // Method for detecting a form click
-  final Function() onTap;
+  /// Method for detecting a pin_code form tap
+  /// work with all form windows
+  final Function onTap;
 
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig dialogConfig;
