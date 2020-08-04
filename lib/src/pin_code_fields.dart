@@ -77,6 +77,9 @@ class PinCodeTextField extends StatefulWidget {
   /// e.g. validate if text is number. Default will be pasted as received.
   final bool Function(String text) beforeTextPaste;
 
+  // Method for detecting a form click
+  final Function() onTap;
+
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig dialogConfig;
 
@@ -116,6 +119,7 @@ class PinCodeTextField extends StatefulWidget {
     this.textInputType = TextInputType.visiblePassword,
     this.autoFocus = false,
     this.focusNode,
+    this.onTap,
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
     this.textStyle = const TextStyle(
@@ -461,7 +465,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               left: 0,
               right: 0,
               child: GestureDetector(
-                onTap: _onFocus,
+                onTap: () {
+                  widget.onTap();
+                  _onFocus();
+                },
                 onLongPress: widget.enabled
                     ? () async {
                         var data = await Clipboard.getData("text/plain");
