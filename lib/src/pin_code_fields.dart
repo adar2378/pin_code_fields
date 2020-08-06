@@ -418,46 +418,51 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             AbsorbPointer(
               // this is a hidden textfield under the pin code fields.
               absorbing: true, // it prevents on tap on the text field
-              child: TextFormField(
-                textInputAction: widget.textInputAction,
-                controller: _textEditingController,
-                focusNode: _focusNode,
-                enabled: widget.enabled,
-                autofocus: widget.autoFocus,
-                autocorrect: false,
-                keyboardType: widget.textInputType,
-                keyboardAppearance: widget.keyboardAppearance,
-                textCapitalization: widget.textCapitalization,
-                validator: widget.validator,
-                onSaved: widget.onSaved,
-                autovalidate: widget.autoValidate,
-                inputFormatters: [
-                  ...widget.inputFormatters,
-                  LengthLimitingTextInputFormatter(
-                    widget.length,
-                  ), // this limits the input length
-                ],
-                // trigger on the complete event handler from the keyboard
-                onFieldSubmitted: widget.onSubmitted,
-                enableInteractiveSelection: false,
-                showCursor: true,
-                // this cursor must remain hidden
-                cursorColor: widget.backgroundColor,
-                // using same as background color so tha it can blend into the view
-                cursorWidth: 0.01,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(0),
-                  border: InputBorder.none,
-                  fillColor: widget.backgroundColor,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                ),
-                style: TextStyle(
-                  color: Colors.transparent,
-                  height: .01,
-                  fontSize: kIsWeb
-                      ? 1
-                      : 0.01, // it is a hidden textfield which should remain transparent and extremely small
+              child: AutofillGroup(
+                child: TextFormField(
+                  textInputAction: widget.textInputAction,
+                  controller: _textEditingController,
+                  focusNode: _focusNode,
+                  enabled: widget.enabled,
+                  autofillHints: <String>[
+                    AutofillHints.oneTimeCode,
+                  ],
+                  autofocus: widget.autoFocus,
+                  autocorrect: false,
+                  keyboardType: widget.textInputType,
+                  keyboardAppearance: widget.keyboardAppearance,
+                  textCapitalization: widget.textCapitalization,
+                  validator: widget.validator,
+                  onSaved: widget.onSaved,
+                  autovalidate: widget.autoValidate,
+                  inputFormatters: [
+                    ...widget.inputFormatters,
+                    LengthLimitingTextInputFormatter(
+                      widget.length,
+                    ), // this limits the input length
+                  ],
+                  // trigger on the complete event handler from the keyboard
+                  onFieldSubmitted: widget.onSubmitted,
+                  enableInteractiveSelection: false,
+                  showCursor: true,
+                  // this cursor must remain hidden
+                  cursorColor: widget.backgroundColor,
+                  // using same as background color so tha it can blend into the view
+                  cursorWidth: 0.01,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(0),
+                    border: InputBorder.none,
+                    fillColor: widget.backgroundColor,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                  style: TextStyle(
+                    color: Colors.transparent,
+                    height: .01,
+                    fontSize: kIsWeb
+                        ? 1
+                        : 0.01, // it is a hidden textfield which should remain transparent and extremely small
+                  ),
                 ),
               ),
             ),
