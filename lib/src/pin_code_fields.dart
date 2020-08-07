@@ -20,6 +20,9 @@ class PinCodeTextField extends StatefulWidget {
   /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
 
+  /// the style of the text, default is [ fontWeight: FontWeight.bold, color: Colors.green.shade600 ]
+  final TextStyle pastedTextStyle;
+
   /// background color for the whole row of pin code fields. Default is [Colors.white]
   final Color backgroundColor;
 
@@ -128,6 +131,7 @@ class PinCodeTextField extends StatefulWidget {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
+    TextStyle pastedTextStyle,
     this.enableActiveFill = false,
     this.textCapitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
@@ -143,7 +147,12 @@ class PinCodeTextField extends StatefulWidget {
     this.onSaved,
     this.autoValidate = false,
     this.errorTextSpace = 16,
-  }) : super(key: key);
+  })  : this.pastedTextStyle = pastedTextStyle ??
+            TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.green.shade600,
+            ),
+        super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -355,10 +364,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green.shade600,
-                        ),
+                        style: widget.pastedTextStyle,
                       ),
                       TextSpan(
                         text: " ?",
