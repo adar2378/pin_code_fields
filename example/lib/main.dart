@@ -122,6 +122,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
+                      pastedTextStyle: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                       length: 6,
                       obsecureText: false,
                       animationType: AnimationType.fade,
