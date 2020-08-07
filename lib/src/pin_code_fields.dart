@@ -342,21 +342,20 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }
 
   Future<void> _showPasteDialog(String pastedText) {
-    var formattedPastedText = pastedText
+    final formattedPastedText = pastedText
         .trim()
         .substring(0, min(pastedText.trim().length, widget.length));
 
-    final formattedPastedTextStyle = widget.pastedTextStyle ??
-        TextStyle(
+    return showDialog(
+      context: context,
+      builder: (context) {
+        final defaultPastedTextStyle = TextStyle(
           fontWeight: FontWeight.bold,
           color: Theme.of(context).brightness == Brightness.light
               ? Colors.green.shade600
               : Colors.green.shade300,
         );
 
-    return showDialog(
-      context: context,
-      builder: (context) {
         return _dialogConfig.platform == Platform.iOS
             ? CupertinoAlertDialog(
                 title: Text(_dialogConfig.dialogTitle),
@@ -369,7 +368,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: formattedPastedTextStyle,
+                        style: widget.pastedTextStyle ?? defaultPastedTextStyle,
                       ),
                       TextSpan(
                         text: "?",
@@ -395,7 +394,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: formattedPastedTextStyle,
+                        style: widget.pastedTextStyle ?? defaultPastedTextStyle,
                       ),
                       TextSpan(
                         text: " ?",
