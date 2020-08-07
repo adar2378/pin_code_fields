@@ -367,7 +367,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                         style: widget.pastedTextStyle,
                       ),
                       TextSpan(
-                        text: " ?",
+                        text: "?",
                         style: TextStyle(
                           color: Theme.of(context).textTheme.button.color,
                         ),
