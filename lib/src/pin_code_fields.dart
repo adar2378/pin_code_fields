@@ -20,7 +20,8 @@ class PinCodeTextField extends StatefulWidget {
   /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
 
-  /// the style of the text, default is [ fontWeight: FontWeight.bold, color: Colors.green.shade600 ]
+  /// the style of the pasted text, default is [ fontWeight: FontWeight.bold] while
+  /// [TextStyle.color] is [Colors.green.shade600] for [Brightness.light] and [Colors.green.shade300] for [Brightness.dark]
   final TextStyle pastedTextStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
@@ -131,7 +132,7 @@ class PinCodeTextField extends StatefulWidget {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
-    TextStyle pastedTextStyle,
+    this.pastedTextStyle,
     this.enableActiveFill = false,
     this.textCapitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
@@ -147,12 +148,7 @@ class PinCodeTextField extends StatefulWidget {
     this.onSaved,
     this.autoValidate = false,
     this.errorTextSpace = 16,
-  })  : this.pastedTextStyle = pastedTextStyle ??
-            TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.green.shade600,
-            ),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -349,6 +345,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     var formattedPastedText = pastedText
         .trim()
         .substring(0, min(pastedText.trim().length, widget.length));
+
+    final formattedPastedTextStyle = widget.pastedTextStyle ??
+        TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.green.shade600
+              : Colors.green.shade300,
+        );
+
     return showDialog(
       context: context,
       builder: (context) {
@@ -364,7 +369,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: widget.pastedTextStyle,
+                        style: formattedPastedTextStyle,
                       ),
                       TextSpan(
                         text: "?",
@@ -390,7 +395,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: widget.pastedTextStyle,
+                        style: formattedPastedTextStyle,
                       ),
                       TextSpan(
                         text: " ?",
