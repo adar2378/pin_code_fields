@@ -20,8 +20,8 @@ class PinCodeTextField extends StatefulWidget {
   /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
 
-  /// the style of the pasted text, default is [ fontWeight: FontWeight.bold] while
-  /// [TextStyle.color] is [Colors.green.shade600] for [Brightness.light] and [Colors.green.shade300] for [Brightness.dark]
+  /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
+  /// [TextStyle.color] is [ThemeData.accentColor]
   final TextStyle pastedTextStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
@@ -346,68 +346,64 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         .trim()
         .substring(0, min(pastedText.trim().length, widget.length));
 
+    final defaultPastedTextStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Theme.of(context).accentColor,
+    );
+
     return showDialog(
       context: context,
-      builder: (context) {
-        final defaultPastedTextStyle = TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.green.shade600
-              : Colors.green.shade300,
-        );
-
-        return _dialogConfig.platform == Platform.iOS
-            ? CupertinoAlertDialog(
-                title: Text(_dialogConfig.dialogTitle),
-                content: RichText(
-                  text: TextSpan(
-                    text: _dialogConfig.dialogContent,
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.button.color,
+      builder: (context) => _dialogConfig.platform == Platform.iOS
+          ? CupertinoAlertDialog(
+              title: Text(_dialogConfig.dialogTitle),
+              content: RichText(
+                text: TextSpan(
+                  text: _dialogConfig.dialogContent,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.button.color,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: formattedPastedText,
+                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
                     ),
-                    children: [
-                      TextSpan(
-                        text: formattedPastedText,
-                        style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+                    TextSpan(
+                      text: "?",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.button.color,
                       ),
-                      TextSpan(
-                        text: "?",
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.button.color,
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-                actions: _getActionButtons(formattedPastedText),
-              )
-            : AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                title: Text(_dialogConfig.dialogTitle),
-                content: RichText(
-                  text: TextSpan(
-                    text: _dialogConfig.dialogContent,
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color),
-                    children: [
-                      TextSpan(
-                        text: formattedPastedText,
-                        style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+              ),
+              actions: _getActionButtons(formattedPastedText),
+            )
+          : AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text(_dialogConfig.dialogTitle),
+              content: RichText(
+                text: TextSpan(
+                  text: _dialogConfig.dialogContent,
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.button.color),
+                  children: [
+                    TextSpan(
+                      text: formattedPastedText,
+                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+                    ),
+                    TextSpan(
+                      text: " ?",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.button.color,
                       ),
-                      TextSpan(
-                        text: " ?",
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.button.color,
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-                actions: _getActionButtons(formattedPastedText),
-              );
-      },
+              ),
+              actions: _getActionButtons(formattedPastedText),
+            ),
     );
   }
 
