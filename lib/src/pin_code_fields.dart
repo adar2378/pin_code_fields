@@ -390,10 +390,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     children: [
                       TextSpan(
                         text: formattedPastedText,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green.shade600,
-                        ),
+                        style: widget.pastedTextStyle,
                       ),
                       TextSpan(
                         text: " ?",
