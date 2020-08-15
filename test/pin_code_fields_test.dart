@@ -10,7 +10,7 @@ void main() {
       TestWidgetsFlutterBinding.ensureInitialized();
 
   /// This test demonstrates that a application can set a InputDecorationTheme
-  /// which specifies a background color for input fields. When this happens, 
+  /// which specifies a background color for input fields. When this happens,
   /// the PinCodeFields should override the theme setting with the users chosen
   /// background color.
   testWidgets('transparent background', (WidgetTester tester) async {
@@ -28,6 +28,7 @@ void main() {
             backgroundColor: Colors.black,
             body: Builder(builder: (context) {
               return PinCodeTextField(
+                appContext: context,
                 autoFocus: true,
                 backgroundColor: Colors.transparent,
                 length: 6,

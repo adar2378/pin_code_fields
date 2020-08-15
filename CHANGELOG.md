@@ -6,6 +6,10 @@
 - Added PastedTextStyle.
 - Added iOS autofill added wtih Flutter version 1.20.0
 
+### Breaking changes ⚠️
+
+- Must provide context in the `appContext` parameter.
+
 # [4.0.0]
 
 ### Features ✨

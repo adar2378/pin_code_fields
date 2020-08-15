@@ -42,6 +42,9 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Properties 🔖
 
 ```Dart
+  /// The [BuildContext] of the application
+  final BuildContext appContext;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
