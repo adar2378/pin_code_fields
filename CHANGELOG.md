@@ -9,6 +9,7 @@
 ### Breaking changes ⚠️
 
 - Must provide context in the `appContext` parameter.
+- Minimum Flutter version is set to 1.20.0
 
 # [4.0.0]
 

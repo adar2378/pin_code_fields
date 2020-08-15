@@ -38,6 +38,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - To enable "Fill color" for each cells, `enableActiveFill` must be set to `true`. The default value is `false`.
 - To change the keyboard type, for example to use only number keyboard, or only for email use `textInputType` parameter, default is [TextInputType.visiblePassword]
 - The print statements will only show during debug mode.
+- to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
 
 ## Properties 🔖
 
