@@ -2,6 +2,9 @@ part of pin_code_fields;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
+  /// The [BuildContext] of the application
+  final BuildContext appContext;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
@@ -111,6 +114,7 @@ class PinCodeTextField extends StatefulWidget {
 
   PinCodeTextField({
     Key key,
+    @required this.appContext,
     @required this.length,
     this.controller,
     this.obsecureText = false,
@@ -577,12 +581,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }
 
   void _onFocus() {
-    if (_focusNode.hasFocus) {
+    if (_focusNode.hasFocus &&
+        MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+      print("here & ${MediaQuery.of(widget.appContext).viewInsets.bottom}");
       _focusNode.unfocus();
-      Future.delayed(const Duration(microseconds: 1),
-          () => FocusScope.of(context).requestFocus(_focusNode));
+      Future.delayed(
+          const Duration(microseconds: 1), () => _focusNode.requestFocus());
     } else {
-      FocusScope.of(context).requestFocus(_focusNode);
+      _focusNode.requestFocus();
     }
   }
 

@@ -68,9 +68,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       backgroundColor: Colors.blue.shade50,
       key: scaffoldKey,
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
+        onTap: () {},
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -122,6 +120,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
+                      appContext: context,
                       pastedTextStyle: TextStyle(
                         color: Colors.green.shade600,
                         fontWeight: FontWeight.bold,
