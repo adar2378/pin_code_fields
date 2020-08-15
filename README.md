@@ -23,6 +23,22 @@ A flutter package which will help you to generate pin code fields with beautiful
 - Works with Flutter's Form. You can use Form validator right off the bat.
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "your desired code"))
 
+## Getting Started ⚡️
+
+#### Demo
+
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pin_code_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
+
+#### Different Shapes
+
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/box.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/circle.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/underline.png" width="250" height="480">
+
+#### Notes
+
+- To enable "Fill color" for each cells, `enableActiveFill` must be set to `true`. The default value is `false`.
+- To change the keyboard type, for example to use only number keyboard, or only for email use `textInputType` parameter, default is [TextInputType.visiblePassword]
+- The print statements will only show during debug mode.
+
 ## Properties 🔖
 
 ```Dart
@@ -214,18 +230,11 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/JeffryHermanto"><img src="https://avatars0.githubusercontent.com/u/35820325?v=3" width="100px;" alt="Jeffry Hermanto"/><br /><sub><b>Jeffry Hermanto</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=JeffryHermanto" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars3.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/ened"><img src="https://avatars0.githubusercontent.com/u/269860?v=3" width="100px;" alt="Sebastian Roth"/><br /><sub><b>Sebastian Roth</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ened" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/darkang3lz92"><img src="https://avatars3.githubusercontent.com/u/33158127?v=3" width="100px;" alt="Dango Mango"/><br /><sub><b>Dango Mango</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=darkang3lz92" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/Frezyx"><img src="https://avatars1.githubusercontent.com/u/40857927?v=3" width="100px;" alt="Stanislav Ilin"/><br /><sub><b>Stanislav Ilin</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=Frezyx" title="Code">💻</a></td>
+   <td align="center"><a href="https://github.com/VarunBarad"><img src="https://avatars0.githubusercontent.com/u/8678857?v=3" width="100px;" alt="Varun Barad"/><br /><sub><b>Varun Barad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=VarunBarad" title="Code">💻</a></td>
   </tr>
 </table>
-
-## Getting Started ⚡️
-
-#### Demo
-
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pin_code_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
-
-#### Different Shapes
-
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/box.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/circle.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/underline.png" width="250" height="480">
 
 **The pin code text field widget example**
 
