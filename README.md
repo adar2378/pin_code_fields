@@ -26,7 +26,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Properties 🔖
 
 ```Dart
-/// length of how many cells there should be. 3-8 is recommended by me
+  /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
   /// you already know what it does i guess :P default is false
@@ -43,6 +43,10 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
+
+  /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
+  /// [TextStyle.color] is [ThemeData.accentColor]
+  final TextStyle pastedTextStyle;
 
   /// background color for the whole row of pin code fields. Default is [Colors.white]
   final Color backgroundColor;
@@ -77,6 +81,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
   final TextEditingController controller;
 
+  /// Enabled Color fill for individual pin fields, default is [false]
+  final bool enableActiveFill;
+
   /// Auto dismiss the keyboard upon inputting the value for the last field. Default is [true]
   final bool autoDismissKeyboard;
 
@@ -94,18 +101,29 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Triggers the error animation
   final StreamController<ErrorAnimationType> errorAnimationController;
 
+  /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
+  /// e.g. validate if text is number. Default will be pasted as received.
+  final bool Function(String text) beforeTextPaste;
+
+  /// Method for detecting a pin_code form tap
+  /// work with all form windows
+  final Function onTap;
+
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig dialogConfig;
 
   /// Theme for the pin cells. Read more [PinTheme]
   final PinTheme pinTheme;
 
-  /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
-  /// e.g. validate if text is number. Default will be pasted as received.
-  final bool Function(String text) beforeTextPaste;
+  /// Brightness dark or light choices for iOS keyboard.
+  final Brightness keyboardAppearance;
 
   /// Validator for the [TextFormField]
   final FormFieldValidator<String> validator;
+
+  /// An optional method to call with the final value when the form is saved via
+  /// [FormState.save].
+  final FormFieldSetter<String> onSaved;
 
   /// enables auto validation for the [TextFormField]
   /// Default is false
@@ -114,6 +132,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
   final double errorTextSpace;
+
 ```
 
 **PinTheme**

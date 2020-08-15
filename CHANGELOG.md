@@ -1,3 +1,11 @@
+# [5.0.0]
+
+### Features ✨
+
+- Added onSave, onTap callbacks.
+- Added PastedTextStyle.
+- Added iOS autofill added wtih Flutter version 1.20.0
+
 # [4.0.0]
 
 ### Features ✨
