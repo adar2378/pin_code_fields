@@ -11,6 +11,10 @@
 - Must provide context in the `appContext` parameter.
 - Minimum Flutter version is set to 1.20.0
 
+### Fixes 🐛
+
+- Reopen keyboard onTap on the cells #92, thanks to https://github.com/YaroslavGS for the suggestion
+
 # [4.0.0]
 
 ### Features ✨
