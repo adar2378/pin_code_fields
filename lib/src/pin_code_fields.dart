@@ -182,10 +182,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void initState() {
-    if (!kReleaseMode) {
-      print(
-          "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
-    }
+    // if (!kReleaseMode) {
+    //   print(
+    //       "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
+    // }
 
     _checkForInvalidValues();
     _assignController();
@@ -300,10 +300,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.autoDisposeControllers) {
       _textEditingController.dispose();
       _focusNode.dispose();
-      if (!kReleaseMode) {
-        print(
-            "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
-      }
+      // if (!kReleaseMode) {
+      //   print(
+      //       "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
+      // }
     }
     _controller.dispose();
     super.dispose();
@@ -584,7 +584,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _onFocus() {
     if (_focusNode.hasFocus &&
         MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
-      print("here & ${MediaQuery.of(widget.appContext).viewInsets.bottom}");
       _focusNode.unfocus();
       Future.delayed(
           const Duration(microseconds: 1), () => _focusNode.requestFocus());
