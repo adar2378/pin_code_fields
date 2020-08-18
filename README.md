@@ -33,11 +33,11 @@ A flutter package which will help you to generate pin code fields with beautiful
 
 <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/box.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/circle.png" width="250" height="480"><img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/underline.png" width="250" height="480">
 
-#### Notes
+## Notes
 
 - To enable "Fill color" for each cells, `enableActiveFill` must be set to `true`. The default value is `false`.
 - To change the keyboard type, for example to use only number keyboard, or only for email use `textInputType` parameter, default is [TextInputType.visiblePassword]
-- The print statements will only show during debug mode.
+- `FocosNode` and `TextEditingController` will get disposed automatically. Use `autoDisposeControllers = false` to disable it.
 - to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
 
 ## Properties 🔖
