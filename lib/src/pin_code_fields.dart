@@ -357,6 +357,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     return showDialog(
       context: context,
+      useRootNavigator: true,
       builder: (context) => _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
               title: Text(_dialogConfig.dialogTitle),
@@ -479,7 +480,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               right: 0,
               child: GestureDetector(
                 onTap: () {
-                  widget.onTap();
+                  if (widget.onTap != null) widget.onTap();
                   _onFocus();
                 },
                 onLongPress: widget.enabled
