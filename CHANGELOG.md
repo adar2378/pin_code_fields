@@ -1,3 +1,5 @@
+[5.0.1] - onTap bug fixed, used root navigator for showing dialogs
+
 # [5.0.0]
 
 ### Features ✨
