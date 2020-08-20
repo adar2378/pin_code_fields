@@ -9,7 +9,7 @@ class PinCodeTextField extends StatefulWidget {
   final int length;
 
   /// you already know what it does i guess :P default is false
-  final bool obsecureText;
+  final bool obscureText;
 
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
@@ -117,7 +117,7 @@ class PinCodeTextField extends StatefulWidget {
     @required this.appContext,
     @required this.length,
     this.controller,
-    this.obsecureText = false,
+    this.obscureText = false,
     @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
@@ -229,7 +229,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   // validating all the values
   void _checkForInvalidValues() {
     assert(widget.length != null && widget.length > 0);
-    assert(widget.obsecureText != null);
+    assert(widget.obscureText != null);
     assert(_pinTheme.fieldHeight != null && _pinTheme.fieldHeight > 0);
     assert(_pinTheme.fieldWidth != null && _pinTheme.fieldWidth > 0);
     assert(_pinTheme.activeColor != null);
@@ -567,7 +567,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 }
               },
               child: Text(
-                widget.obsecureText && _inputList[i].isNotEmpty
+                widget.obscureText && _inputList[i].isNotEmpty
                     ? "●"
                     : _inputList[i],
                 key: ValueKey(_inputList[i]),
