@@ -112,6 +112,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is 16.
   final double errorTextSpace;
 
+  /// Enables pin autofill for TextFormField
+  /// Default is true
+  final bool enablePinAutofill;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -152,6 +156,7 @@ class PinCodeTextField extends StatefulWidget {
     this.onSaved,
     this.autoValidate = false,
     this.errorTextSpace = 16,
+    this.enablePinAutofill = true,
   }) : super(key: key);
 
   @override
@@ -432,9 +437,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   controller: _textEditingController,
                   focusNode: _focusNode,
                   enabled: widget.enabled,
-                  autofillHints: <String>[
-                    AutofillHints.oneTimeCode,
-                  ],
+                  autofillHints: widget.enablePinAutofill
+                      ? <String>[AutofillHints.oneTimeCode]
+                      : null,
                   autofocus: widget.autoFocus,
                   autocorrect: false,
                   keyboardType: widget.textInputType,
