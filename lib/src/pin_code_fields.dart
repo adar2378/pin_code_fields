@@ -112,7 +112,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is 16.
   final double errorTextSpace;
 
-  /// Enables pin autofill for TextFormField
+  /// Enables pin autofill for TextFormField.
   /// Default is true
   final bool enablePinAutofill;
 
