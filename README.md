@@ -50,7 +50,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final int length;
 
   /// you already know what it does i guess :P default is false
-  final bool obsecureText;
+  final bool obscureText;
 
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
@@ -152,6 +152,13 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
   final double errorTextSpace;
+
+  /// Enables pin autofill for TextFormField.
+  /// Default is true
+  final bool enablePinAutofill;
+
+  /// Error animation duration
+  final int errorAnimationDuration;
 
 ```
 
