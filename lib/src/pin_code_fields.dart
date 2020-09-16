@@ -116,6 +116,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is true
   final bool enablePinAutofill;
 
+  /// Error animation duration
+  final int errorAnimationDuration;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -157,6 +160,7 @@ class PinCodeTextField extends StatefulWidget {
     this.autoValidate = false,
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
+    this.errorAnimationDuration = 500,
   }) : super(key: key);
 
   @override
@@ -205,7 +209,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _inputList = List<String>(widget.length);
     _initializeValues();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: widget.errorAnimationDuration),
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
