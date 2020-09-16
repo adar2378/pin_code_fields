@@ -84,7 +84,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final Curve animationCurve;
 
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
 
   /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;

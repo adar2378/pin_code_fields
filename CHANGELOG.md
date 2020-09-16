@@ -1,3 +1,18 @@
+# [5.1.0]
+
+### Features ✨
+
+- Added `errorAnimationDuration` to customize Error animation duration.
+- Added `enablePinAutofill` to enable or disable the auto-fill feature.
+
+### Breaking changes ⚠️
+
+- Chagned `textInputType` to more familiar `keyboardType` to change they keyboard type
+
+### Fixes 🐛
+
+- Fixed rootNavigator issue for paste dialogs, #101
+
 [5.0.1] - onTap bug fixed, used root navigator for showing dialogs
 
 # [5.0.0]
