@@ -43,7 +43,7 @@ class PinCodeTextField extends StatefulWidget {
   final Curve animationCurve;
 
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
 
   /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;
@@ -132,7 +132,7 @@ class PinCodeTextField extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
     this.animationType = AnimationType.slide,
-    this.textInputType = TextInputType.visiblePassword,
+    this.keyboardType = TextInputType.visiblePassword,
     this.autoFocus = false,
     this.focusNode,
     this.onTap,
@@ -251,7 +251,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(_pinTheme.shape != null);
     assert(widget.animationType != null);
     assert(widget.textStyle != null);
-    assert(widget.textInputType != null);
+    assert(widget.keyboardType != null);
     assert(widget.autoFocus != null);
     assert(_dialogConfig.affirmativeText != null &&
         _dialogConfig.affirmativeText.isNotEmpty);
@@ -446,7 +446,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                       : null,
                   autofocus: widget.autoFocus,
                   autocorrect: false,
-                  keyboardType: widget.textInputType,
+                  keyboardType: widget.keyboardType,
                   keyboardAppearance: widget.keyboardAppearance,
                   textCapitalization: widget.textCapitalization,
                   validator: widget.validator,
