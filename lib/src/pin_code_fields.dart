@@ -5,6 +5,18 @@ class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
+  ///Blur Radius For Pincode Shadow
+  final double blurRadius;
+
+  ///Offset For Pincode Shadow
+  final Offset offset;
+
+  ///Spread Radius For Pincode Shadow
+  final double spreadRadius;
+
+  /// The Color for the Pincode Shadow
+  final Color shadowColor;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
@@ -123,6 +135,7 @@ class PinCodeTextField extends StatefulWidget {
     Key key,
     @required this.appContext,
     @required this.length,
+    this.shadowColor,
     this.controller,
     this.obscureText = false,
     @required this.onChanged,
@@ -161,6 +174,9 @@ class PinCodeTextField extends StatefulWidget {
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
+    this.blurRadius,
+    this.spreadRadius,
+    this.offset,
   }) : super(key: key);
 
   @override
@@ -531,6 +547,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             color: widget.enableActiveFill
                 ? _getFillColorFromIndex(i)
                 : Colors.transparent,
+            boxShadow: [
+              BoxShadow(
+                  color: this.widget.shadowColor,
+                  blurRadius: this.widget.blurRadius,
+                  spreadRadius: this.widget.spreadRadius,
+                  offset: this.widget.offset)
+            ],
             shape: _pinTheme.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
