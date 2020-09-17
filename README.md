@@ -252,7 +252,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 ```Dart
 PinCodeTextField(
   length: 6,
-  obsecureText: false,
+  obscureText: false,
   animationType: AnimationType.fade,
   pinTheme: PinTheme(
     shape: PinCodeFieldShape.box,
