@@ -178,6 +178,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   // AnimationController for the error animation
   AnimationController _controller;
 
+  StreamSubscription<ErrorAnimationType> _errorAnimationSubscription;
+
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
   DialogConfig get _dialogConfig => widget.dialogConfig == null
@@ -225,8 +227,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _controller.reverse();
       }
     });
+
     if (widget.errorAnimationController != null) {
-      widget.errorAnimationController.stream.listen((errorAnimation) {
+      _errorAnimationSubscription =
+          widget.errorAnimationController.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
         }
@@ -314,6 +318,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       //       "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
       // }
     }
+
+    _errorAnimationSubscription?.cancel();
+
     _controller.dispose();
     super.dispose();
   }
