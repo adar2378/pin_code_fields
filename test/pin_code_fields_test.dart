@@ -1,13 +1,37 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../lib/pin_code_fields.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 void main() {
   final TestWidgetsFlutterBinding binding =
       TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('disposes error stream', (WidgetTester tester) async {
+    final StreamController<ErrorAnimationType> controller =
+        StreamController<ErrorAnimationType>();
+
+    final Widget app = Builder(
+      builder: (context) => MaterialApp(
+        home: Scaffold(
+          body: PinCodeTextField(
+            appContext: context,
+            length: 6,
+            onChanged: (input) {},
+            errorAnimationController: controller,
+          ),
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(app);
+    expect(controller.hasListener, isTrue);
+
+    await tester.pumpWidget(SizedBox());
+    expect(controller.hasListener, isFalse);
+  });
 
   /// This test demonstrates that a application can set a InputDecorationTheme
   /// which specifies a background color for input fields. When this happens,
