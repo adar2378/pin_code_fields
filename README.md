@@ -36,7 +36,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Notes
 
 - To enable "Fill color" for each cells, `enableActiveFill` must be set to `true`. The default value is `false`.
-- To change the keyboard type, for example to use only number keyboard, or only for email use `textInputType` parameter, default is [TextInputType.visiblePassword]
+- To change the keyboard type, for example to use only number keyboard, or only for email use `keyboardType` parameter, default is [TextInputType.visiblePassword]
 - `FocosNode` and `TextEditingController` will get disposed automatically. Use `autoDisposeControllers = false` to disable it.
 - to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
 
@@ -50,7 +50,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final int length;
 
   /// you already know what it does i guess :P default is false
-  final bool obsecureText;
+  final bool obscureText;
 
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
@@ -84,7 +84,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final Curve animationCurve;
 
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
 
   /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;
@@ -152,6 +152,13 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
   final double errorTextSpace;
+
+  /// Enables pin autofill for TextFormField.
+  /// Default is true
+  final bool enablePinAutofill;
+
+  /// Error animation duration
+  final int errorAnimationDuration;
 
 ```
 
@@ -245,7 +252,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 ```Dart
 PinCodeTextField(
   length: 6,
-  obsecureText: false,
+  obscureText: false,
   animationType: AnimationType.fade,
   pinTheme: PinTheme(
     shape: PinCodeFieldShape.box,
@@ -302,7 +309,7 @@ StreamController<ErrorAnimationType> errorController = StreamController<ErrorAni
 ```Dart
 PinCodeTextField(
   length: 6,
-  obsecureText: false,
+  obscureText: false,
   animationType: AnimationType.fade,
   animationDuration: Duration(milliseconds: 300),
   errorAnimationController: errorController, // Pass it here
@@ -444,7 +451,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
                       length: 6,
-                      obsecureText: false,
+                      obscureText: false,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {

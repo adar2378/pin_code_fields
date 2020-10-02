@@ -11,10 +11,10 @@ class PinCodeTextField extends StatefulWidget {
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
-  /// Character used for obscuring text if obscureText is true. 
-  /// 
+  /// Character used for obscuring text if obscureText is true.
+  ///
   /// Must not be empty. Single character is recommended.
-  /// 
+  ///
   /// Default is ● - 'Black Circle' (U+25CF)
   final String obscuringCharacter;
 
@@ -50,7 +50,7 @@ class PinCodeTextField extends StatefulWidget {
   final Curve animationCurve;
 
   /// [TextInputType] for the pin code fields. default is [TextInputType.visiblePassword]
-  final TextInputType textInputType;
+  final TextInputType keyboardType;
 
   /// If the pin code field should be autofocused or not. Default is [false]
   final bool autoFocus;
@@ -119,6 +119,13 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is 16.
   final double errorTextSpace;
 
+  /// Enables pin autofill for TextFormField.
+  /// Default is true
+  final bool enablePinAutofill;
+
+  /// Error animation duration
+  final int errorAnimationDuration;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -133,7 +140,7 @@ class PinCodeTextField extends StatefulWidget {
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
     this.animationType = AnimationType.slide,
-    this.textInputType = TextInputType.visiblePassword,
+    this.keyboardType = TextInputType.visiblePassword,
     this.autoFocus = false,
     this.focusNode,
     this.onTap,
@@ -160,6 +167,8 @@ class PinCodeTextField extends StatefulWidget {
     this.onSaved,
     this.autoValidate = false,
     this.errorTextSpace = 16,
+    this.enablePinAutofill = true,
+    this.errorAnimationDuration = 500,
   })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -177,6 +186,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // AnimationController for the error animation
   AnimationController _controller;
+
+  StreamSubscription<ErrorAnimationType> _errorAnimationSubscription;
 
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
@@ -209,7 +220,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _inputList = List<String>(widget.length);
     _initializeValues();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: Duration(milliseconds: widget.errorAnimationDuration),
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
@@ -225,8 +236,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _controller.reverse();
       }
     });
+
     if (widget.errorAnimationController != null) {
-      widget.errorAnimationController.stream.listen((errorAnimation) {
+      _errorAnimationSubscription =
+          widget.errorAnimationController.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
         }
@@ -251,7 +264,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(_pinTheme.shape != null);
     assert(widget.animationType != null);
     assert(widget.textStyle != null);
-    assert(widget.textInputType != null);
+    assert(widget.keyboardType != null);
     assert(widget.autoFocus != null);
     assert(_dialogConfig.affirmativeText != null &&
         _dialogConfig.affirmativeText.isNotEmpty);
@@ -314,6 +327,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       //       "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
       // }
     }
+
+    _errorAnimationSubscription?.cancel();
+
     _controller.dispose();
     super.dispose();
   }
@@ -441,12 +457,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   controller: _textEditingController,
                   focusNode: _focusNode,
                   enabled: widget.enabled,
-                  autofillHints: <String>[
-                    AutofillHints.oneTimeCode,
-                  ],
+                  autofillHints: widget.enablePinAutofill
+                      ? <String>[AutofillHints.oneTimeCode]
+                      : null,
                   autofocus: widget.autoFocus,
                   autocorrect: false,
-                  keyboardType: widget.textInputType,
+                  keyboardType: widget.keyboardType,
                   keyboardAppearance: widget.keyboardAppearance,
                   textCapitalization: widget.textCapitalization,
                   validator: widget.validator,
@@ -621,14 +637,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         CupertinoDialogAction(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         CupertinoDialogAction(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
       ]);
@@ -637,14 +653,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         FlatButton(
           child: Text(_dialogConfig.negativeText),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         FlatButton(
           child: Text(_dialogConfig.affirmativeText),
           onPressed: () {
             _textEditingController.text = pastedText;
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
       ]);

@@ -149,6 +149,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
+                      keyboardType: TextInputType.number,
                       onCompleted: (v) {
                         print("Completed");
                       },
