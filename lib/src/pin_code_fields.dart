@@ -11,6 +11,13 @@ class PinCodeTextField extends StatefulWidget {
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
+  /// Character used for obscuring text if obscureText is true.
+  ///
+  /// Must not be empty. Single character is recommended.
+  ///
+  /// Default is ● - 'Black Circle' (U+25CF)
+  final String obscuringCharacter;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -125,6 +132,7 @@ class PinCodeTextField extends StatefulWidget {
     @required this.length,
     this.controller,
     this.obscureText = false,
+    this.obscuringCharacter = '●',
     @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
@@ -161,7 +169,8 @@ class PinCodeTextField extends StatefulWidget {
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
-  }) : super(key: key);
+  })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
+        super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -584,7 +593,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               },
               child: Text(
                 widget.obscureText && _inputList[i].isNotEmpty
-                    ? "●"
+                    ? widget.obscuringCharacter
                     : _inputList[i],
                 key: ValueKey(_inputList[i]),
                 style: widget.textStyle,
