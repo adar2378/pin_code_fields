@@ -52,6 +52,13 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
+  /// Character used for obscuring text if obscureText is true.
+  ///
+  /// Must not be empty. Single character is recommended.
+  ///
+  /// Default is ● - 'Black Circle' (U+25CF)
+  final String obscuringCharacter;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
