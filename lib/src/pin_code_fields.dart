@@ -132,7 +132,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Whether to show cursor or not
   final bool showCursor;
 
-  /// The color of the cursor
+  /// The color of the cursor, default to Theme.of(context).accentColor
   final Color cursorColor;
 
   /// width of the cursor, default to 2
@@ -318,6 +318,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(widget.textInputAction != null);
     assert(widget.autoDisposeControllers != null);
     assert(widget.autovalidateMode != null);
+    if (widget.showCursor) {
+      assert(widget.cursorWidth != null);
+    }
   }
 
   // Assigning the text controller, if empty assiging a new one.
