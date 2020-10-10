@@ -181,7 +181,7 @@ class PinCodeTextField extends StatefulWidget {
 }
 
 class _PinCodeTextFieldState extends State<PinCodeTextField>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TextEditingController _textEditingController;
   FocusNode _focusNode;
   List<String> _inputList;
@@ -191,10 +191,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   // AnimationController for the error animation
   AnimationController _controller;
 
+  AnimationController _cursorController;
+
   StreamSubscription<ErrorAnimationType> _errorAnimationSubscription;
 
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
+
+  Animation<double> _cursorAnimation;
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -223,6 +227,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>(widget.length);
     _initializeValues();
+
+    _cursorController = AnimationController(
+        duration: Duration(milliseconds: 1000), vsync: this);
+    _cursorAnimation = Tween<double>(
+      begin: 1,
+      end: 0,
+    ).animate(CurvedAnimation(
+      parent: _cursorController,
+      curve: Curves.easeIn,
+    ));
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.errorAnimationDuration),
       vsync: this,
@@ -234,6 +248,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       parent: _controller,
       curve: Curves.elasticIn,
     ));
+
+    _cursorController.repeat();
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -333,6 +349,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
 
     _errorAnimationSubscription?.cancel();
+
+    _cursorController.dispose();
 
     _controller.dispose();
     super.dispose();
@@ -551,7 +569,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             color: widget.enableActiveFill
                 ? _getFillColorFromIndex(i)
                 : Colors.transparent,
-            boxShadow: widget.boxShadow,
+            // boxShadow: widget.boxShadow,
             shape: _pinTheme.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
@@ -596,19 +614,34 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   );
                 }
               },
-              child: Text(
-                widget.obscureText && _inputList[i].isNotEmpty
-                    ? widget.obscuringCharacter
-                    : _inputList[i],
-                key: ValueKey(_inputList[i]),
-                style: widget.textStyle,
-              ),
+              child: buildChild(i),
             ),
           ),
         ),
       );
     }
     return result;
+  }
+
+  Widget buildChild(int index) {
+    if (((_selectedIndex == index)) && _focusNode.hasFocus) {
+      return Center(
+        child: FadeTransition(
+          opacity: _cursorAnimation,
+          child: CustomPaint(
+            size: Size(0, 28),
+            painter: CursorPainter(),
+          ),
+        ),
+      );
+    }
+    return Text(
+      widget.obscureText && _inputList[index].isNotEmpty
+          ? widget.obscuringCharacter
+          : _inputList[index],
+      key: ValueKey(_inputList[index]),
+      style: widget.textStyle,
+    );
   }
 
   void _onFocus() {
