@@ -31,6 +31,7 @@ void main() {
 
     await tester.pumpWidget(SizedBox());
     expect(controller.hasListener, isFalse);
+    controller.close();
   });
 
   /// This test demonstrates that a application can set a InputDecorationTheme

@@ -116,7 +116,7 @@ class PinCodeTextField extends StatefulWidget {
 
   /// enables auto validation for the [TextFormField]
   /// Default is false
-  final bool autoValidate;
+  final AutovalidateMode autovalidateMode;
 
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
@@ -168,7 +168,7 @@ class PinCodeTextField extends StatefulWidget {
     this.keyboardAppearance = Brightness.light,
     this.validator,
     this.onSaved,
-    this.autoValidate = false,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
@@ -285,7 +285,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(widget.textCapitalization != null);
     assert(widget.textInputAction != null);
     assert(widget.autoDisposeControllers != null);
-    assert(widget.autoValidate != null);
+    assert(widget.autovalidateMode != null);
   }
 
   // Assigning the text controller, if empty assiging a new one.
@@ -471,7 +471,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   textCapitalization: widget.textCapitalization,
                   validator: widget.validator,
                   onSaved: widget.onSaved,
-                  autovalidate: widget.autoValidate,
+                  autovalidateMode: widget.autovalidateMode,
                   inputFormatters: [
                     ...widget.inputFormatters,
                     LengthLimitingTextInputFormatter(
