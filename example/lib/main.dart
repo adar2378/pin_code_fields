@@ -126,7 +126,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       length: 6,
-                      obscureText: true,
+                      obscureText: false,
                       obscuringCharacter: '*',
                       animationType: AnimationType.fade,
                       validator: (v) {
@@ -139,17 +139,26 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 50,
-                        fieldWidth: 40,
+                        fieldHeight: 60,
+                        fieldWidth: 50,
                         activeFillColor:
                             hasError ? Colors.orange : Colors.white,
                       ),
+                      cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
+                      textStyle: TextStyle(fontSize: 20, height: 1.6),
                       backgroundColor: Colors.blue.shade50,
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
                       keyboardType: TextInputType.number,
+                      boxShadows: [
+                        BoxShadow(
+                          offset: Offset(0, 1),
+                          color: Colors.black12,
+                          blurRadius: 10,
+                        )
+                      ],
                       onCompleted: (v) {
                         print("Completed");
                       },
