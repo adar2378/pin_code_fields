@@ -1,3 +1,33 @@
+# [6.0.0]
+
+### Features ✨
+
+- Added Cursor
+  `
+  /// Whether to show cursor or not
+  final bool showCursor;
+
+  /// The color of the cursor, default to Theme.of(context).accentColor
+  final Color cursorColor;
+
+  /// width of the cursor, default to 2
+  final double cursorWidth;
+
+  /// Height of the cursor, default to FontSize + 8;
+  final double cursorHeight;
+  `
+
+- Added boxhShadows
+
+### Breaking changes ⚠️
+
+- `autoValidate` changed according to the new version of Flutter
+- Minimum Flutter version is set to 1.22.0
+
+### Fixes 🐛
+
+- typo fixes
+
 # [5.2.0]
 
 ### Features ✨
