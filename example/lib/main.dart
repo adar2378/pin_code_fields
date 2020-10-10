@@ -152,6 +152,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       errorAnimationController: errorController,
                       controller: textEditingController,
                       keyboardType: TextInputType.number,
+                      boxShadows: [
+                        BoxShadow(
+                          offset: Offset(0, 1),
+                          color: Colors.black12,
+                          blurRadius: 10,
+                        )
+                      ],
                       onCompleted: (v) {
                         print("Completed");
                       },
