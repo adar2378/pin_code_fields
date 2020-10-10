@@ -129,6 +129,18 @@ class PinCodeTextField extends StatefulWidget {
   /// Error animation duration
   final int errorAnimationDuration;
 
+  /// Whether to show cursor or not
+  final bool showCursor;
+
+  /// The color of the cursor
+  final Color cursorColor;
+
+  /// width of the cursor, default to 2
+  final double cursorWidth;
+
+  /// Height of the cursor, default to FontSize + 8;
+  final double cursorHeight;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -173,6 +185,10 @@ class PinCodeTextField extends StatefulWidget {
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
     this.boxShadow,
+    this.showCursor = true,
+    this.cursorColor,
+    this.cursorWidth = 2,
+    this.cursorHeight,
   })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -390,6 +406,35 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       return _pinTheme.activeFillColor;
     }
     return _pinTheme.inactiveFillColor;
+  }
+
+  /// Builds the widget to be shown
+  Widget buildChild(int index) {
+    if (((_selectedIndex == index)) &&
+        _focusNode.hasFocus &&
+        widget.showCursor) {
+      final cursorColor = widget.cursorColor ?? Theme.of(context).accentColor;
+      final cursorHeight = widget.cursorHeight ?? widget.textStyle.fontSize + 8;
+      return Center(
+        child: FadeTransition(
+          opacity: _cursorAnimation,
+          child: CustomPaint(
+            size: Size(0, cursorHeight),
+            painter: CursorPainter(
+              cursorColor: cursorColor,
+              cursorWidth: widget.cursorWidth,
+            ),
+          ),
+        ),
+      );
+    }
+    return Text(
+      widget.obscureText && _inputList[index].isNotEmpty
+          ? widget.obscuringCharacter
+          : _inputList[index],
+      key: ValueKey(_inputList[index]),
+      style: widget.textStyle,
+    );
   }
 
   Future<void> _showPasteDialog(String pastedText) {
@@ -621,27 +666,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       );
     }
     return result;
-  }
-
-  Widget buildChild(int index) {
-    if (((_selectedIndex == index)) && _focusNode.hasFocus) {
-      return Center(
-        child: FadeTransition(
-          opacity: _cursorAnimation,
-          child: CustomPaint(
-            size: Size(0, 28),
-            painter: CursorPainter(),
-          ),
-        ),
-      );
-    }
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty
-          ? widget.obscuringCharacter
-          : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: widget.textStyle,
-    );
   }
 
   void _onFocus() {
