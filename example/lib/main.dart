@@ -144,6 +144,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         activeFillColor:
                             hasError ? Colors.orange : Colors.white,
                       ),
+                      cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
                       textStyle: TextStyle(fontSize: 20, height: 1.6),
                       backgroundColor: Colors.blue.shade50,

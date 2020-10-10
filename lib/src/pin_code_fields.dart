@@ -6,7 +6,7 @@ class PinCodeTextField extends StatefulWidget {
   final BuildContext appContext;
 
   ///Box Shadow for Pincode
-  final List<BoxShadow> boxShadow;
+  final List<BoxShadow> boxShadows;
 
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
@@ -184,7 +184,7 @@ class PinCodeTextField extends StatefulWidget {
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
-    this.boxShadow,
+    this.boxShadows,
     this.showCursor = true,
     this.cursorColor,
     this.cursorWidth = 2,
@@ -413,23 +413,55 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   /// Builds the widget to be shown
   Widget buildChild(int index) {
-    if (((_selectedIndex == index)) &&
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus &&
         widget.showCursor) {
-      final cursorColor = widget.cursorColor ?? Theme.of(context).accentColor;
+      final cursorColor =
+          widget.cursorColor ?? Theme.of(widget.appContext).cursorColor;
       final cursorHeight = widget.cursorHeight ?? widget.textStyle.fontSize + 8;
-      return Center(
-        child: FadeTransition(
-          opacity: _cursorAnimation,
-          child: CustomPaint(
-            size: Size(0, cursorHeight),
-            painter: CursorPainter(
-              cursorColor: cursorColor,
-              cursorWidth: widget.cursorWidth,
+
+      if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(left: widget.textStyle.fontSize / 1.5),
+                child: FadeTransition(
+                  opacity: _cursorAnimation,
+                  child: CustomPaint(
+                    size: Size(0, cursorHeight),
+                    painter: CursorPainter(
+                      cursorColor: cursorColor,
+                      cursorWidth: widget.cursorWidth,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Text(
+              widget.obscureText && _inputList[index].isNotEmpty
+                  ? widget.obscuringCharacter
+                  : _inputList[index],
+              key: ValueKey(_inputList[index]),
+              style: widget.textStyle,
+            ),
+          ],
+        );
+      } else
+        return Center(
+          child: FadeTransition(
+            opacity: _cursorAnimation,
+            child: CustomPaint(
+              size: Size(0, cursorHeight),
+              painter: CursorPainter(
+                cursorColor: cursorColor,
+                cursorWidth: widget.cursorWidth,
+              ),
             ),
           ),
-        ),
-      );
+        );
     }
     return Text(
       widget.obscureText && _inputList[index].isNotEmpty
@@ -617,7 +649,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             color: widget.enableActiveFill
                 ? _getFillColorFromIndex(i)
                 : Colors.transparent,
-            // boxShadow: widget.boxShadow,
+            boxShadow: widget.boxShadows,
             shape: _pinTheme.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
