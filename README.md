@@ -28,7 +28,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 
 #### Demo
 
-<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/pin_code_example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
+<img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/example.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_android.gif" width="240" height="480"> <img src="https://raw.githubusercontent.com/adar2378/pin_code_fields/master/demo_media/paste_ios.gif" width="240" height="480">
 
 #### Different Shapes
 
