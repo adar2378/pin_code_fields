@@ -5,6 +5,9 @@ class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
+  ///Box Shadow for Pincode
+  final List<BoxShadow> boxShadow;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
@@ -169,6 +172,7 @@ class PinCodeTextField extends StatefulWidget {
     this.errorTextSpace = 16,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
+    this.boxShadow,
   })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -547,6 +551,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             color: widget.enableActiveFill
                 ? _getFillColorFromIndex(i)
                 : Colors.transparent,
+            boxShadow: widget.boxShadow,
             shape: _pinTheme.shape == PinCodeFieldShape.circle
                 ? BoxShape.circle
                 : BoxShape.rectangle,
