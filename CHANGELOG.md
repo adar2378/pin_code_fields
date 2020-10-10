@@ -1,3 +1,15 @@
+# [5.2.0]
+
+### Features ✨
+
+- Added `obscuringCharacter`, Must not be empty. Single character is recommended.
+  Default is ● - 'Black Circle' (U+25CF)
+
+### Fixes 🐛
+
+- Fixed typo
+- Dispose error animation stream when widget is disposed
+
 # [5.1.0]
 
 ### Features ✨

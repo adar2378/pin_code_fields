@@ -52,6 +52,13 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
+  /// Character used for obscuring text if obscureText is true.
+  ///
+  /// Must not be empty. Single character is recommended.
+  ///
+  /// Default is ● - 'Black Circle' (U+25CF)
+  final String obscuringCharacter;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -252,7 +259,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 ```Dart
 PinCodeTextField(
   length: 6,
-  obsecureText: false,
+  obscureText: false,
   animationType: AnimationType.fade,
   pinTheme: PinTheme(
     shape: PinCodeFieldShape.box,
@@ -309,7 +316,7 @@ StreamController<ErrorAnimationType> errorController = StreamController<ErrorAni
 ```Dart
 PinCodeTextField(
   length: 6,
-  obsecureText: false,
+  obscureText: false,
   animationType: AnimationType.fade,
   animationDuration: Duration(milliseconds: 300),
   errorAnimationController: errorController, // Pass it here
@@ -451,7 +458,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
                       length: 6,
-                      obsecureText: false,
+                      obscureText: false,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {

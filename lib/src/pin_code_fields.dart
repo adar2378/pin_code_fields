@@ -14,6 +14,13 @@ class PinCodeTextField extends StatefulWidget {
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
+  /// Character used for obscuring text if obscureText is true.
+  ///
+  /// Must not be empty. Single character is recommended.
+  ///
+  /// Default is ● - 'Black Circle' (U+25CF)
+  final String obscuringCharacter;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -128,6 +135,7 @@ class PinCodeTextField extends StatefulWidget {
     @required this.length,
     this.controller,
     this.obscureText = false,
+    this.obscuringCharacter = '●',
     @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
@@ -165,7 +173,8 @@ class PinCodeTextField extends StatefulWidget {
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
     this.boxShadow,
-  }) : super(key: key);
+  })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
+        super(key: key);
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
@@ -181,6 +190,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // AnimationController for the error animation
   AnimationController _controller;
+
+  StreamSubscription<ErrorAnimationType> _errorAnimationSubscription;
 
   // Animation for the error animation
   Animation<Offset> _offsetAnimation;
@@ -229,8 +240,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _controller.reverse();
       }
     });
+
     if (widget.errorAnimationController != null) {
-      widget.errorAnimationController.stream.listen((errorAnimation) {
+      _errorAnimationSubscription =
+          widget.errorAnimationController.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
         }
@@ -318,6 +331,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       //       "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
       // }
     }
+
+    _errorAnimationSubscription?.cancel();
+
     _controller.dispose();
     super.dispose();
   }
@@ -582,7 +598,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               },
               child: Text(
                 widget.obscureText && _inputList[i].isNotEmpty
-                    ? "●"
+                    ? widget.obscuringCharacter
                     : _inputList[i],
                 key: ValueKey(_inputList[i]),
                 style: widget.textStyle,
