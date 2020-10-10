@@ -11,6 +11,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Features 💚
 
 - Automatically focuses the next field on typing and focuses previous field on deletation
+- Cursor support ⚡️
 - Can be set to any length. (3-6 fields recommended)
 - 3 different shapes for text fields
 - Highly customizable
@@ -39,12 +40,16 @@ A flutter package which will help you to generate pin code fields with beautiful
 - To change the keyboard type, for example to use only number keyboard, or only for email use `keyboardType` parameter, default is [TextInputType.visiblePassword]
 - `FocosNode` and `TextEditingController` will get disposed automatically. Use `autoDisposeControllers = false` to disable it.
 - to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
+- to use v6.0.0 or above, developers must have Flutter SDK 1.22.0 or above.
 
 ## Properties 🔖
 
 ```Dart
-  /// The [BuildContext] of the application
+   /// The [BuildContext] of the application
   final BuildContext appContext;
+
+  ///Box Shadow for Pincode
+  final List<BoxShadow> boxShadows;
 
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
@@ -154,7 +159,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// enables auto validation for the [TextFormField]
   /// Default is false
-  final bool autoValidate;
+  final AutovalidateMode autovalidateMode;
 
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
@@ -166,6 +171,18 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// Error animation duration
   final int errorAnimationDuration;
+
+  /// Whether to show cursor or not
+  final bool showCursor;
+
+  /// The color of the cursor, default to Theme.of(context).accentColor
+  final Color cursorColor;
+
+  /// width of the cursor, default to 2
+  final double cursorWidth;
+
+  /// Height of the cursor, default to FontSize + 8;
+  final double cursorHeight;
 
 ```
 
@@ -251,6 +268,9 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/darkang3lz92"><img src="https://avatars3.githubusercontent.com/u/33158127?v=3" width="100px;" alt="Dango Mango"/><br /><sub><b>Dango Mango</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=darkang3lz92" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/Frezyx"><img src="https://avatars1.githubusercontent.com/u/40857927?v=3" width="100px;" alt="Stanislav Ilin"/><br /><sub><b>Stanislav Ilin</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=Frezyx" title="Code">💻</a></td>
    <td align="center"><a href="https://github.com/VarunBarad"><img src="https://avatars0.githubusercontent.com/u/8678857?v=3" width="100px;" alt="Varun Barad"/><br /><sub><b>Varun Barad</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=VarunBarad" title="Code">💻</a></td>
+   <td align="center"><a href="https://github.com/mohak852"><img src="https://avatars0.githubusercontent.com/u/58987025?v=3" width="100px;" alt="Mohak Shrivastava"/><br /><sub><b>Mohak Shrivastava</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=mohak852" title="Code">💻</a></td>
+   <td align="center"><a href="https://github.com/ItamarMu"><img src="https://avatars0.githubusercontent.com/u/27651221?v=3" width="100px;" alt="ItamarMu"/><br /><sub><b>ItamarMu</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItamarMu" title="Code">💻</a></td>
+   <td align="center"><a href="https://github.com/Margarets00"><img src="https://avatars0.githubusercontent.com/u/39041161?v=3" width="100px;" alt="Kim Minju"/><br /><sub><b>Kim Minju</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=Margarets00" title="Code">💻</a></td>
   </tr>
 </table>
 
@@ -365,8 +385,8 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
-  TextEditingController textEditingController = TextEditingController()
-    ..text = "123456";
+  TextEditingController textEditingController = TextEditingController();
+  // ..text = "123456";
 
   StreamController<ErrorAnimationType> errorController;
 
@@ -398,9 +418,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       backgroundColor: Colors.blue.shade50,
       key: scaffoldKey,
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
+        onTap: () {},
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -416,11 +434,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   alignment: Alignment.center,
                 ),
               ),
-              // Image.asset(
-              //   'assets/verify.png',
-              //   height: MediaQuery.of(context).size.height / 3,
-              //   fit: BoxFit.fitHeight,
-              // ),
               SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -457,8 +470,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 8.0, horizontal: 30),
                     child: PinCodeTextField(
+                      appContext: context,
+                      pastedTextStyle: TextStyle(
+                        color: Colors.green.shade600,
+                        fontWeight: FontWeight.bold,
+                      ),
                       length: 6,
                       obscureText: false,
+                      obscuringCharacter: '*',
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {
@@ -470,19 +489,32 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 50,
-                        fieldWidth: 40,
+                        fieldHeight: 60,
+                        fieldWidth: 50,
                         activeFillColor:
                             hasError ? Colors.orange : Colors.white,
                       ),
+                      cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
+                      textStyle: TextStyle(fontSize: 20, height: 1.6),
                       backgroundColor: Colors.blue.shade50,
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
+                      keyboardType: TextInputType.number,
+                      boxShadows: [
+                        BoxShadow(
+                          offset: Offset(0, 1),
+                          color: Colors.black12,
+                          blurRadius: 10,
+                        )
+                      ],
                       onCompleted: (v) {
                         print("Completed");
                       },
+                      // onTap: () {
+                      //   print("Pressed");
+                      // },
                       onChanged: (value) {
                         print(value);
                         setState(() {
@@ -501,7 +533,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   hasError ? "*Please fill up all the cells properly" : "",
-                  style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(
@@ -601,5 +636,4 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     );
   }
 }
-
 ```
