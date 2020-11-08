@@ -249,6 +249,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _initializeValues();
 
     _cursorController = AnimationController(
+      vsync: this,
         duration: Duration(milliseconds: 1000));
     _cursorAnimation = Tween<double>(
       begin: 1,
@@ -258,6 +259,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       curve: Curves.easeIn,
     ));
     _controller = AnimationController(
+            vsync: this,
       duration: Duration(milliseconds: widget.errorAnimationDuration),
     );
     _offsetAnimation = Tween<Offset>(
