@@ -141,6 +141,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Height of the cursor, default to FontSize + 8;
   final double cursorHeight;
 
+  //ScrollPadding of the TextFormField, default to null
+  final EdgeInsets scrollPadding;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -189,6 +192,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+    this.scrollPadding,
   })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -245,7 +249,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _initializeValues();
 
     _cursorController = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
+        duration: Duration(milliseconds: 1000));
     _cursorAnimation = Tween<double>(
       begin: 1,
       end: 0,
@@ -255,7 +259,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     ));
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.errorAnimationDuration),
-      vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset.zero,
@@ -555,6 +558,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               absorbing: true, // it prevents on tap on the text field
               child: AutofillGroup(
                 child: TextFormField(
+                  scrollPadding: widget.scrollPadding,
                   textInputAction: widget.textInputAction,
                   controller: _textEditingController,
                   focusNode: _focusNode,
