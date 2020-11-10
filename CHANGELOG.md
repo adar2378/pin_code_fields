@@ -1,3 +1,5 @@
+[6.0.1] - Fixed read-only warning when field is not `enabled` & cursor animation now only triggers if `showCursor = true`
+
 # [6.0.0]
 
 ### Features ✨
