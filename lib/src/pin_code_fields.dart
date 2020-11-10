@@ -418,8 +418,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
         _focusNode.hasFocus &&
         widget.showCursor) {
-      final cursorColor =
-          widget.cursorColor ?? Theme.of(widget.appContext).cursorColor;
+      final cursorColor = widget.cursorColor ??
+          Theme.of(widget.appContext).textSelectionTheme.cursorColor;
       final cursorHeight = widget.cursorHeight ?? widget.textStyle.fontSize + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
