@@ -264,8 +264,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       parent: _controller,
       curve: Curves.elasticIn,
     ));
-
-    _cursorController.repeat();
+    if (widget.showCursor) {
+      _cursorController.repeat();
+    }
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -559,7 +560,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   controller: _textEditingController,
                   focusNode: _focusNode,
                   enabled: widget.enabled,
-                  autofillHints: widget.enablePinAutofill
+                  autofillHints: widget.enablePinAutofill && widget.enabled
                       ? <String>[AutofillHints.oneTimeCode]
                       : null,
                   autofocus: widget.autoFocus,
