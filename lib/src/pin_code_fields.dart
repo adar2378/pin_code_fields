@@ -591,6 +591,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     fillColor: widget.backgroundColor,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                   ),
                   style: TextStyle(
                     color: Colors.transparent,
