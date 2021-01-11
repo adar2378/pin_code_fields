@@ -12,9 +12,9 @@ description: A new Flutter project.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
-
+publish_to: none
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
   flutter:
@@ -25,7 +25,6 @@ dependencies:
 
   pin_code_fields:
     path: ..//
-  flare_flutter: ^2.0.5
   # change the path later
 dev_dependencies:
   flutter_test:
@@ -45,6 +44,7 @@ flutter:
   assets:
     - assets/verify.png
     - assets/otp.flr
+    - assets/otp.gif
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

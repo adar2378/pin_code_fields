@@ -1,9 +1,8 @@
 import 'dart:async';
-
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import './constants/constants.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class PinCodeVerificationScreen extends StatefulWidget {
-  final String phoneNumber;
+  final String? phoneNumber;
 
   PinCodeVerificationScreen(this.phoneNumber);
 
@@ -33,40 +32,43 @@ class PinCodeVerificationScreen extends StatefulWidget {
 }
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
-  var onTapRecognizer;
-
   TextEditingController textEditingController = TextEditingController();
   // ..text = "123456";
 
-  StreamController<ErrorAnimationType> errorController;
+  // ignore: close_sinks
+  StreamController<ErrorAnimationType>? errorController;
 
   bool hasError = false;
   String currentText = "";
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    onTapRecognizer = TapGestureRecognizer()
-      ..onTap = () {
-        Navigator.pop(context);
-      };
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
 
   @override
   void dispose() {
-    errorController.close();
+    errorController!.close();
 
     super.dispose();
+  }
+
+  // snackBar Widget
+  snackBar(String? message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message!),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
-      key: scaffoldKey,
+      backgroundColor: Constants.PRIMARY_COLOR,
       body: GestureDetector(
         onTap: () {},
         child: Container(
@@ -77,11 +79,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               SizedBox(height: 30),
               Container(
                 height: MediaQuery.of(context).size.height / 3,
-                child: FlareActor(
-                  "assets/otp.flr",
-                  animation: "otp",
-                  fit: BoxFit.fitHeight,
-                  alignment: Alignment.center,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset("${Constants.OTP_GIF_IMAGE}"),
                 ),
               ),
               SizedBox(height: 8),
@@ -101,7 +101,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       text: "Enter the code sent to ",
                       children: [
                         TextSpan(
-                            text: widget.phoneNumber,
+                            text: "${widget.phoneNumber}",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       obscuringCharacter: '*',
                       animationType: AnimationType.fade,
                       validator: (v) {
-                        if (v.length < 3) {
+                        if (v!.length < 3) {
                           return "I'm from validator";
                         } else {
                           return null;
@@ -147,7 +147,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
                       textStyle: TextStyle(fontSize: 20, height: 1.6),
-                      backgroundColor: Colors.blue.shade50,
+                      backgroundColor: Color(0xffFBFBFB),
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
@@ -192,20 +192,23 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               SizedBox(
                 height: 20,
               ),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: "Didn't receive the code? ",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Didn't receive the code? ",
                     style: TextStyle(color: Colors.black54, fontSize: 15),
-                    children: [
-                      TextSpan(
-                          text: " RESEND",
-                          recognizer: onTapRecognizer,
-                          style: TextStyle(
-                              color: Color(0xFF91D3B3),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16))
-                    ]),
+                  ),
+                  TextButton(
+                      onPressed: () => snackBar("OTP resend!!"),
+                      child: Text(
+                        "RESEND",
+                        style: TextStyle(
+                            color: Color(0xFF91D3B3),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ))
+                ],
               ),
               SizedBox(
                 height: 14,
@@ -217,22 +220,21 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   height: 50,
                   child: FlatButton(
                     onPressed: () {
-                      formKey.currentState.validate();
+                      formKey.currentState!.validate();
                       // conditions for validating
-                      if (currentText.length != 6 || currentText != "towtow") {
-                        errorController.add(ErrorAnimationType
+                      if (currentText.length != 6 || currentText != "123456") {
+                        errorController!.add(ErrorAnimationType
                             .shake); // Triggering error shake animation
                         setState(() {
                           hasError = true;
                         });
                       } else {
-                        setState(() {
-                          hasError = false;
-                          scaffoldKey.currentState.showSnackBar(SnackBar(
-                            content: Text("Aye!!"),
-                            duration: Duration(seconds: 2),
-                          ));
-                        });
+                        setState(
+                          () {
+                            hasError = false;
+                            snackBar("OTP Verified!!");
+                          },
+                        );
                       }
                     },
                     child: Center(
@@ -274,7 +276,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   FlatButton(
                     child: Text("Set Text"),
                     onPressed: () {
-                      textEditingController.text = "123456";
+                      setState(() {
+                        textEditingController.text = "123456";
+                      });
                     },
                   ),
                 ],
