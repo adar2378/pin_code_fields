@@ -717,10 +717,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       replaceInputList[i] = data.length > i ? data[i] : "";
     }
 
-    setState(() {
-      _selectedIndex = data.length;
-      _inputList = replaceInputList;
-    });
+    if (mounted)
+      setState(() {
+        _selectedIndex = data.length;
+        _inputList = replaceInputList;
+      });
   }
 
   List<Widget> _getActionButtons(String pastedText) {
