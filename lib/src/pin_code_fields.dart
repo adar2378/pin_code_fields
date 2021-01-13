@@ -223,7 +223,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           dialogTitle: widget.dialogConfig.dialogTitle,
           negativeText: widget.dialogConfig.negativeText);
   PinTheme get _pinTheme => widget.pinTheme ?? PinTheme();
-
+  TextStyle get _textStyle => TextStyle(
+        fontSize: 20,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+      ).merge(widget.textStyle);
   @override
   void initState() {
     // if (!kReleaseMode) {
@@ -414,7 +418,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       final cursorColor = widget.cursorColor ??
           Theme.of(widget.appContext).textSelectionTheme?.cursorColor ??
           Theme.of(context).accentColor;
-      final cursorHeight = widget.cursorHeight ?? widget.textStyle.fontSize + 8;
+      final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
         return Stack(
@@ -422,7 +426,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           children: [
             Center(
               child: Padding(
-                padding: EdgeInsets.only(left: widget.textStyle.fontSize / 1.5),
+                padding: EdgeInsets.only(left: _textStyle.fontSize / 1.5),
                 child: FadeTransition(
                   opacity: _cursorAnimation,
                   child: CustomPaint(
@@ -440,7 +444,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   ? widget.obscuringCharacter
                   : _inputList[index],
               key: ValueKey(_inputList[index]),
-              style: widget.textStyle,
+              style: _textStyle,
             ),
           ],
         );
@@ -463,7 +467,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ? widget.obscuringCharacter
           : _inputList[index],
       key: ValueKey(_inputList[index]),
-      style: widget.textStyle,
+      style: _textStyle,
     );
   }
 

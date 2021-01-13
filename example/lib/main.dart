@@ -139,14 +139,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 60,
-                        fieldWidth: 50,
+                        fieldHeight: 50,
+                        fieldWidth: 40,
                         activeFillColor:
                             hasError ? Colors.orange : Colors.white,
                       ),
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
-                      textStyle: TextStyle(fontSize: 20, height: 1.6),
                       backgroundColor: Colors.blue.shade50,
                       enableActiveFill: true,
                       errorAnimationController: errorController,
