@@ -26,6 +26,13 @@ class PinCodeTextField extends StatefulWidget {
   /// it overrides the obscuringCharacter
   final Widget obscuringWidget;
 
+  /// Decides whether typed character should be
+  /// briefly shown before being obscured
+  final bool blinkWhenObscuring;
+
+  /// Blink Duration if blinkWhenObscuring is set to true
+  final Duration blinkDuration;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -154,6 +161,8 @@ class PinCodeTextField extends StatefulWidget {
     this.obscureText = false,
     this.obscuringCharacter = '●',
     this.obscuringWidget,
+    this.blinkWhenObscuring = false,
+    this.blinkDuration = const Duration(milliseconds: 500),
     @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
@@ -210,6 +219,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   int _selectedIndex = 0;
   BorderRadius borderRadius;
 
+  // Whether the character has blinked
+  bool _hasBlinked;
+
   // AnimationController for the error animation
   AnimationController _controller;
 
@@ -221,6 +233,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   Animation<Offset> _offsetAnimation;
 
   Animation<double> _cursorAnimation;
+
+  Timer _blinkDebounce;
 
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
@@ -256,6 +270,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
+
+    _hasBlinked = true;
 
     _cursorController = AnimationController(
         duration: Duration(milliseconds: 1000), vsync: this);
@@ -345,6 +361,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       _textEditingController = widget.controller;
     }
     _textEditingController.addListener(() {
+      _debounceBlink();
+
       var currentText = _textEditingController.text;
 
       if (widget.enabled && _inputList.join("") != currentText) {
@@ -368,6 +386,30 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
       _setTextToInput(currentText);
     });
+  }
+
+  void _debounceBlink() {
+    // set has blinked to false and back to true
+    // after duration
+    if (widget.blinkWhenObscuring &&
+    _textEditingController.text.length > _inputList.where((x) => x.isNotEmpty).length) {
+      setState(() {
+        _hasBlinked = false;
+      });
+
+      if (_blinkDebounce?.isActive ?? false) {
+        _blinkDebounce.cancel();
+      }
+
+      _blinkDebounce = Timer(
+        widget.blinkDuration,
+          (){
+            setState(() {
+              _hasBlinked = true;
+            });
+          }
+      );
+    }
   }
 
   @override
@@ -409,14 +451,20 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }) {
     assert(index != null);
 
-    if(widget.obscuringWidget != null){
-      if(_inputList[index].isNotEmpty){
-        return widget.obscuringWidget;
+    bool showObscured = !widget.blinkWhenObscuring ||
+        (widget.blinkWhenObscuring && _hasBlinked) ||
+        index != _inputList.where((x) => x.isNotEmpty).length - 1;
+
+    if (widget.obscuringWidget != null) {
+      if (showObscured) {
+        if (_inputList[index].isNotEmpty) {
+          return widget.obscuringWidget;
+        }
       }
     }
 
     return Text(
-      widget.obscureText && _inputList[index].isNotEmpty
+      widget.obscureText && _inputList[index].isNotEmpty && showObscured
           ? widget.obscuringCharacter
           : _inputList[index],
       key: ValueKey(_inputList[index]),
