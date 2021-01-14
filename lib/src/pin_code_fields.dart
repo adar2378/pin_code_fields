@@ -21,6 +21,11 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is ● - 'Black Circle' (U+25CF)
   final String obscuringCharacter;
 
+  /// Widget used to obscure text
+  ///
+  /// it overrides the obscuringCharacter
+  final Widget obscuringWidget;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -148,6 +153,7 @@ class PinCodeTextField extends StatefulWidget {
     this.controller,
     this.obscureText = false,
     this.obscuringCharacter = '●',
+    this.obscuringWidget,
     @required this.onChanged,
     this.onCompleted,
     this.backgroundColor = Colors.white,
@@ -215,6 +221,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   Animation<Offset> _offsetAnimation;
 
   Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -222,12 +229,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           dialogContent: widget.dialogConfig.dialogContent,
           dialogTitle: widget.dialogConfig.dialogTitle,
           negativeText: widget.dialogConfig.negativeText);
+
   PinTheme get _pinTheme => widget.pinTheme ?? PinTheme();
+
   TextStyle get _textStyle => TextStyle(
         fontSize: 20,
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ).merge(widget.textStyle);
+
   @override
   void initState() {
     // if (!kReleaseMode) {
@@ -394,6 +404,26 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return _pinTheme.inactiveColor;
   }
 
+  Widget _renderPinField({
+    @required int index,
+  }) {
+    assert(index != null);
+
+    if(widget.obscuringWidget != null){
+      if(_inputList[index].isNotEmpty){
+        return widget.obscuringWidget;
+      }
+    }
+
+    return Text(
+      widget.obscureText && _inputList[index].isNotEmpty
+          ? widget.obscuringCharacter
+          : _inputList[index],
+      key: ValueKey(_inputList[index]),
+      style: _textStyle,
+    );
+  }
+
 // selects the right fill color for the field
   Color _getFillColorFromIndex(int index) {
     if (!widget.enabled) {
@@ -439,12 +469,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 ),
               ),
             ),
-            Text(
-              widget.obscureText && _inputList[index].isNotEmpty
-                  ? widget.obscuringCharacter
-                  : _inputList[index],
-              key: ValueKey(_inputList[index]),
-              style: _textStyle,
+            _renderPinField(
+              index: index,
             ),
           ],
         );
@@ -462,12 +488,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ),
         );
     }
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty
-          ? widget.obscuringCharacter
-          : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: _textStyle,
+    return _renderPinField(
+      index: index,
     );
   }
 
