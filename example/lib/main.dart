@@ -264,18 +264,20 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  FlatButton(
+                  Flexible(
+                      child: FlatButton(
                     child: Text("Clear"),
                     onPressed: () {
                       textEditingController.clear();
                     },
-                  ),
-                  FlatButton(
+                  )),
+                  Flexible(
+                      child: FlatButton(
                     child: Text("Set Text"),
                     onPressed: () {
                       textEditingController.text = "123456";
                     },
-                  ),
+                  )),
                 ],
               )
             ],
