@@ -1,13 +1,5 @@
 part of pin_code_fields;
 
-enum HapticFeedbackTypes{
-  heavy,
-  light,
-  medium,
-  selection,
-  vibrate,
-}
-
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
@@ -375,8 +367,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
   }
 
-  runHapticFeedback(){
-    switch(widget.hapticFeedbackTypes){
+  runHapticFeedback() {
+    switch (widget.hapticFeedbackTypes) {
       case HapticFeedbackTypes.heavy:
         HapticFeedback.heavyImpact();
         break;
@@ -410,7 +402,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       _textEditingController = widget.controller;
     }
     _textEditingController.addListener(() {
-      if(widget.useHapticFeedback){
+      if (widget.useHapticFeedback) {
         runHapticFeedback();
       }
 
@@ -445,7 +437,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     // set has blinked to false and back to true
     // after duration
     if (widget.blinkWhenObscuring &&
-    _textEditingController.text.length > _inputList.where((x) => x.isNotEmpty).length) {
+        _textEditingController.text.length >
+            _inputList.where((x) => x.isNotEmpty).length) {
       setState(() {
         _hasBlinked = false;
       });
@@ -454,14 +447,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _blinkDebounce.cancel();
       }
 
-      _blinkDebounce = Timer(
-        widget.blinkDuration,
-          (){
-            setState(() {
-              _hasBlinked = true;
-            });
-          }
-      );
+      _blinkDebounce = Timer(widget.blinkDuration, () {
+        setState(() {
+          _hasBlinked = true;
+        });
+      });
     }
   }
 
@@ -889,8 +879,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return resultList;
   }
 }
-
-enum AnimationType { scale, slide, fade, none }
 
 enum PinCodeFieldShape { box, underline, circle }
 
