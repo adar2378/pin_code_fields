@@ -126,8 +126,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       length: 6,
-                      obscureText: false,
+                      obscureText: true,
                       obscuringCharacter: '*',
+                      blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v.length < 3) {

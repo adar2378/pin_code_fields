@@ -1,4 +1,12 @@
-[6.0.3]
+# [6.1.0]
+
+### Features ✨
+
+- Added haptic feedback
+  `enum HapticFeedbackTypes { heavy, light, medium, selection, vibrate, }`
+- Added animated obscure widget support `obscuringWidget` and `blinkWhenObscuring`
+
+### Fixes 🐛
 
 - Fixed bug related to TextStyle not given.
 - Fixed bug related to setState is being called after disposal.
