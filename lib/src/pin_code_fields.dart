@@ -26,6 +26,11 @@ class PinCodeTextField extends StatefulWidget {
   /// it overrides the obscuringCharacter
   final Widget obscuringWidget;
 
+  /// Whether to use haptic feedback or not
+  ///
+  ///
+  final bool useHapticFeedback;
+
   /// Decides whether typed character should be
   /// briefly shown before being obscured
   final bool blinkWhenObscuring;
@@ -181,6 +186,7 @@ class PinCodeTextField extends StatefulWidget {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
+    this.useHapticFeedback = false,
     this.pastedTextStyle,
     this.enableActiveFill = false,
     this.textCapitalization = TextCapitalization.none,
@@ -361,6 +367,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       _textEditingController = widget.controller;
     }
     _textEditingController.addListener(() {
+      if(widget.useHapticFeedback){
+        HapticFeedback.heavyImpact();
+      }
+
       _debounceBlink();
 
       var currentText = _textEditingController.text;
