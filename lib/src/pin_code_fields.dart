@@ -1,5 +1,13 @@
 part of pin_code_fields;
 
+enum HapticFeedbackTypes{
+  heavy,
+  light,
+  medium,
+  selection,
+  vibrate,
+}
+
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
@@ -25,6 +33,18 @@ class PinCodeTextField extends StatefulWidget {
   ///
   /// it overrides the obscuringCharacter
   final Widget obscuringWidget;
+
+  /// Whether to use haptic feedback or not
+  ///
+  ///
+  final bool useHapticFeedback;
+
+  /// Haptic Feedback Types
+  ///
+  /// heavy, medium, light links to respective impacts
+  /// selection - selectionClick, vibrate - vibrate
+  /// check [HapticFeedback] for more
+  final HapticFeedbackTypes hapticFeedbackTypes;
 
   /// Decides whether typed character should be
   /// briefly shown before being obscured
@@ -181,6 +201,8 @@ class PinCodeTextField extends StatefulWidget {
       color: Colors.black,
       fontWeight: FontWeight.bold,
     ),
+    this.useHapticFeedback = false,
+    this.hapticFeedbackTypes = HapticFeedbackTypes.light,
     this.pastedTextStyle,
     this.enableActiveFill = false,
     this.textCapitalization = TextCapitalization.none,
@@ -353,6 +375,33 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
   }
 
+  runHapticFeedback(){
+    switch(widget.hapticFeedbackTypes){
+      case HapticFeedbackTypes.heavy:
+        HapticFeedback.heavyImpact();
+        break;
+
+      case HapticFeedbackTypes.medium:
+        HapticFeedback.mediumImpact();
+        break;
+
+      case HapticFeedbackTypes.light:
+        HapticFeedback.lightImpact();
+        break;
+
+      case HapticFeedbackTypes.selection:
+        HapticFeedback.selectionClick();
+        break;
+
+      case HapticFeedbackTypes.vibrate:
+        HapticFeedback.vibrate();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   // Assigning the text controller, if empty assiging a new one.
   void _assignController() {
     if (widget.controller == null) {
@@ -361,6 +410,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       _textEditingController = widget.controller;
     }
     _textEditingController.addListener(() {
+      if(widget.useHapticFeedback){
+        runHapticFeedback();
+      }
+
       _debounceBlink();
 
       var currentText = _textEditingController.text;
