@@ -54,14 +54,14 @@ class PinCodeTextField extends StatefulWidget {
   /// returns the typed text when user presses done/next action on the keyboard
   final ValueChanged<String> onSubmitted;
 
-  /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
+  /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
   final TextStyle textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
   /// [TextStyle.color] is [ThemeData.accentColor]
   final TextStyle pastedTextStyle;
 
-  /// background color for the whole row of pin code fields. Default is [Colors.white]
+  /// background color for the whole row of pin code fields.
   final Color backgroundColor;
 
   /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
@@ -177,7 +177,7 @@ class PinCodeTextField extends StatefulWidget {
     this.blinkDuration = const Duration(milliseconds: 500),
     @required this.onChanged,
     this.onCompleted,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
@@ -188,11 +188,7 @@ class PinCodeTextField extends StatefulWidget {
     this.onTap,
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
-    this.textStyle = const TextStyle(
-      fontSize: 20,
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-    ),
+    this.textStyle,
     this.useHapticFeedback = false,
     this.hapticFeedbackTypes = HapticFeedbackTypes.light,
     this.pastedTextStyle,
@@ -206,7 +202,7 @@ class PinCodeTextField extends StatefulWidget {
     this.beforeTextPaste,
     this.dialogConfig,
     this.pinTheme = const PinTheme.defaults(),
-    this.keyboardAppearance = Brightness.light,
+    this.keyboardAppearance,
     this.validator,
     this.onSaved,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
@@ -262,7 +258,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   TextStyle get _textStyle => TextStyle(
         fontSize: 20,
-        color: Colors.black,
         fontWeight: FontWeight.bold,
       ).merge(widget.textStyle);
 
@@ -336,14 +331,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     assert(_pinTheme.fieldWidth != null && _pinTheme.fieldWidth > 0);
     assert(_pinTheme.activeColor != null);
     assert(_pinTheme.inactiveColor != null);
-    assert(widget.backgroundColor != null);
     assert(_pinTheme.borderWidth != null && _pinTheme.borderWidth >= 0);
     assert(widget.mainAxisAlignment != null);
     assert(widget.animationDuration != null);
     assert(widget.animationCurve != null);
     assert(_pinTheme.shape != null);
     assert(widget.animationType != null);
-    assert(widget.textStyle != null);
     assert(widget.keyboardType != null);
     assert(widget.autoFocus != null);
     assert(_dialogConfig.affirmativeText != null &&
@@ -691,9 +684,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   // trigger on the complete event handler from the keyboard
                   onFieldSubmitted: widget.onSubmitted,
                   enableInteractiveSelection: false,
-                  showCursor: true,
-                  // this cursor must remain hidden
-                  cursorColor: widget.backgroundColor,
+                  showCursor: false,
                   // using same as background color so tha it can blend into the view
                   cursorWidth: 0.01,
                   decoration: InputDecoration(
