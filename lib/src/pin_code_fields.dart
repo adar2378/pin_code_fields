@@ -325,6 +325,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         }
       });
     }
+    // If a default value is set in the TextEditingController, then set to UI
+    if (_textEditingController.text != null &&
+        _textEditingController.text.isNotEmpty)
+      _setTextToInput(_textEditingController.text);
     super.initState();
   }
 
