@@ -165,6 +165,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Height of the cursor, default to FontSize + 8;
   final double cursorHeight;
 
+  /// Autofill cleanup action
+  final AutofillContextAction onAutoFillDisposeAction;
+
   PinCodeTextField({
     Key key,
     @required this.appContext,
@@ -214,6 +217,8 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+    /// Default for [AutofillGroup]
+    this.onAutoFillDisposeAction = AutofillContextAction.commit,
   })  : assert(obscuringCharacter != null && obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -659,6 +664,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               // this is a hidden textfield under the pin code fields.
               absorbing: true, // it prevents on tap on the text field
               child: AutofillGroup(
+                onDisposeAction: widget.onAutoFillDisposeAction,
                 child: TextFormField(
                   textInputAction: widget.textInputAction,
                   controller: _textEditingController,
