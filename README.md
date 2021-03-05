@@ -303,9 +303,11 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <tr>
   <td align="center"><a href="https://github.com/JSBmanD"><img src="https://avatars3.githubusercontent.com/u/5402335?s=400&v=4" width="100px;" alt="Dmitry Vakhnin"/><br /><sub><b>Dmitry Vakhnin</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=JSBmanD" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/serendipity1004"><img src="https://avatars3.githubusercontent.com/u/20388249?s=400" width="100px;" alt="serendipity1004"/><br /><sub><b>Jiho Choi</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=serendipity1004" title="Code">💻</a></td>
-  <td align="center"><a href="https://github.com/ened"><img src="https://avatars0.githubusercontent.com/u/269860?v=3" width="100px;" alt="Sebastian Roth"/><br /><sub><b>Sebastian Roth</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ened" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/jobfeikens"><img src="https://avatars.githubusercontent.com/u/25356841?s=400&u=3f23a86b454b541fbcd88c9ed4a5f36df914dd03&v=4" width="100px;" alt="jobfeikens"/><br /><sub><b>Job</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=jobfeikens" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/BrunoEleodoro"><img src="https://avatars2.githubusercontent.com/u/20596317?s=400" width="100px;" alt="BrunoEleodoro"/><br /><sub><b>Bruno Eleodoro Roza</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=BrunoEleodoro" title="Code">💻</a></td>
-  
+  <td align="center"><a href="https://github.com/tgbarker"><img src="https://avatars.githubusercontent.com/u/2621350?s=400&v=4" width="100px;" alt="tgbarker"/><br /><sub><b>tgbarker</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=tgbarker" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/karabanovbs"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="karabanovbs"/><br /><sub><b>karabanovbs</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=karabanovbs" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/adarsh-technocrat"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="adarsh-technocrat"/><br /><sub><b>Adarsh kumar singh</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=adarsh-technocrat" title="Code">💻</a></td>
   </tr>
 </table>
 
