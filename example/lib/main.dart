@@ -130,6 +130,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       length: 6,
                       obscureText: true,
                       obscuringCharacter: '*',
+                      obscuringWidget: FlutterLogo(
+                        size: 24,
+                      ),
                       blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (v) {
@@ -145,7 +148,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fieldHeight: 50,
                         fieldWidth: 40,
                         activeFillColor:
-                            hasError ? Colors.orange : Colors.white,
+                            hasError ? Colors.blue.shade100 : Colors.white,
                       ),
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
