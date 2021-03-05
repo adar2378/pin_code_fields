@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        backgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: PinCodeVerificationScreen(
           "+8801376221100"), // a random number, please don't call xD
@@ -147,7 +149,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       ),
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
-                      backgroundColor: Colors.blue.shade50,
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
@@ -218,7 +219,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
                 child: ButtonTheme(
                   height: 50,
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: () {
                       formKey.currentState!.validate();
                       // conditions for validating
@@ -268,14 +269,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
-                      child: FlatButton(
+                      child: TextButton(
                     child: Text("Clear"),
                     onPressed: () {
                       textEditingController.clear();
                     },
                   )),
                   Flexible(
-                      child: FlatButton(
+                      child: TextButton(
                     child: Text("Set Text"),
                     onPressed: () {
                       setState(() {
