@@ -21,6 +21,30 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is ● - 'Black Circle' (U+25CF)
   final String obscuringCharacter;
 
+  /// Widget used to obscure text
+  ///
+  /// it overrides the obscuringCharacter
+  final Widget? obscuringWidget;
+
+  /// Whether to use haptic feedback or not
+  ///
+  ///
+  final bool useHapticFeedback;
+
+  /// Haptic Feedback Types
+  ///
+  /// heavy, medium, light links to respective impacts
+  /// selection - selectionClick, vibrate - vibrate
+  /// check [HapticFeedback] for more
+  final HapticFeedbackTypes hapticFeedbackTypes;
+
+  /// Decides whether typed character should be
+  /// briefly shown before being obscured
+  final bool blinkWhenObscuring;
+
+  /// Blink Duration if blinkWhenObscuring is set to true
+  final Duration blinkDuration;
+
   /// returns the current typed text in the fields
   final ValueChanged<String> onChanged;
 
@@ -30,15 +54,15 @@ class PinCodeTextField extends StatefulWidget {
   /// returns the typed text when user presses done/next action on the keyboard
   final ValueChanged<String>? onSubmitted;
 
-  /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
-  final TextStyle textStyle;
+  /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
+  final TextStyle? textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
   /// [TextStyle.color] is [ThemeData.accentColor]
   final TextStyle? pastedTextStyle;
 
-  /// background color for the whole row of pin code fields. Default is [Colors.white]
-  final Color backgroundColor;
+  /// background color for the whole row of pin code fields.
+  final Color? backgroundColor;
 
   /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
   final MainAxisAlignment mainAxisAlignment;
@@ -105,7 +129,7 @@ class PinCodeTextField extends StatefulWidget {
   final PinTheme pinTheme;
 
   /// Brightness dark or light choices for iOS keyboard.
-  final Brightness keyboardAppearance;
+  final Brightness? keyboardAppearance;
 
   /// Validator for the [TextFormField]
   final FormFieldValidator<String>? validator;
@@ -141,6 +165,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Height of the cursor, default to FontSize + 8;
   final double? cursorHeight;
 
+  /// Autofill cleanup action
+  final AutofillContextAction onAutoFillDisposeAction;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -148,9 +175,12 @@ class PinCodeTextField extends StatefulWidget {
     this.controller,
     this.obscureText = false,
     this.obscuringCharacter = '●',
+    this.obscuringWidget,
+    this.blinkWhenObscuring = false,
+    this.blinkDuration = const Duration(milliseconds: 500),
     required this.onChanged,
     this.onCompleted,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
@@ -161,11 +191,9 @@ class PinCodeTextField extends StatefulWidget {
     this.onTap,
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
-    this.textStyle = const TextStyle(
-      fontSize: 20,
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-    ),
+    this.textStyle,
+    this.useHapticFeedback = false,
+    this.hapticFeedbackTypes = HapticFeedbackTypes.light,
     this.pastedTextStyle,
     this.enableActiveFill = false,
     this.textCapitalization = TextCapitalization.none,
@@ -177,7 +205,7 @@ class PinCodeTextField extends StatefulWidget {
     this.beforeTextPaste,
     this.dialogConfig,
     this.pinTheme = const PinTheme.defaults(),
-    this.keyboardAppearance = Brightness.light,
+    this.keyboardAppearance,
     this.validator,
     this.onSaved,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
@@ -189,6 +217,9 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+
+    /// Default for [AutofillGroup]
+    this.onAutoFillDisposeAction = AutofillContextAction.commit,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -203,6 +234,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late List<String> _inputList;
   int _selectedIndex = 0;
   BorderRadius? borderRadius;
+
+  // Whether the character has blinked
+  bool _hasBlinked = false;
 
   // AnimationController for the error animation
   late AnimationController _controller;
@@ -224,6 +258,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig!.negativeText);
   PinTheme get _pinTheme => widget.pinTheme;
 
+  Timer? _blinkDebounce;
+
+  TextStyle get _textStyle => TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ).merge(widget.textStyle);
+
   @override
   void initState() {
     // if (!kReleaseMode) {
@@ -242,6 +283,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
+
+    _hasBlinked = true;
 
     _cursorController = AnimationController(
         duration: Duration(milliseconds: 1000), vsync: this);
@@ -281,6 +324,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         }
       });
     }
+    // If a default value is set in the TextEditingController, then set to UI
+    if (_textEditingController!.text.isNotEmpty)
+      _setTextToInput(_textEditingController!.text);
     super.initState();
   }
 
@@ -300,6 +346,33 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _dialogConfig.dialogContent!.isNotEmpty);
   }
 
+  runHapticFeedback() {
+    switch (widget.hapticFeedbackTypes) {
+      case HapticFeedbackTypes.heavy:
+        HapticFeedback.heavyImpact();
+        break;
+
+      case HapticFeedbackTypes.medium:
+        HapticFeedback.mediumImpact();
+        break;
+
+      case HapticFeedbackTypes.light:
+        HapticFeedback.lightImpact();
+        break;
+
+      case HapticFeedbackTypes.selection:
+        HapticFeedback.selectionClick();
+        break;
+
+      case HapticFeedbackTypes.vibrate:
+        HapticFeedback.vibrate();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   // Assigning the text controller, if empty assiging a new one.
   void _assignController() {
     if (widget.controller == null) {
@@ -307,7 +380,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     } else {
       _textEditingController = widget.controller;
     }
-    _textEditingController!.addListener(() {
+
+    _textEditingController?.addListener(() {
+      if (widget.useHapticFeedback) {
+        runHapticFeedback();
+      }
+
+      _debounceBlink();
+
       var currentText = _textEditingController!.text;
 
       if (widget.enabled && _inputList.join("") != currentText) {
@@ -329,6 +409,28 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
       _setTextToInput(currentText);
     });
+  }
+
+  void _debounceBlink() {
+    // set has blinked to false and back to true
+    // after duration
+    if (widget.blinkWhenObscuring &&
+        _textEditingController!.text.length >
+            _inputList.where((x) => x.isNotEmpty).length) {
+      setState(() {
+        _hasBlinked = false;
+      });
+
+      if (_blinkDebounce?.isActive ?? false) {
+        _blinkDebounce!.cancel();
+      }
+
+      _blinkDebounce = Timer(widget.blinkDuration, () {
+        setState(() {
+          _hasBlinked = true;
+        });
+      });
+    }
   }
 
   @override
@@ -365,6 +467,32 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return _pinTheme.inactiveColor;
   }
 
+  Widget _renderPinField({
+    @required int? index,
+  }) {
+    assert(index != null);
+
+    bool showObscured = !widget.blinkWhenObscuring ||
+        (widget.blinkWhenObscuring && _hasBlinked) ||
+        index != _inputList.where((x) => x.isNotEmpty).length - 1;
+
+    if (widget.obscuringWidget != null) {
+      if (showObscured) {
+        if (_inputList[index!].isNotEmpty) {
+          return widget.obscuringWidget!;
+        }
+      }
+    }
+
+    return Text(
+      widget.obscureText && _inputList[index!].isNotEmpty && showObscured
+          ? widget.obscuringCharacter
+          : _inputList[index!],
+      key: ValueKey(_inputList[index]),
+      style: _textStyle,
+    );
+  }
+
 // selects the right fill color for the field
   Color _getFillColorFromIndex(int index) {
     if (!widget.enabled) {
@@ -389,8 +517,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       final cursorColor = widget.cursorColor ??
           Theme.of(widget.appContext).textSelectionTheme.cursorColor ??
           Theme.of(context).accentColor;
-      final cursorHeight =
-          widget.cursorHeight ?? widget.textStyle.fontSize! + 8;
+      final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize! + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
         return Stack(
@@ -398,8 +525,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           children: [
             Center(
               child: Padding(
-                padding:
-                    EdgeInsets.only(left: widget.textStyle.fontSize! / 1.5),
+                padding: EdgeInsets.only(left: _textStyle.fontSize! / 1.5),
                 child: FadeTransition(
                   opacity: _cursorAnimation,
                   child: CustomPaint(
@@ -412,12 +538,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 ),
               ),
             ),
-            Text(
-              widget.obscureText && _inputList[index].isNotEmpty
-                  ? widget.obscuringCharacter
-                  : _inputList[index],
-              key: ValueKey(_inputList[index]),
-              style: widget.textStyle,
+            _renderPinField(
+              index: index,
             ),
           ],
         );
@@ -435,12 +557,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ),
         );
     }
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty
-          ? widget.obscuringCharacter
-          : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: widget.textStyle,
+    return _renderPinField(
+      index: index,
     );
   }
 
@@ -526,6 +644,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               // this is a hidden textfield under the pin code fields.
               absorbing: true, // it prevents on tap on the text field
               child: AutofillGroup(
+                onDisposeAction: widget.onAutoFillDisposeAction,
                 child: TextFormField(
                   textInputAction: widget.textInputAction,
                   controller: _textEditingController,
@@ -551,9 +670,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   // trigger on the complete event handler from the keyboard
                   onFieldSubmitted: widget.onSubmitted,
                   enableInteractiveSelection: false,
-                  showCursor: true,
-                  // this cursor must remain hidden
-                  cursorColor: widget.backgroundColor,
+                  showCursor: false,
                   // using same as background color so tha it can blend into the view
                   cursorWidth: 0.01,
                   decoration: InputDecoration(
@@ -694,10 +811,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       replaceInputList[i] = data.length > i ? data[i] : "";
     }
 
-    setState(() {
-      _selectedIndex = data.length;
-      _inputList = replaceInputList;
-    });
+    if (mounted)
+      setState(() {
+        _selectedIndex = data.length;
+        _inputList = replaceInputList;
+      });
   }
 
   List<Widget> _getActionButtons(String pastedText) {
@@ -720,13 +838,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       ]);
     } else {
       resultList.addAll([
-        FlatButton(
+        TextButton(
           child: Text(_dialogConfig.negativeText!),
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
             _textEditingController!.text = pastedText;
@@ -738,8 +856,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return resultList;
   }
 }
-
-enum AnimationType { scale, slide, fade, none }
 
 enum PinCodeFieldShape { box, underline, circle }
 

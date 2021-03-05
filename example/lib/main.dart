@@ -126,8 +126,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       length: 6,
-                      obscureText: false,
+                      obscureText: true,
                       obscuringCharacter: '*',
+                      blinkWhenObscuring: true,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v!.length < 3) {
@@ -139,15 +140,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       pinTheme: PinTheme(
                         shape: PinCodeFieldShape.box,
                         borderRadius: BorderRadius.circular(5),
-                        fieldHeight: 60,
-                        fieldWidth: 50,
+                        fieldHeight: 50,
+                        fieldWidth: 40,
                         activeFillColor:
                             hasError ? Colors.orange : Colors.white,
                       ),
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
-                      textStyle: TextStyle(fontSize: 20, height: 1.6),
-                      backgroundColor: Color(0xffFBFBFB),
+                      backgroundColor: Colors.blue.shade50,
                       enableActiveFill: true,
                       errorAnimationController: errorController,
                       controller: textEditingController,
@@ -267,20 +267,22 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  FlatButton(
+                  Flexible(
+                      child: FlatButton(
                     child: Text("Clear"),
                     onPressed: () {
                       textEditingController.clear();
                     },
-                  ),
-                  FlatButton(
+                  )),
+                  Flexible(
+                      child: FlatButton(
                     child: Text("Set Text"),
                     onPressed: () {
                       setState(() {
                         textEditingController.text = "123456";
                       });
                     },
-                  ),
+                  )),
                 ],
               )
             ],

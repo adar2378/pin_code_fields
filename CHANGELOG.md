@@ -1,6 +1,15 @@
-[6.0.3-nullsafety.0] 
+# [6.1.0]
 
-- Added NullSafety
+### Features ✨
+
+- Added haptic feedback
+  `enum HapticFeedbackTypes { heavy, light, medium, selection, vibrate, }`
+- Added animated obscure widget support `obscuringWidget` and `blinkWhenObscuring`
+
+### Fixes 🐛
+
+- Fixed bug related to TextStyle not given.
+- Fixed bug related to setState is being called after disposal.
 
 [6.0.2] - Added fallback color when the cursor color fails to retrive and fixed deprecated `List` constructors.
 
