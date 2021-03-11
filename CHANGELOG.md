@@ -1,3 +1,7 @@
+# [7.0.0]
+
+- Added null-safety to the main branch.
+
 # [7.0.0-nullsafety]
 
 ### Features ✨
