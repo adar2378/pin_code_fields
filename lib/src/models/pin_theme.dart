@@ -13,6 +13,9 @@ class PinTheme {
   /// Colors of the input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey]
   final Color disabledColor;
 
+  /// Colors of the inside part of input fields if the [PinCodeTextField] is disabled. Default is [Colors.grey] the same as [disabledColor]
+  final Color disabledFillColor;
+
   /// Colors of the input fields which have inputs. Default is [Colors.green]
   final Color activeFillColor;
 
@@ -47,6 +50,7 @@ class PinTheme {
     this.selectedColor = Colors.blue,
     this.inactiveColor = Colors.red,
     this.disabledColor = Colors.grey,
+    this.disabledFillColor = Colors.grey,
     this.activeFillColor = Colors.green,
     this.selectedFillColor = Colors.blue,
     this.inactiveFillColor = Colors.red,
@@ -57,6 +61,7 @@ class PinTheme {
       Color? selectedColor,
       Color? inactiveColor,
       Color? disabledColor,
+      Color? disabledFillColor,
       Color? activeFillColor,
       Color? selectedFillColor,
       Color? inactiveFillColor,
@@ -67,31 +72,20 @@ class PinTheme {
       PinCodeFieldShape? shape}) {
     final defaultValues = PinTheme.defaults();
     return PinTheme.defaults(
-      activeColor:
-          activeColor == null ? defaultValues.activeColor : activeColor,
-      activeFillColor: activeFillColor == null
-          ? defaultValues.activeFillColor
-          : activeFillColor,
-      borderRadius:
-          borderRadius == null ? defaultValues.borderRadius : borderRadius,
-      borderWidth:
-          borderWidth == null ? defaultValues.borderWidth : borderWidth,
-      disabledColor:
-          disabledColor == null ? defaultValues.disabledColor : disabledColor,
-      fieldHeight:
-          fieldHeight == null ? defaultValues.fieldHeight : fieldHeight,
-      fieldWidth: fieldWidth == null ? defaultValues.fieldWidth : fieldWidth,
-      inactiveColor:
-          inactiveColor == null ? defaultValues.inactiveColor : inactiveColor,
-      inactiveFillColor: inactiveFillColor == null
-          ? defaultValues.inactiveFillColor
-          : inactiveFillColor,
-      selectedColor:
-          selectedColor == null ? defaultValues.selectedColor : selectedColor,
-      selectedFillColor: selectedFillColor == null
-          ? defaultValues.selectedFillColor
-          : selectedFillColor,
-      shape: shape == null ? defaultValues.shape : shape,
+      activeColor: activeColor ?? defaultValues.activeColor,
+      activeFillColor: activeFillColor ?? defaultValues.activeFillColor,
+      borderRadius: borderRadius ?? defaultValues.borderRadius,
+      borderWidth: borderWidth ?? defaultValues.borderWidth,
+      disabledColor: disabledColor ?? defaultValues.disabledColor,
+      disabledFillColor:
+          disabledFillColor ?? disabledColor ?? defaultValues.disabledFillColor,
+      fieldHeight: fieldHeight ?? defaultValues.fieldHeight,
+      fieldWidth: fieldWidth ?? defaultValues.fieldWidth,
+      inactiveColor: inactiveColor ?? defaultValues.inactiveColor,
+      inactiveFillColor: inactiveFillColor ?? defaultValues.inactiveFillColor,
+      selectedColor: selectedColor ?? defaultValues.selectedColor,
+      selectedFillColor: selectedFillColor ?? defaultValues.selectedFillColor,
+      shape: shape ?? defaultValues.shape,
     );
   }
 }
