@@ -168,6 +168,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Autofill cleanup action
   final AutofillContextAction onAutoFillDisposeAction;
 
+  /// Use external [AutoFillGroup]
+  final bool useExternalAutoFillGroup;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -220,6 +223,9 @@ class PinCodeTextField extends StatefulWidget {
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
+
+    /// Default create internal [AutofillGroup]
+    this.useExternalAutoFillGroup = false,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -631,6 +637,51 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   Widget build(BuildContext context) {
+    var textField = TextFormField(
+      textInputAction: widget.textInputAction,
+      controller: _textEditingController,
+      focusNode: _focusNode,
+      enabled: widget.enabled,
+      autofillHints: widget.enablePinAutofill && widget.enabled
+          ? <String>[AutofillHints.oneTimeCode]
+          : null,
+      autofocus: widget.autoFocus,
+      autocorrect: false,
+      keyboardType: widget.keyboardType,
+      keyboardAppearance: widget.keyboardAppearance,
+      textCapitalization: widget.textCapitalization,
+      validator: widget.validator,
+      onSaved: widget.onSaved,
+      autovalidateMode: widget.autovalidateMode,
+      inputFormatters: [
+        ...widget.inputFormatters,
+        LengthLimitingTextInputFormatter(
+          widget.length,
+        ), // this limits the input length
+      ],
+      // trigger on the complete event handler from the keyboard
+      onFieldSubmitted: widget.onSubmitted,
+      enableInteractiveSelection: false,
+      showCursor: false,
+      // using same as background color so tha it can blend into the view
+      cursorWidth: 0.01,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(0),
+        border: InputBorder.none,
+        fillColor: widget.backgroundColor,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+      ),
+      style: TextStyle(
+        color: Colors.transparent,
+        height: .01,
+        fontSize: kIsWeb
+            ? 1
+            : 0.01, // it is a hidden textfield which should remain transparent and extremely small
+      ),
+    );
+
     return SlideTransition(
       position: _offsetAnimation,
       child: Container(
@@ -643,53 +694,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             AbsorbPointer(
               // this is a hidden textfield under the pin code fields.
               absorbing: true, // it prevents on tap on the text field
-              child: AutofillGroup(
-                onDisposeAction: widget.onAutoFillDisposeAction,
-                child: TextFormField(
-                  textInputAction: widget.textInputAction,
-                  controller: _textEditingController,
-                  focusNode: _focusNode,
-                  enabled: widget.enabled,
-                  autofillHints: widget.enablePinAutofill && widget.enabled
-                      ? <String>[AutofillHints.oneTimeCode]
-                      : null,
-                  autofocus: widget.autoFocus,
-                  autocorrect: false,
-                  keyboardType: widget.keyboardType,
-                  keyboardAppearance: widget.keyboardAppearance,
-                  textCapitalization: widget.textCapitalization,
-                  validator: widget.validator,
-                  onSaved: widget.onSaved,
-                  autovalidateMode: widget.autovalidateMode,
-                  inputFormatters: [
-                    ...widget.inputFormatters,
-                    LengthLimitingTextInputFormatter(
-                      widget.length,
-                    ), // this limits the input length
-                  ],
-                  // trigger on the complete event handler from the keyboard
-                  onFieldSubmitted: widget.onSubmitted,
-                  enableInteractiveSelection: false,
-                  showCursor: false,
-                  // using same as background color so tha it can blend into the view
-                  cursorWidth: 0.01,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(0),
-                    border: InputBorder.none,
-                    fillColor: widget.backgroundColor,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  style: TextStyle(
-                    color: Colors.transparent,
-                    height: .01,
-                    fontSize: kIsWeb
-                        ? 1
-                        : 0.01, // it is a hidden textfield which should remain transparent and extremely small
-                  ),
-                ),
-              ),
+              child: widget.useExternalAutoFillGroup
+                  ? textField
+                  : AutofillGroup(
+                      onDisposeAction: widget.onAutoFillDisposeAction,
+                      child: textField,
+                    ),
             ),
             Positioned(
               top: 0,
