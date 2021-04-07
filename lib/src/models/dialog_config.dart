@@ -2,16 +2,16 @@ part of pin_code_fields;
 
 class DialogConfig {
   /// title of the [AlertDialog] while pasting the code. Default to [Paste Code]
-  final String dialogTitle;
+  final String? dialogTitle;
 
   /// content of the [AlertDialog] while pasting the code. Default to ["Do you want to paste this code "]
-  final String dialogContent;
+  final String? dialogContent;
 
   /// Affirmative action text for the [AlertDialog]. Default to "Paste"
-  final String affirmativeText;
+  final String? affirmativeText;
 
   /// Negative action text for the [AlertDialog]. Default to "Cancel"
-  final String negativeText;
+  final String? negativeText;
 
   /// The default dialog theme, should it be iOS or other(including web and Android)
   final Platform platform;
@@ -24,11 +24,11 @@ class DialogConfig {
   });
 
   factory DialogConfig(
-      {String affirmativeText,
-      String dialogContent,
-      String dialogTitle,
-      String negativeText,
-      Platform platform}) {
+      {String? affirmativeText,
+      String? dialogContent,
+      String? dialogTitle,
+      String? negativeText,
+      Platform? platform}) {
     return DialogConfig._internal(
       affirmativeText: affirmativeText == null ? "Paste" : affirmativeText,
       dialogContent: dialogContent == null

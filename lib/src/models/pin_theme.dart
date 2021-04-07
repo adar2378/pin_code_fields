@@ -57,19 +57,19 @@ class PinTheme {
   });
 
   factory PinTheme(
-      {Color activeColor,
-      Color selectedColor,
-      Color inactiveColor,
-      Color disabledColor,
-      Color activeFillColor,
-      Color selectedFillColor,
-      Color inactiveFillColor,
-      BorderRadius borderRadius,
-      double fieldHeight,
-      double fieldWidth,
-      double borderWidth,
-      PinCodeFieldShape shape,
-      EdgeInsetsGeometry fieldOuterPadding}) {
+      {Color? activeColor,
+      Color? selectedColor,
+      Color? inactiveColor,
+      Color? disabledColor,
+      Color? activeFillColor,
+      Color? selectedFillColor,
+      Color? inactiveFillColor,
+      BorderRadius? borderRadius,
+      double? fieldHeight,
+      double? fieldWidth,
+      double? borderWidth,
+      PinCodeFieldShape? shape,
+        EdgeInsetsGeometry fieldOuterPadding}) {
     final defaultValues = PinTheme.defaults();
     return PinTheme.defaults(
       activeColor:
