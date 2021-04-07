@@ -69,7 +69,7 @@ class PinTheme {
       double? fieldWidth,
       double? borderWidth,
       PinCodeFieldShape? shape,
-        EdgeInsetsGeometry fieldOuterPadding}) {
+      EdgeInsetsGeometry? fieldOuterPadding}) {
     final defaultValues = PinTheme.defaults();
     return PinTheme.defaults(
       activeColor:
@@ -97,8 +97,9 @@ class PinTheme {
           ? defaultValues.selectedFillColor
           : selectedFillColor,
       shape: shape == null ? defaultValues.shape : shape,
-      fieldOuterPadding:
-        fieldOuterPadding == null ? defaultValues.fieldOuterPadding : fieldOuterPadding,
+      fieldOuterPadding: fieldOuterPadding == null
+          ? defaultValues.fieldOuterPadding
+          : fieldOuterPadding,
     );
   }
 }
