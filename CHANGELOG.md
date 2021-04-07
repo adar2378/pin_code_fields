@@ -1,3 +1,26 @@
+# [7.0.0]
+
+- Added null-safety to the main branch.
+
+# [7.0.0-nullsafety]
+
+### Features ✨
+
+- Added `AutofillContextAction`, default is `AutofillContextAction.commit`
+
+### Breaking changes ⚠️
+
+- Migrated to null-safety.
+- Minimum Flutter version is set to 1.22.0
+
+### Fixes 🐛
+
+- Fixed default text value not showing, #153
+
+### Fixes 🐛
+
+- Reopen keyboard onTap on the cells #92, thanks to https://github.com/YaroslavGS for the suggestion
+
 # [6.1.0]
 
 ### Features ✨
