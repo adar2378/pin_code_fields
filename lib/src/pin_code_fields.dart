@@ -730,64 +730,66 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     var result = <Widget>[];
     for (int i = 0; i < widget.length; i++) {
       result.add(
-        AnimatedContainer(
-          curve: widget.animationCurve,
-          duration: widget.animationDuration,
-          width: _pinTheme.fieldWidth,
-          height: _pinTheme.fieldHeight,
-          decoration: BoxDecoration(
-            color: widget.enableActiveFill
-                ? _getFillColorFromIndex(i)
-                : Colors.transparent,
-            boxShadow: widget.boxShadows,
-            shape: _pinTheme.shape == PinCodeFieldShape.circle
-                ? BoxShape.circle
-                : BoxShape.rectangle,
-            borderRadius: borderRadius,
-            border: _pinTheme.shape == PinCodeFieldShape.underline
-                ? Border(
-                    bottom: BorderSide(
-                      color: _getColorFromIndex(i),
-                      width: _pinTheme.borderWidth,
-                    ),
-                  )
-                : Border.all(
-                    color: _getColorFromIndex(i),
-                    width: _pinTheme.borderWidth,
-                  ),
-          ),
-          child: Center(
-            child: AnimatedSwitcher(
-              switchInCurve: widget.animationCurve,
-              switchOutCurve: widget.animationCurve,
+        Container(
+            padding: _pinTheme.fieldOuterPadding,
+            child: AnimatedContainer(
+              curve: widget.animationCurve,
               duration: widget.animationDuration,
-              transitionBuilder: (child, animation) {
-                if (widget.animationType == AnimationType.scale) {
-                  return ScaleTransition(
-                    scale: animation,
-                    child: child,
-                  );
-                } else if (widget.animationType == AnimationType.fade) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                } else if (widget.animationType == AnimationType.none) {
-                  return child;
-                } else {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, .5),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  );
-                }
-              },
-              child: buildChild(i),
-            ),
-          ),
-        ),
+              width: _pinTheme.fieldWidth,
+              height: _pinTheme.fieldHeight,
+              decoration: BoxDecoration(
+                color: widget.enableActiveFill
+                    ? _getFillColorFromIndex(i)
+                    : Colors.transparent,
+                boxShadow: widget.boxShadows,
+                shape: _pinTheme.shape == PinCodeFieldShape.circle
+                    ? BoxShape.circle
+                    : BoxShape.rectangle,
+                borderRadius: borderRadius,
+                border: _pinTheme.shape == PinCodeFieldShape.underline
+                    ? Border(
+                        bottom: BorderSide(
+                          color: _getColorFromIndex(i),
+                          width: _pinTheme.borderWidth,
+                        ),
+                      )
+                    : Border.all(
+                        color: _getColorFromIndex(i),
+                        width: _pinTheme.borderWidth,
+                      ),
+              ),
+              child: Center(
+                child: AnimatedSwitcher(
+                  switchInCurve: widget.animationCurve,
+                  switchOutCurve: widget.animationCurve,
+                  duration: widget.animationDuration,
+                  transitionBuilder: (child, animation) {
+                    if (widget.animationType == AnimationType.scale) {
+                      return ScaleTransition(
+                        scale: animation,
+                        child: child,
+                      );
+                    } else if (widget.animationType == AnimationType.fade) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    } else if (widget.animationType == AnimationType.none) {
+                      return child;
+                    } else {
+                      return SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, .5),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      );
+                    }
+                  },
+                  child: buildChild(i),
+                ),
+              ),
+            )),
       );
     }
     return result;
