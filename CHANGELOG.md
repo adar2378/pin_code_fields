@@ -1,3 +1,8 @@
+# [7.1.0]
+
+- Added `useExternalAutoFillGroup` to use this widget with external `AutofillGroup`
+- Added `fieldOuterPadding` to add extra padding on each cells. Default to 0.0
+
 # [7.0.0]
 
 - Added null-safety to the main branch.

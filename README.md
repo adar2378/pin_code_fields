@@ -51,7 +51,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final BuildContext appContext;
 
   ///Box Shadow for Pincode
-  final List<BoxShadow> boxShadows;
+  final List<BoxShadow>? boxShadows;
 
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
@@ -61,8 +61,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 
   /// Character used for obscuring text if obscureText is true.
   ///
-  /// Must not be empty. Single character is recommended. If obscuringWidget
-  /// is provided then it will be ignored.
+  /// Must not be empty. Single character is recommended.
   ///
   /// Default is ● - 'Black Circle' (U+25CF)
   final String obscuringCharacter;
@@ -70,7 +69,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Widget used to obscure text
   ///
   /// it overrides the obscuringCharacter
-  final Widget obscuringWidget;
+  final Widget? obscuringWidget;
 
   /// Whether to use haptic feedback or not
   ///
@@ -95,20 +94,20 @@ A flutter package which will help you to generate pin code fields with beautiful
   final ValueChanged<String> onChanged;
 
   /// returns the typed text when all pins are set
-  final ValueChanged<String> onCompleted;
+  final ValueChanged<String>? onCompleted;
 
   /// returns the typed text when user presses done/next action on the keyboard
-  final ValueChanged<String> onSubmitted;
+  final ValueChanged<String>? onSubmitted;
 
-  /// the style of the text, default is [ fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold]
-  final TextStyle textStyle;
+  /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
+  final TextStyle? textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
   /// [TextStyle.color] is [ThemeData.accentColor]
-  final TextStyle pastedTextStyle;
+  final TextStyle? pastedTextStyle;
 
-  /// background color for the whole row of pin code fields. Default is [Colors.white]
-  final Color backgroundColor;
+  /// background color for the whole row of pin code fields.
+  final Color? backgroundColor;
 
   /// This defines how the elements in the pin code field align. Default to [MainAxisAlignment.spaceBetween]
   final MainAxisAlignment mainAxisAlignment;
@@ -129,7 +128,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final bool autoFocus;
 
   /// Should pass a [FocusNode] to manage it from the parent
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// A list of [TextInputFormatter] that goes to the TextField
   final List<TextInputFormatter> inputFormatters;
@@ -138,7 +137,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final bool enabled;
 
   /// [TextEditingController] to control the text manually. Sets a default [TextEditingController()] object if none given
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   /// Enabled Color fill for individual pin fields, default is [false]
   final bool enableActiveFill;
@@ -158,31 +157,31 @@ A flutter package which will help you to generate pin code fields with beautiful
   final TextInputAction textInputAction;
 
   /// Triggers the error animation
-  final StreamController<ErrorAnimationType> errorAnimationController;
+  final StreamController<ErrorAnimationType>? errorAnimationController;
 
   /// Callback method to validate if text can be pasted. This is helpful when we need to validate text before pasting.
   /// e.g. validate if text is number. Default will be pasted as received.
-  final bool Function(String text) beforeTextPaste;
+  final bool Function(String? text)? beforeTextPaste;
 
   /// Method for detecting a pin_code form tap
   /// work with all form windows
-  final Function onTap;
+  final Function? onTap;
 
   /// Configuration for paste dialog. Read more [DialogConfig]
-  final DialogConfig dialogConfig;
+  final DialogConfig? dialogConfig;
 
   /// Theme for the pin cells. Read more [PinTheme]
   final PinTheme pinTheme;
 
   /// Brightness dark or light choices for iOS keyboard.
-  final Brightness keyboardAppearance;
+  final Brightness? keyboardAppearance;
 
   /// Validator for the [TextFormField]
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<String>? validator;
 
   /// An optional method to call with the final value when the form is saved via
   /// [FormState.save].
-  final FormFieldSetter<String> onSaved;
+  final FormFieldSetter<String>? onSaved;
 
   /// enables auto validation for the [TextFormField]
   /// Default is false
@@ -203,13 +202,19 @@ A flutter package which will help you to generate pin code fields with beautiful
   final bool showCursor;
 
   /// The color of the cursor, default to Theme.of(context).accentColor
-  final Color cursorColor;
+  final Color? cursorColor;
 
   /// width of the cursor, default to 2
   final double cursorWidth;
 
   /// Height of the cursor, default to FontSize + 8;
-  final double cursorHeight;
+  final double? cursorHeight;
+
+  /// Autofill cleanup action
+  final AutofillContextAction onAutoFillDisposeAction;
+
+  /// Use external [AutoFillGroup]
+  final bool useExternalAutoFillGroup;
 
 ```
 
