@@ -22,6 +22,9 @@ class PinTheme {
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// Color of the input field when in error mode. Default is [Colors.redAccent]
+  final Color errorBorderColor;
+
   /// Border radius of each pin code field
   final BorderRadius borderRadius;
 
@@ -54,6 +57,7 @@ class PinTheme {
     this.activeFillColor = Colors.green,
     this.selectedFillColor = Colors.blue,
     this.inactiveFillColor = Colors.red,
+    this.errorBorderColor = Colors.redAccent,
   });
 
   factory PinTheme(
@@ -64,6 +68,7 @@ class PinTheme {
       Color? activeFillColor,
       Color? selectedFillColor,
       Color? inactiveFillColor,
+      Color? errorBorderColor,
       BorderRadius? borderRadius,
       double? fieldHeight,
       double? fieldWidth,
@@ -91,6 +96,9 @@ class PinTheme {
       inactiveFillColor: inactiveFillColor == null
           ? defaultValues.inactiveFillColor
           : inactiveFillColor,
+      errorBorderColor: errorBorderColor == null
+        ? defaultValues.errorBorderColor
+        : errorBorderColor,
       selectedColor:
           selectedColor == null ? defaultValues.selectedColor : selectedColor,
       selectedFillColor: selectedFillColor == null

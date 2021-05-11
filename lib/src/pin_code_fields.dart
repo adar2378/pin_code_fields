@@ -250,6 +250,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late AnimationController _cursorController;
 
   StreamSubscription<ErrorAnimationType>? _errorAnimationSubscription;
+  bool isInErrorMode = false;
 
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
@@ -327,6 +328,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
+          setState(() => isInErrorMode = true);
         }
       });
     }
@@ -390,6 +392,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _textEditingController?.addListener(() {
       if (widget.useHapticFeedback) {
         runHapticFeedback();
+      }
+
+      if (isInErrorMode) {
+        setState(() => isInErrorMode = false);
       }
 
       _debounceBlink();
@@ -468,9 +474,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _focusNode!.hasFocus) {
       return _pinTheme.selectedColor;
     } else if (_selectedIndex > index) {
-      return _pinTheme.activeColor;
+      Color relevantActiveColor = _pinTheme.activeColor;
+      if (isInErrorMode) relevantActiveColor = _pinTheme.errorBorderColor;
+      return relevantActiveColor;
     }
-    return _pinTheme.inactiveColor;
+
+    Color relevantInActiveColor = _pinTheme.inactiveColor;
+    if (isInErrorMode) relevantInActiveColor = _pinTheme.errorBorderColor;
+    return relevantInActiveColor;
   }
 
   Widget _renderPinField({
