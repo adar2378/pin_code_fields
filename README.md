@@ -216,6 +216,15 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Use external [AutoFillGroup]
   final bool useExternalAutoFillGroup;
 
+  /// Displays a hint or placeholder in the field if it's value is empty.
+  /// It only appears if it's not null. Single character is recommended.
+  final String? hintCharacter;
+
+  /// the style of the [hintCharacter], default is [fontSize: 20, fontWeight: FontWeight.bold]
+  /// and it also uses the [textStyle]'s properties 
+  /// [TextStyle.color] is [Colors.grey]
+  final TextStyle? hintStyle;
+
 ```
 
 **PinTheme**

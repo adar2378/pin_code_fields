@@ -171,6 +171,15 @@ class PinCodeTextField extends StatefulWidget {
   /// Use external [AutoFillGroup]
   final bool useExternalAutoFillGroup;
 
+  /// Displays a hint or placeholder in the field if it's value is empty.
+  /// It only appears if it's not null. Single character is recommended.
+  final String? hintCharacter;
+
+  /// the style of the [hintCharacter], default is [fontSize: 20, fontWeight: FontWeight.bold]
+  /// and it also uses the [textStyle]'s properties 
+  /// [TextStyle.color] is [Colors.grey]
+  final TextStyle? hintStyle;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -220,6 +229,8 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+    this.hintCharacter,
+    this.hintStyle,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -270,6 +281,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ).merge(widget.textStyle);
+
+  TextStyle get _hintStyle => _textStyle
+      .copyWith(
+        color: _pinTheme.disabledColor,
+      )
+      .merge(widget.hintStyle);
+
+  bool get _hintAvailable => widget.hintCharacter != null;
 
   @override
   void initState() {
@@ -490,10 +509,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }
     }
 
+    if (_inputList[index!].isEmpty && _hintAvailable) {
+      return Text(
+        widget.hintCharacter!,
+        key: ValueKey(_inputList[index]),
+        style: _hintStyle,
+      );
+    }
+
     return Text(
-      widget.obscureText && _inputList[index!].isNotEmpty && showObscured
+      widget.obscureText && _inputList[index].isNotEmpty && showObscured
           ? widget.obscuringCharacter
-          : _inputList[index!],
+          : _inputList[index],
       key: ValueKey(_inputList[index]),
       style: _textStyle,
     );
