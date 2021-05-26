@@ -25,6 +25,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - Get currently typed text and use your condition to validate it. (for example: if (currentText.length != 6 || currentText != "your desired code"))
 - Haptic Feedback support
 - Animated obscure widget support
+- Single placeholder text
 
 ## Getting Started ⚡️
 
