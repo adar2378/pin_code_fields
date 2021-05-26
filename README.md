@@ -221,7 +221,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final String? hintCharacter;
 
   /// the style of the [hintCharacter], default is [fontSize: 20, fontWeight: FontWeight.bold]
-  /// and it also uses the [textStyle]'s properties 
+  /// and it also uses the [textStyle]'s properties
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
@@ -322,6 +322,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/tgbarker"><img src="https://avatars.githubusercontent.com/u/2621350?s=400&v=4" width="100px;" alt="tgbarker"/><br /><sub><b>tgbarker</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=tgbarker" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/karabanovbs"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="karabanovbs"/><br /><sub><b>karabanovbs</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=karabanovbs" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/adarsh-technocrat"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="adarsh-technocrat"/><br /><sub><b>Adarsh kumar singh</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=adarsh-technocrat" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/adrianFarkas"><img src="https://avatars.githubusercontent.com/u/45693911?v=4" width="100px;" alt="adrianFarkas"/><br /><sub><b>Farkas Adrián</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=adrianFarkas" title="Code">💻</a></td>
   </tr>
 </table>
 

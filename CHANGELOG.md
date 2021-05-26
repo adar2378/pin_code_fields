@@ -1,3 +1,8 @@
+# [7.2.0]
+
+- Much requested feature placeholder has been added `hintCharacter`
+- `hintStyle` has been added to customize the hint TextStyle
+
 # [7.1.0]
 
 - Added `useExternalAutoFillGroup` to use this widget with external `AutofillGroup`
