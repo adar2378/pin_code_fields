@@ -147,8 +147,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         borderRadius: BorderRadius.circular(5),
                         fieldHeight: 50,
                         fieldWidth: 40,
-                        activeFillColor:
-                            hasError ? Colors.blue.shade100 : Colors.white,
+                        activeFillColor: Colors.white,
                       ),
                       cursorColor: Colors.black,
                       animationDuration: Duration(milliseconds: 300),
@@ -229,12 +228,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       if (currentText.length != 6 || currentText != "123456") {
                         errorController!.add(ErrorAnimationType
                             .shake); // Triggering error shake animation
-                        setState(() {
-                          hasError = true;
-                        });
+                        setState(() => hasError = true);
                       } else {
-                        setState(
-                          () {
+                        setState(() {
                             hasError = false;
                             snackBar("OTP Verified!!");
                           },

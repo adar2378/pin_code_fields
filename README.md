@@ -252,6 +252,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// Color of the input field when in error mode. Default is [Colors.redAccent]
+  final Color errorBorderColor;
+
   /// Border radius of each pin code field
   final BorderRadius borderRadius;
 
