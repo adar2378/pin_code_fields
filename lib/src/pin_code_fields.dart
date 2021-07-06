@@ -180,6 +180,8 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+  final EdgeInsets scrollPadding;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -237,6 +239,7 @@ class PinCodeTextField extends StatefulWidget {
 
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
+    this.scrollPadding = const EdgeInsets.all(20),
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -718,6 +721,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             ? 1
             : 0.01, // it is a hidden textfield which should remain transparent and extremely small
       ),
+      scrollPadding: widget.scrollPadding,
     );
 
     return SlideTransition(
