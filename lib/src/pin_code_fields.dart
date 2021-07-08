@@ -5,6 +5,9 @@ class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
+  /// Text gradient for Pincode
+  final Gradient? textGradient;
+
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
@@ -233,6 +236,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorHeight,
     this.hintCharacter,
     this.hintStyle,
+    this.textGradient,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -531,13 +535,23 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       );
     }
 
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty && showObscured
-          ? widget.obscuringCharacter
-          : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: _textStyle,
-    );
+    final text = widget.obscureText && _inputList[index].isNotEmpty && showObscured
+        ? widget.obscuringCharacter
+        : _inputList[index];
+    return widget.textGradient != null
+        ? Gradiented(
+            gradient: widget.textGradient!,
+            child: Text(
+              text,
+              key: ValueKey(_inputList[index]),
+              style: _textStyle.copyWith(color: Colors.white),
+            ),
+          )
+        : Text(
+            text,
+            key: ValueKey(_inputList[index]),
+            style: _textStyle,
+          );
   }
 
 // selects the right fill color for the field
