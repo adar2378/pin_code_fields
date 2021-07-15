@@ -1,3 +1,8 @@
+# [7.3.0]
+
+- Fixed extra padding if autoValidate is not provided
+- Added ScrollPadding, errorBorderColor
+
 # [7.2.0]
 
 - Much requested feature placeholder has been added `hintCharacter`

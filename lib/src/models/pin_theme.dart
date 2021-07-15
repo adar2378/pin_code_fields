@@ -97,8 +97,8 @@ class PinTheme {
           ? defaultValues.inactiveFillColor
           : inactiveFillColor,
       errorBorderColor: errorBorderColor == null
-        ? defaultValues.errorBorderColor
-        : errorBorderColor,
+          ? defaultValues.errorBorderColor
+          : errorBorderColor,
       selectedColor:
           selectedColor == null ? defaultValues.selectedColor : selectedColor,
       selectedFillColor: selectedFillColor == null

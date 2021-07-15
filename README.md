@@ -226,6 +226,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+  /// ScrollPadding for the text field. Same as [TextFormField]'s scrollPadding
+  final EdgeInsets scrollPadding;
+
 ```
 
 **PinTheme**
@@ -327,6 +330,9 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/karabanovbs"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="karabanovbs"/><br /><sub><b>karabanovbs</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=karabanovbs" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/adarsh-technocrat"><img src="https://avatars.githubusercontent.com/u/14288495?s=400&v=4" width="100px;" alt="adarsh-technocrat"/><br /><sub><b>Adarsh kumar singh</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=adarsh-technocrat" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/adrianFarkas"><img src="https://avatars.githubusercontent.com/u/45693911?v=4" width="100px;" alt="adrianFarkas"/><br /><sub><b>Farkas Adrián</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=adrianFarkas" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/grafovdenis"><img src="https://avatars.githubusercontent.com/u/20505376?v=4" width="100px;" alt="grafovdenis"/><br /><sub><b>Denis Grafov</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=grafovdenis" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/ItzNotABug"><img src="https://avatars.githubusercontent.com/u/20625965?v=4" width="100px;" alt="ItzNotABug"/><br /><sub><b>DarShan</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItzNotABug" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/dhruvanbhalara"><img src="https://avatars.githubusercontent.com/u/53393418?v=4" width="100px;" alt="dhruvanbhalara"/><br /><sub><b>Dhruvan Bhalara</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=dhruvanbhalara" title="Code">💻</a></td>
   </tr>
 </table>
 
