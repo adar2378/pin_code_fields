@@ -1,7 +1,7 @@
 # [7.3.0]
 
 - AutovalidateMode.disabled will not add extra space below the pin cells
-- Added new attributes `errorBorderColor` and `scrollPadding`
+- Added new attributes `errorBorderColor`, `readOnly`, `textGradient` and `scrollPadding`
 
 
 # [7.2.0]

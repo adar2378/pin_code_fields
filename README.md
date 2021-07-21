@@ -333,6 +333,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/grafovdenis"><img src="https://avatars.githubusercontent.com/u/20505376?v=4" width="100px;" alt="grafovdenis"/><br /><sub><b>Denis Grafov</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=grafovdenis" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/ItzNotABug"><img src="https://avatars.githubusercontent.com/u/20625965?v=4" width="100px;" alt="ItzNotABug"/><br /><sub><b>DarShan</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItzNotABug" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/dhruvanbhalara"><img src="https://avatars.githubusercontent.com/u/53393418?v=4" width="100px;" alt="dhruvanbhalara"/><br /><sub><b>Dhruvan Bhalara</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=dhruvanbhalara" title="Code">💻</a></td>
+  <td align="center"><a href="https://github.com/rodion-m"><img src="https://avatars.githubusercontent.com/u/36400912?v=4" width="100px;" alt="rodion-m"/><br /><sub><b>Rodion Mostovoy</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=rodion-m" title="Code">💻</a></td>
   </tr>
 </table>
 
