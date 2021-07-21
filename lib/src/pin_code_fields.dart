@@ -180,6 +180,8 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+  /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
+  /// const EdgeInsets.all(20),
   final EdgeInsets scrollPadding;
 
   PinCodeTextField({

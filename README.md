@@ -48,7 +48,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Properties 🔖
 
 ```Dart
-  /// The [BuildContext] of the application
+/// The [BuildContext] of the application
   final BuildContext appContext;
 
   ///Box Shadow for Pincode
@@ -226,6 +226,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+  /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
+  /// const EdgeInsets.all(20),
+  final EdgeInsets scrollPadding;
 ```
 
 **PinTheme**
