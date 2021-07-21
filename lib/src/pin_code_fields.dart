@@ -5,9 +5,6 @@ class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
-  /// Text gradient for Pincode
-  final Gradient? textGradient;
-
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
@@ -187,6 +184,12 @@ class PinCodeTextField extends StatefulWidget {
   /// const EdgeInsets.all(20),
   final EdgeInsets scrollPadding;
 
+  /// Text gradient for Pincode
+  final Gradient? textGradient;
+
+  /// Makes the pin cells readOnly
+  final bool readOnly;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -239,6 +242,7 @@ class PinCodeTextField extends StatefulWidget {
     this.hintCharacter,
     this.hintStyle,
     this.textGradient,
+    this.readOnly = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -537,9 +541,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       );
     }
 
-    final text = widget.obscureText && _inputList[index].isNotEmpty && showObscured
-        ? widget.obscuringCharacter
-        : _inputList[index];
+    final text =
+        widget.obscureText && _inputList[index].isNotEmpty && showObscured
+            ? widget.obscuringCharacter
+            : _inputList[index];
     return widget.textGradient != null
         ? Gradiented(
             gradient: widget.textGradient!,
@@ -738,6 +743,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             : 0.01, // it is a hidden textfield which should remain transparent and extremely small
       ),
       scrollPadding: widget.scrollPadding,
+      readOnly: widget.readOnly,
     );
 
     return SlideTransition(
