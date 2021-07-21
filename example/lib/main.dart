@@ -230,7 +230,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             .shake); // Triggering error shake animation
                         setState(() => hasError = true);
                       } else {
-                        setState(() {
+                        setState(
+                          () {
                             hasError = false;
                             snackBar("OTP Verified!!");
                           },
