@@ -11,5 +11,4 @@ class Gradiented extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShaderMask(shaderCallback: gradient.createShader, child: child);
   }
-
 }
