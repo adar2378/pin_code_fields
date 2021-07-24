@@ -17,3 +17,4 @@ part 'src/models/dialog_config.dart';
 part 'src/models/pin_theme.dart';
 part 'src/pin_code_fields.dart';
 part 'src/gradiented.dart';
+part 'src/gradiented.dart';
