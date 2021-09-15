@@ -470,9 +470,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
-        setState(() {
-          _hasBlinked = true;
-        });
+        if (mounted) {
+          setState(() {
+            _hasBlinked = true;
+          });
+        }
       });
     }
   }
