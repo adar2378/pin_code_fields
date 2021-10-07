@@ -139,7 +139,7 @@ class PinCodeTextField extends StatefulWidget {
   final FormFieldSetter<String>? onSaved;
 
   /// enables auto validation for the [TextFormField]
-  /// Default is false
+  /// Default is [AutovalidateMode.onUserInteraction]
   final AutovalidateMode autovalidateMode;
 
   /// The vertical padding from the [PinCodeTextField] to the error text
