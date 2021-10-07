@@ -180,8 +180,19 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+<<<<<<< HEAD
   /// ScrollPadding for the text field. Same as [TextFormField]'s scrollPadding
+=======
+  /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
+  /// const EdgeInsets.all(20),
+>>>>>>> 8272cbfd8a1dab43b2b4f4f1107752dda1d9d230
   final EdgeInsets scrollPadding;
+
+  /// Text gradient for Pincode
+  final Gradient? textGradient;
+
+  /// Makes the pin cells readOnly
+  final bool readOnly;
 
   PinCodeTextField({
     Key? key,
@@ -234,6 +245,8 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorHeight,
     this.hintCharacter,
     this.hintStyle,
+    this.textGradient,
+    this.readOnly = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -461,9 +474,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
-        setState(() {
-          _hasBlinked = true;
-        });
+        if (mounted) {
+          setState(() {
+            _hasBlinked = true;
+          });
+        }
       });
     }
   }
@@ -532,13 +547,24 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       );
     }
 
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty && showObscured
-          ? widget.obscuringCharacter
-          : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: _textStyle,
-    );
+    final text =
+        widget.obscureText && _inputList[index].isNotEmpty && showObscured
+            ? widget.obscuringCharacter
+            : _inputList[index];
+    return widget.textGradient != null
+        ? Gradiented(
+            gradient: widget.textGradient!,
+            child: Text(
+              text,
+              key: ValueKey(_inputList[index]),
+              style: _textStyle.copyWith(color: Colors.white),
+            ),
+          )
+        : Text(
+            text,
+            key: ValueKey(_inputList[index]),
+            style: _textStyle,
+          );
   }
 
 // selects the right fill color for the field
@@ -723,6 +749,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             : 0.01, // it is a hidden textfield which should remain transparent and extremely small
       ),
       scrollPadding: widget.scrollPadding,
+      readOnly: widget.readOnly,
     );
 
     return SlideTransition(

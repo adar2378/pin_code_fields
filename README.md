@@ -48,7 +48,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Properties 🔖
 
 ```Dart
-  /// The [BuildContext] of the application
+/// The [BuildContext] of the application
   final BuildContext appContext;
 
   ///Box Shadow for Pincode
@@ -226,9 +226,15 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
+<<<<<<< HEAD
   /// ScrollPadding for the text field. Same as [TextFormField]'s scrollPadding
   final EdgeInsets scrollPadding;
 
+=======
+  /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
+  /// const EdgeInsets.all(20),
+  final EdgeInsets scrollPadding;
+>>>>>>> 8272cbfd8a1dab43b2b4f4f1107752dda1d9d230
 ```
 
 **PinTheme**
@@ -333,6 +339,10 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
   <td align="center"><a href="https://github.com/grafovdenis"><img src="https://avatars.githubusercontent.com/u/20505376?v=4" width="100px;" alt="grafovdenis"/><br /><sub><b>Denis Grafov</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=grafovdenis" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/ItzNotABug"><img src="https://avatars.githubusercontent.com/u/20625965?v=4" width="100px;" alt="ItzNotABug"/><br /><sub><b>DarShan</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=ItzNotABug" title="Code">💻</a></td>
   <td align="center"><a href="https://github.com/dhruvanbhalara"><img src="https://avatars.githubusercontent.com/u/53393418?v=4" width="100px;" alt="dhruvanbhalara"/><br /><sub><b>Dhruvan Bhalara</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=dhruvanbhalara" title="Code">💻</a></td>
+<<<<<<< HEAD
+=======
+  <td align="center"><a href="https://github.com/rodion-m"><img src="https://avatars.githubusercontent.com/u/36400912?v=4" width="100px;" alt="rodion-m"/><br /><sub><b>Rodion Mostovoy</b></sub></a><br /><a href="https://github.com/adar2378/pin_code_fields/commits?author=rodion-m" title="Code">💻</a></td>
+>>>>>>> 8272cbfd8a1dab43b2b4f4f1107752dda1d9d230
   </tr>
 </table>
 

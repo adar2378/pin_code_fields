@@ -1,7 +1,13 @@
 # [7.3.0]
 
+<<<<<<< HEAD
 - Fixed extra padding if autoValidate is not provided
 - Added ScrollPadding, errorBorderColor
+=======
+- AutovalidateMode.disabled will not add extra space below the pin cells
+- Added new attributes `errorBorderColor`, `readOnly`, `textGradient` and `scrollPadding`
+
+>>>>>>> 8272cbfd8a1dab43b2b4f4f1107752dda1d9d230
 
 # [7.2.0]
 
