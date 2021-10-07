@@ -58,7 +58,7 @@ class PinCodeTextField extends StatefulWidget {
   final TextStyle? textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
-  /// [TextStyle.color] is [ThemeData.accentColor]
+  /// [TextStyle.color] is [ThemeData.colorScheme.onSecondary]
   final TextStyle? pastedTextStyle;
 
   /// background color for the whole row of pin code fields.
@@ -180,12 +180,8 @@ class PinCodeTextField extends StatefulWidget {
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
 
-<<<<<<< HEAD
-  /// ScrollPadding for the text field. Same as [TextFormField]'s scrollPadding
-=======
   /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
   /// const EdgeInsets.all(20),
->>>>>>> 8272cbfd8a1dab43b2b4f4f1107752dda1d9d230
   final EdgeInsets scrollPadding;
 
   /// Text gradient for Pincode
@@ -590,7 +586,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         widget.showCursor) {
       final cursorColor = widget.cursorColor ??
           Theme.of(widget.appContext).textSelectionTheme.cursorColor ??
-          Theme.of(context).accentColor;
+          Theme.of(context).colorScheme.onSecondary;
       final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize! + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
@@ -643,7 +639,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     final defaultPastedTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).colorScheme.onSecondary,
     );
 
     return showDialog(
