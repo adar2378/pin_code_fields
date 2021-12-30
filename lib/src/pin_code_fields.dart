@@ -793,6 +793,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                       }
                     : null,
                 child: Row(
+                  textDirection: TextDirection.ltr,
                   mainAxisAlignment: widget.mainAxisAlignment,
                   children: _generateFields(),
                 ),
