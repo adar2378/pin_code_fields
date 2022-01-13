@@ -752,7 +752,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       position: _offsetAnimation,
       child: Container(
         // adding the extra space at the bottom to show the error text from validator
-        height: widget.autovalidateMode == AutovalidateMode.disabled
+        height: (widget.autovalidateMode == AutovalidateMode.disabled &&
+                widget.validator == null)
             ? widget.pinTheme.fieldHeight
             : widget.pinTheme.fieldHeight + widget.errorTextSpace,
         color: widget.backgroundColor,
