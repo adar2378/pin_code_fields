@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sms_autofill: ^2.2.0
 
 dev_dependencies:
   flutter_test:

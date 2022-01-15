@@ -1,7 +1,7 @@
 part of pin_code_fields;
 
 /// Pin code text fields which automatically changes focus and validates
-class PinCodeTextField extends StatefulWidget {
+class PinCodeTextField extends StatefulWidget with CodeAutoFill {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
@@ -247,6 +247,11 @@ class PinCodeTextField extends StatefulWidget {
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
+
+  @override
+  void codeUpdated() {
+    // TODO: implement codeUpdated
+  }
 }
 
 class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin {
@@ -261,23 +266,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
 
   // AnimationController for the error animation
   late AnimationController _controller;
-
   late AnimationController _cursorController;
-
   StreamSubscription<ErrorAnimationType>? _errorAnimationSubscription;
 
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
-
   late Animation<double> _cursorAnimation;
+
+  String smsAutoFill = '';
 
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
-      : DialogConfig(
-          affirmativeText: widget.dialogConfig!.affirmativeText,
-          dialogContent: widget.dialogConfig!.dialogContent,
-          dialogTitle: widget.dialogConfig!.dialogTitle,
-          negativeText: widget.dialogConfig!.negativeText);
+      : DialogConfig(affirmativeText: widget.dialogConfig!.affirmativeText, dialogContent: widget.dialogConfig!.dialogContent, dialogTitle: widget.dialogConfig!.dialogTitle, negativeText: widget.dialogConfig!.negativeText);
 
   PinTheme get _pinTheme => widget.pinTheme;
 
@@ -317,21 +317,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     _hasBlinked = true;
 
     _cursorController = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
-    _cursorAnimation = Tween<double>(
-      begin: 1,
-      end: 0,
-    ).animate(CurvedAnimation(
-      parent: _cursorController,
-      curve: Curves.easeIn,
-    ));
+    _cursorAnimation = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(parent: _cursorController, curve: Curves.easeIn));
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.errorAnimationDuration),
       vsync: this,
     );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(.1, 0.0),
-    ).animate(CurvedAnimation(
+    _offsetAnimation = Tween<Offset>(begin: Offset.zero, end: const Offset(.1, 0.0)).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.elasticIn,
     ));
@@ -354,6 +345,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty) _setTextToInput(_textEditingController!.text);
+
+    SmsAutoFill().listenForCode();
+    SmsAutoFill().code.listen((event) {
+      print(event);
+      _textEditingController!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
+    });
+
     super.initState();
   }
 
@@ -748,8 +746,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
             widget.onTap?.call();
             if (i < _selectedIndex && widget.clearNextFieldsOnTap) {
               _selectedIndex = i;
-              _textEditingController!.value = TextEditingValue(
-                  text: _textEditingController!.text.substring(0, i), selection: TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.substring(0, i).length)));
+              _textEditingController!.value = TextEditingValue(text: _textEditingController!.text.substring(0, i), selection: TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.substring(0, i).length)));
             }
           },
           child: Container(
