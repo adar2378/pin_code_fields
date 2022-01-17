@@ -250,7 +250,9 @@ class PinCodeTextField extends StatefulWidget with CodeAutoFill {
 
   @override
   void codeUpdated() {
-    // TODO: implement codeUpdated
+    SmsAutoFill().code.listen((event) {
+      controller!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
+    });
   }
 }
 
@@ -348,7 +350,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
 
     SmsAutoFill().listenForCode();
     SmsAutoFill().code.listen((event) {
-      print(event);
       _textEditingController!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
     });
 
