@@ -251,11 +251,9 @@ class PinCodeTextField extends StatefulWidget with CodeAutoFill {
   @override
   void codeUpdated() {
     SmsAutoFill().code.listen((event) {
-      Dev.log(event);
-      controller!.clear();
+      Dev.log('SmsAutoFill received the verification code: $event');
       controller!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
     });
-    SmsAutoFill().listenForCode();
   }
 }
 
