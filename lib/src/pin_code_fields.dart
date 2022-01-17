@@ -1,7 +1,7 @@
 part of pin_code_fields;
 
 /// Pin code text fields which automatically changes focus and validates
-class PinCodeTextField extends StatefulWidget with CodeAutoFill {
+class PinCodeTextField extends StatefulWidget {
   /// The [BuildContext] of the application
   final BuildContext appContext;
 
@@ -248,16 +248,12 @@ class PinCodeTextField extends StatefulWidget with CodeAutoFill {
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
 
-  @override
-  void codeUpdated() {
-    SmsAutoFill().code.listen((event) {
-      Dev.log('SmsAutoFill received the verification code: $event');
-      controller!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
-    });
-  }
+
+
+
 }
 
-class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin {
+class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin,CodeAutoFill {
   TextEditingController? _textEditingController;
   FocusNode? _focusNode;
   late List<String> _inputList;
@@ -275,9 +271,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
   late Animation<double> _cursorAnimation;
-
-  String smsAutoFill = '';
-
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(affirmativeText: widget.dialogConfig!.affirmativeText, dialogContent: widget.dialogConfig!.dialogContent, dialogTitle: widget.dialogConfig!.dialogTitle, negativeText: widget.dialogConfig!.negativeText);
@@ -298,7 +291,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       .merge(widget.hintStyle);
 
   bool get _hintAvailable => widget.hintCharacter != null;
-
+  @override
+  void codeUpdated() {
+    SmsAutoFill().code.listen((event) {
+      Dev.log('SmsAutoFill received the verification code: $event');
+      _textEditingController!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
+    });
+  }
   @override
   void initState() {
     // if (!kReleaseMode) {
@@ -349,11 +348,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty) _setTextToInput(_textEditingController!.text);
 
-    SmsAutoFill().listenForCode();
-    SmsAutoFill().code.listen((event) {
-      _textEditingController!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
-    });
-
+    listenForCode();
     super.initState();
   }
 
