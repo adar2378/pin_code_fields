@@ -345,7 +345,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty) _setTextToInput(_textEditingController!.text);
-
+    Dev.log('PinCodeTextField initialized.');
     listenForCode();
     super.initState();
   }
