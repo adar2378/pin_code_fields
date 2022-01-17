@@ -293,10 +293,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
   bool get _hintAvailable => widget.hintCharacter != null;
   @override
   void codeUpdated() {
-    SmsAutoFill().code.listen((event) {
-      Dev.log('SmsAutoFill received the verification code: $event');
-      _textEditingController!.value = TextEditingValue(text: event, selection: TextSelection.fromPosition(TextPosition(offset: event.length)));
-    });
+      Dev.log('SmsAutoFill received the verification code: $code');
+      _textEditingController!.value = TextEditingValue(text: code!, selection: TextSelection.fromPosition(TextPosition(offset: code!.length)));
   }
   @override
   void initState() {
