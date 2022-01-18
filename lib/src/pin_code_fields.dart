@@ -249,7 +249,7 @@ class PinCodeTextField extends StatefulWidget {
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
 }
 
-class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin, CodeAutoFill {
+class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin {
   TextEditingController? _textEditingController;
   FocusNode? _focusNode;
   late List<String> _inputList;
@@ -261,40 +261,40 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
 
   // AnimationController for the error animation
   late AnimationController _controller;
+
   late AnimationController _cursorController;
+
   StreamSubscription<ErrorAnimationType>? _errorAnimationSubscription;
 
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
+
   late Animation<double> _cursorAnimation;
 
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
-      : DialogConfig(affirmativeText: widget.dialogConfig!.affirmativeText, dialogContent: widget.dialogConfig!.dialogContent, dialogTitle: widget.dialogConfig!.dialogTitle, negativeText: widget.dialogConfig!.negativeText);
+      : DialogConfig(
+      affirmativeText: widget.dialogConfig!.affirmativeText,
+      dialogContent: widget.dialogConfig!.dialogContent,
+      dialogTitle: widget.dialogConfig!.dialogTitle,
+      negativeText: widget.dialogConfig!.negativeText);
 
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
 
   TextStyle get _textStyle => TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ).merge(widget.textStyle);
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ).merge(widget.textStyle);
 
   TextStyle get _hintStyle => _textStyle
       .copyWith(
-        color: _pinTheme.disabledColor,
-      )
+    color: _pinTheme.disabledColor,
+  )
       .merge(widget.hintStyle);
 
   bool get _hintAvailable => widget.hintCharacter != null;
-
-  @override
-  void codeUpdated() {
-    Dev.log('SmsAutoFill received the verification code: $code');
-    _textEditingController!.value = TextEditingValue(text: code!, selection: TextSelection.fromPosition(TextPosition(offset: code!.length)));
-    listenForCode();
-  }
 
   @override
   void initState() {
@@ -317,12 +317,21 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     _hasBlinked = true;
 
     _cursorController = AnimationController(duration: Duration(milliseconds: 1000), vsync: this);
-    _cursorAnimation = Tween<double>(begin: 1, end: 0).animate(CurvedAnimation(parent: _cursorController, curve: Curves.easeIn));
+    _cursorAnimation = Tween<double>(
+      begin: 1,
+      end: 0,
+    ).animate(CurvedAnimation(
+      parent: _cursorController,
+      curve: Curves.easeIn,
+    ));
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.errorAnimationDuration),
       vsync: this,
     );
-    _offsetAnimation = Tween<Offset>(begin: Offset.zero, end: const Offset(.1, 0.0)).animate(CurvedAnimation(
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(.1, 0.0),
+    ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.elasticIn,
     ));
@@ -345,7 +354,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty) _setTextToInput(_textEditingController!.text);
-    listenForCode();
     super.initState();
   }
 
@@ -582,54 +590,54 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       useRootNavigator: true,
       builder: (context) => _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
-              title: Text(_dialogConfig.dialogTitle!),
-              content: RichText(
-                text: TextSpan(
-                  text: _dialogConfig.dialogContent,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.button!.color,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: formattedPastedText,
-                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
-                    ),
-                    TextSpan(
-                      text: "?",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.button!.color,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              actions: _getActionButtons(formattedPastedText),
-            )
-          : AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              title: Text(_dialogConfig.dialogTitle!),
-              content: RichText(
-                text: TextSpan(
-                  text: _dialogConfig.dialogContent,
-                  style: TextStyle(color: Theme.of(context).textTheme.button!.color),
-                  children: [
-                    TextSpan(
-                      text: formattedPastedText,
-                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
-                    ),
-                    TextSpan(
-                      text: " ?",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.button!.color,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              actions: _getActionButtons(formattedPastedText),
+        title: Text(_dialogConfig.dialogTitle!),
+        content: RichText(
+          text: TextSpan(
+            text: _dialogConfig.dialogContent,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.button!.color,
             ),
+            children: [
+              TextSpan(
+                text: formattedPastedText,
+                style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+              ),
+              TextSpan(
+                text: "?",
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.button!.color,
+                ),
+              )
+            ],
+          ),
+        ),
+        actions: _getActionButtons(formattedPastedText),
+      )
+          : AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: Text(_dialogConfig.dialogTitle!),
+        content: RichText(
+          text: TextSpan(
+            text: _dialogConfig.dialogContent,
+            style: TextStyle(color: Theme.of(context).textTheme.button!.color),
+            children: [
+              TextSpan(
+                text: formattedPastedText,
+                style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+              ),
+              TextSpan(
+                text: " ?",
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.button!.color,
+                ),
+              )
+            ],
+          ),
+        ),
+        actions: _getActionButtons(formattedPastedText),
+      ),
     );
   }
 
@@ -691,9 +699,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
               child: widget.useExternalAutoFillGroup
                   ? textField
                   : AutofillGroup(
-                      onDisposeAction: widget.onAutoFillDisposeAction,
-                      child: textField,
-                    ),
+                onDisposeAction: widget.onAutoFillDisposeAction,
+                child: textField,
+              ),
             ),
             Positioned(
               top: 0,
@@ -706,17 +714,17 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
                 },
                 onLongPress: widget.enabled
                     ? () async {
-                        var data = await Clipboard.getData("text/plain");
-                        if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
-                            }
-                          } else {
-                            _showPasteDialog(data!.text!);
-                          }
-                        }
+                  var data = await Clipboard.getData("text/plain");
+                  if (data?.text?.isNotEmpty ?? false) {
+                    if (widget.beforeTextPaste != null) {
+                      if (widget.beforeTextPaste!(data!.text)) {
+                        _showPasteDialog(data.text!);
                       }
+                    } else {
+                      _showPasteDialog(data!.text!);
+                    }
+                  }
+                }
                     : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
@@ -740,7 +748,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
             widget.onTap?.call();
             if (i < _selectedIndex && widget.clearNextFieldsOnTap) {
               _selectedIndex = i;
-              _textEditingController!.value = TextEditingValue(text: _textEditingController!.text.substring(0, i), selection: TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.substring(0, i).length)));
+              _textEditingController!.value = TextEditingValue(
+                  text: _textEditingController!.text.substring(0, i), selection: TextSelection.fromPosition(TextPosition(offset: _textEditingController!.text.substring(0, i).length)));
             }
           },
           child: Container(
@@ -757,15 +766,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
                   borderRadius: borderRadius,
                   border: _pinTheme.shape == PinCodeFieldShape.underline
                       ? Border(
-                          bottom: BorderSide(
-                            color: _getColorFromIndex(i),
-                            width: _pinTheme.borderWidth,
-                          ),
-                        )
+                    bottom: BorderSide(
+                      color: _getColorFromIndex(i),
+                      width: _pinTheme.borderWidth,
+                    ),
+                  )
                       : Border.all(
-                          color: _getColorFromIndex(i),
-                          width: _pinTheme.borderWidth,
-                        ),
+                    color: _getColorFromIndex(i),
+                    width: _pinTheme.borderWidth,
+                  ),
                 ),
                 child: Center(
                   child: AnimatedSwitcher(
