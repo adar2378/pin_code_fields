@@ -58,7 +58,7 @@ class PinCodeTextField extends StatefulWidget {
   final TextStyle? textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
-  /// [TextStyle.color] is [ThemeData.accentColor]
+  /// [TextStyle.color] is [ThemeData.colorScheme.onSecondary]
   final TextStyle? pastedTextStyle;
 
   /// background color for the whole row of pin code fields.
@@ -143,7 +143,7 @@ class PinCodeTextField extends StatefulWidget {
   final FormFieldSetter<String>? onSaved;
 
   /// enables auto validation for the [TextFormField]
-  /// Default is false
+  /// Default is [AutovalidateMode.onUserInteraction]
   final AutovalidateMode autovalidateMode;
 
   /// The vertical padding from the [PinCodeTextField] to the error text
@@ -183,6 +183,16 @@ class PinCodeTextField extends StatefulWidget {
   /// and it also uses the [textStyle]'s properties
   /// [TextStyle.color] is [Colors.grey]
   final TextStyle? hintStyle;
+
+  /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
+  /// const EdgeInsets.all(20),
+  final EdgeInsets scrollPadding;
+
+  /// Text gradient for Pincode
+  final Gradient? textGradient;
+
+  /// Makes the pin cells readOnly
+  final bool readOnly;
 
   PinCodeTextField({
     Key? key,
@@ -236,12 +246,15 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorHeight,
     this.hintCharacter,
     this.hintStyle,
+    this.textGradient,
+    this.readOnly = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
 
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
+    this.scrollPadding = const EdgeInsets.all(20),
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -265,6 +278,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
   late AnimationController _cursorController;
 
   StreamSubscription<ErrorAnimationType>? _errorAnimationSubscription;
+  bool isInErrorMode = false;
 
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
@@ -349,6 +363,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       _errorAnimationSubscription = widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
+          setState(() => isInErrorMode = true);
         }
       });
     }
@@ -409,6 +424,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
         runHapticFeedback();
       }
 
+      if (isInErrorMode) {
+        setState(() => isInErrorMode = false);
+      }
+
       _debounceBlink();
 
       var currentText = _textEditingController!.text;
@@ -446,9 +465,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
-        setState(() {
-          _hasBlinked = true;
-        });
+        if (mounted) {
+          setState(() {
+            _hasBlinked = true;
+          });
+        }
       });
     }
   }
@@ -480,9 +501,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) && _focusNode!.hasFocus) {
       return _pinTheme.selectedColor;
     } else if (_selectedIndex > index) {
-      return _pinTheme.activeColor;
+      Color relevantActiveColor = _pinTheme.activeColor;
+      if (isInErrorMode) relevantActiveColor = _pinTheme.errorBorderColor;
+      return relevantActiveColor;
     }
-    return _pinTheme.inactiveColor;
+
+    Color relevantInActiveColor = _pinTheme.inactiveColor;
+    if (isInErrorMode) relevantInActiveColor = _pinTheme.errorBorderColor;
+    return relevantInActiveColor;
   }
 
   Widget _renderPinField({
@@ -508,11 +534,22 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       );
     }
 
-    return Text(
-      widget.obscureText && _inputList[index].isNotEmpty && showObscured ? widget.obscuringCharacter : _inputList[index],
-      key: ValueKey(_inputList[index]),
-      style: _textStyle,
-    );
+    final text =
+      widget.obscureText && _inputList[index].isNotEmpty && showObscured ? widget.obscuringCharacter : _inputList[index];
+    return widget.textGradient != null
+        ? Gradiented(
+            gradient: widget.textGradient!,
+            child: Text(
+              text,
+              key: ValueKey(_inputList[index]),
+              style: _textStyle.copyWith(color: Colors.white),
+            ),
+          )
+        : Text(
+            text,
+            key: ValueKey(_inputList[index]),
+            style: _textStyle,
+          );
   }
 
 // selects the right fill color for the field
@@ -531,7 +568,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
   /// Builds the widget to be shown
   Widget buildChild(int index) {
     if (((_selectedIndex == index) || (_selectedIndex == index + 1 && index + 1 == widget.length)) && _focusNode!.hasFocus && widget.showCursor) {
-      final cursorColor = widget.cursorColor ?? Theme.of(widget.appContext).textSelectionTheme.cursorColor ?? Theme.of(context).accentColor;
+      final cursorColor = widget.cursorColor ?? Theme.of(widget.appContext).textSelectionTheme.cursorColor ?? Theme.of(context).colorScheme.onSecondary;
       final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize! + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
@@ -582,7 +619,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
 
     final defaultPastedTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      color: Theme.of(context).accentColor,
+      color: Theme.of(context).colorScheme.onSecondary,
     );
 
     return showDialog(
@@ -682,13 +719,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
         height: .01,
         fontSize: kIsWeb ? 1 : 0.01, // it is a hidden textfield which should remain transparent and extremely small
       ),
+      scrollPadding: widget.scrollPadding,
+      readOnly: widget.readOnly,
     );
 
     return SlideTransition(
       position: _offsetAnimation,
       child: Container(
         // adding the extra space at the bottom to show the error text from validator
-        height: widget.pinTheme.fieldHeight + widget.errorTextSpace,
+        height: (widget.autovalidateMode == AutovalidateMode.disabled &&
+                widget.validator == null)
+            ? widget.pinTheme.fieldHeight
+            : widget.pinTheme.fieldHeight + widget.errorTextSpace,
         color: widget.backgroundColor,
         child: Stack(
           alignment: Alignment.bottomCenter,
