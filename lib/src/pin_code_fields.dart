@@ -247,13 +247,9 @@ class PinCodeTextField extends StatefulWidget {
 
   @override
   _PinCodeTextFieldState createState() => _PinCodeTextFieldState();
-
-
-
-
 }
 
-class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin,CodeAutoFill {
+class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProviderStateMixin, CodeAutoFill {
   TextEditingController? _textEditingController;
   FocusNode? _focusNode;
   late List<String> _inputList;
@@ -271,6 +267,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
   // Animation for the error animation
   late Animation<Offset> _offsetAnimation;
   late Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(affirmativeText: widget.dialogConfig!.affirmativeText, dialogContent: widget.dialogConfig!.dialogContent, dialogTitle: widget.dialogConfig!.dialogTitle, negativeText: widget.dialogConfig!.negativeText);
@@ -291,11 +288,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
       .merge(widget.hintStyle);
 
   bool get _hintAvailable => widget.hintCharacter != null;
+
   @override
   void codeUpdated() {
-      Dev.log('SmsAutoFill received the verification code: $code');
-      _textEditingController!.value = TextEditingValue(text: code!, selection: TextSelection.fromPosition(TextPosition(offset: code!.length)));
+    Dev.log('SmsAutoFill received the verification code: $code');
+    _textEditingController!.value = TextEditingValue(text: code!, selection: TextSelection.fromPosition(TextPosition(offset: code!.length)));
+    listenForCode();
   }
+
   @override
   void initState() {
     // if (!kReleaseMode) {
@@ -345,7 +345,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty) _setTextToInput(_textEditingController!.text);
-    Dev.log('PinCodeTextField initialized.');
     listenForCode();
     super.initState();
   }
