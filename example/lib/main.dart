@@ -127,11 +127,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         color: Colors.green.shade600,
                         fontWeight: FontWeight.bold,
                       ),
-                      regExpPasteCode: RegExp(r'[0-9]'),
+                      regExpPasteDialog: RegExp(r'[0-9]'),
                       length: 6,
                       obscureText: true,
                       obscuringCharacter: '*',
-                      obscuringWidget: FlutterLogo(
+                      obscuringWidget: const FlutterLogo(
                         size: 24,
                       ),
                       blinkWhenObscuring: true,
