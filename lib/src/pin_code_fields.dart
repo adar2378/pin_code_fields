@@ -186,6 +186,10 @@ class PinCodeTextField extends StatefulWidget {
 
   /// Text gradient for Pincode
   final Gradient? textGradient;
+  
+  /// Regex to params in paste dialog
+  /// if is not valid, not apply to paste
+  final RegExp? regExpPasteDialog;
 
   /// Makes the pin cells readOnly
   final bool readOnly;
@@ -243,6 +247,7 @@ class PinCodeTextField extends StatefulWidget {
     this.hintStyle,
     this.textGradient,
     this.readOnly = false,
+    this.regExpPasteDialog,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -783,12 +788,25 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     ? () async {
                         var data = await Clipboard.getData("text/plain");
                         if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
+                          if (widget.regExpPasteDialog != null) {
+                            if (widget.regExpPasteDialog!.allMatches(data!.text!).length ==
+                                data.text!.length) {
+                              if (widget.beforeTextPaste != null) {
+                                if (widget.beforeTextPaste!(data.text)) {
+                                  _showPasteDialog(data.text!);
+                                }
+                              } else {
+                                _showPasteDialog(data.text!);
+                              }
                             }
                           } else {
-                            _showPasteDialog(data!.text!);
+                            if (widget.beforeTextPaste != null) {
+                              if (widget.beforeTextPaste!(data!.text)) {
+                                _showPasteDialog(data.text!);
+                              }
+                            } else {
+                              _showPasteDialog(data!.text!);
+                            }
                           }
                         }
                       }
