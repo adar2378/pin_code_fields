@@ -190,6 +190,8 @@ class PinCodeTextField extends StatefulWidget {
   /// Makes the pin cells readOnly
   final bool readOnly;
 
+  final bool autoUnFocus;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -243,6 +245,7 @@ class PinCodeTextField extends StatefulWidget {
     this.hintStyle,
     this.textGradient,
     this.readOnly = false,
+    this.autoUnFocus = true,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -875,13 +878,17 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }
 
   void _onFocus() {
-    if (_focusNode!.hasFocus &&
-        MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
-      _focusNode!.unfocus();
-      Future.delayed(
-          const Duration(microseconds: 1), () => _focusNode!.requestFocus());
+    if (widget.autoUnFocus) {
+      if (_focusNode!.hasFocus &&
+          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+        _focusNode!.unfocus();
+        Future.delayed(
+            const Duration(microseconds: 1), () => _focusNode!.requestFocus());
+      } else {
+        _focusNode!.requestFocus();
+      }
     } else {
-      _focusNode!.requestFocus();
+      _focusNode!.unfocus();
     }
   }
 
