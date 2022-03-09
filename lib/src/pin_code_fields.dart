@@ -146,6 +146,14 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is 16.
   final double errorTextSpace;
 
+  /// Margin for the error text
+  /// Default is [EdgeInsets.zero].
+  final EdgeInsets errorTextMargin;
+
+  /// [TextDirection] to control a direction in which text flows.
+  /// Default is [TextDirection.ltr]
+  final TextDirection errorTextDirection;
+
   /// Enables pin autofill for TextFormField.
   /// Default is true
   final bool enablePinAutofill;
@@ -235,6 +243,8 @@ class PinCodeTextField extends StatefulWidget {
     this.onSaved,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.errorTextSpace = 16,
+    this.errorTextDirection = TextDirection.ltr,
+    this.errorTextMargin = EdgeInsets.zero,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
     this.boxShadows,
@@ -705,51 +715,57 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   Widget build(BuildContext context) {
-    var textField = TextFormField(
-      textInputAction: widget.textInputAction,
-      controller: _textEditingController,
-      focusNode: _focusNode,
-      enabled: widget.enabled,
-      autofillHints: widget.enablePinAutofill && widget.enabled
-          ? <String>[AutofillHints.oneTimeCode]
-          : null,
-      autofocus: widget.autoFocus,
-      autocorrect: false,
-      keyboardType: widget.keyboardType,
-      keyboardAppearance: widget.keyboardAppearance,
-      textCapitalization: widget.textCapitalization,
-      validator: widget.validator,
-      onSaved: widget.onSaved,
-      autovalidateMode: widget.autovalidateMode,
-      inputFormatters: [
-        ...widget.inputFormatters,
-        LengthLimitingTextInputFormatter(
-          widget.length,
-        ), // this limits the input length
-      ],
-      // trigger on the complete event handler from the keyboard
-      onFieldSubmitted: widget.onSubmitted,
-      enableInteractiveSelection: false,
-      showCursor: false,
-      // using same as background color so tha it can blend into the view
-      cursorWidth: 0.01,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(0),
-        border: InputBorder.none,
-        fillColor: widget.backgroundColor,
-        enabledBorder: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
+    var textField = Directionality(
+      textDirection: widget.errorTextDirection,
+      child: Padding(
+        padding: widget.errorTextMargin,
+        child: TextFormField(
+          textInputAction: widget.textInputAction,
+          controller: _textEditingController,
+          focusNode: _focusNode,
+          enabled: widget.enabled,
+          autofillHints: widget.enablePinAutofill && widget.enabled
+              ? <String>[AutofillHints.oneTimeCode]
+              : null,
+          autofocus: widget.autoFocus,
+          autocorrect: false,
+          keyboardType: widget.keyboardType,
+          keyboardAppearance: widget.keyboardAppearance,
+          textCapitalization: widget.textCapitalization,
+          validator: widget.validator,
+          onSaved: widget.onSaved,
+          autovalidateMode: widget.autovalidateMode,
+          inputFormatters: [
+            ...widget.inputFormatters,
+            LengthLimitingTextInputFormatter(
+              widget.length,
+            ), // this limits the input length
+          ],
+          // trigger on the complete event handler from the keyboard
+          onFieldSubmitted: widget.onSubmitted,
+          enableInteractiveSelection: false,
+          showCursor: false,
+          // using same as background color so tha it can blend into the view
+          cursorWidth: 0.01,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(0),
+            border: InputBorder.none,
+            fillColor: widget.backgroundColor,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+          ),
+          style: TextStyle(
+            color: Colors.transparent,
+            height: .01,
+            fontSize: kIsWeb
+                ? 1
+                : 0.01, // it is a hidden textfield which should remain transparent and extremely small
+          ),
+          scrollPadding: widget.scrollPadding,
+          readOnly: widget.readOnly,
+        ),
       ),
-      style: TextStyle(
-        color: Colors.transparent,
-        height: .01,
-        fontSize: kIsWeb
-            ? 1
-            : 0.01, // it is a hidden textfield which should remain transparent and extremely small
-      ),
-      scrollPadding: widget.scrollPadding,
-      readOnly: widget.readOnly,
     );
 
     return SlideTransition(
