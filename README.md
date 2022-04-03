@@ -48,7 +48,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 ## Properties 🔖
 
 ```Dart
-/// The [BuildContext] of the application
+  /// The [BuildContext] of the application
   final BuildContext appContext;
 
   ///Box Shadow for Pincode
@@ -104,7 +104,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   final TextStyle? textStyle;
 
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
-  /// [TextStyle.color] is [ThemeData.accentColor]
+  /// [TextStyle.color] is [ThemeData.colorScheme.onSecondary]
   final TextStyle? pastedTextStyle;
 
   /// background color for the whole row of pin code fields.
@@ -185,12 +185,20 @@ A flutter package which will help you to generate pin code fields with beautiful
   final FormFieldSetter<String>? onSaved;
 
   /// enables auto validation for the [TextFormField]
-  /// Default is false
+  /// Default is [AutovalidateMode.onUserInteraction]
   final AutovalidateMode autovalidateMode;
 
   /// The vertical padding from the [PinCodeTextField] to the error text
   /// Default is 16.
   final double errorTextSpace;
+
+  /// Margin for the error text
+  /// Default is [EdgeInsets.zero].
+  final EdgeInsets errorTextMargin;
+
+  /// [TextDirection] to control a direction in which text flows.
+  /// Default is [TextDirection.ltr]
+  final TextDirection errorTextDirection;
 
   /// Enables pin autofill for TextFormField.
   /// Default is true
@@ -229,6 +237,15 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// ScrollPadding follows the same property as TextField's ScrollPadding, default to
   /// const EdgeInsets.all(20),
   final EdgeInsets scrollPadding;
+
+  /// Text gradient for Pincode
+  final Gradient? textGradient;
+
+  /// Makes the pin cells readOnly
+  final bool readOnly;
+
+  /// Enable auto unfocus
+  final bool autoUnfocus;
 ```
 
 **PinTheme**
