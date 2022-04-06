@@ -29,7 +29,7 @@ void main() {
     await tester.pumpWidget(app);
     expect(controller.hasListener, isTrue);
 
-    await tester.pumpWidget(SizedBox());
+    await tester.pumpWidget(const SizedBox());
     expect(controller.hasListener, isFalse);
     controller.close();
   });
@@ -45,22 +45,25 @@ void main() {
       builder: (context) {
         return MaterialApp(
           theme: ThemeData(
-              inputDecorationTheme: InputDecorationTheme(
-            fillColor: Colors.red,
-            filled: true,
-          )),
+            inputDecorationTheme: const InputDecorationTheme(
+              fillColor: Colors.red,
+              filled: true,
+            ),
+          ),
           home: Scaffold(
             backgroundColor: Colors.black,
-            body: Builder(builder: (context) {
-              return PinCodeTextField(
-                appContext: context,
-                autoFocus: true,
-                backgroundColor: Colors.transparent,
-                length: 6,
-                animationDuration: Duration.zero,
-                onChanged: (input) {},
-              );
-            }),
+            body: Builder(
+              builder: (context) {
+                return PinCodeTextField(
+                  appContext: context,
+                  autoFocus: true,
+                  backgroundColor: Colors.transparent,
+                  length: 6,
+                  animationDuration: Duration.zero,
+                  onChanged: (input) {},
+                );
+              },
+            ),
           ),
         );
       },
