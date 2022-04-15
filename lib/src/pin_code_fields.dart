@@ -666,12 +666,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     final cusomPasteCodeDialog = widget.cusomPasteCodeDialog;
     if (cusomPasteCodeDialog != null) {
-      dialogBuider = cusomPasteCodeDialog.call(onCanceled: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      }, onConfirmed: () {
-        _textEditingController!.text = pastedText;
-        Navigator.of(context, rootNavigator: true).pop();
-      }, code: pastedText);
+      dialogBuider = cusomPasteCodeDialog.call(
+        onCanceled: () {
+          Navigator.of(context, rootNavigator: true).pop();
+        },
+        onConfirmed: () {
+          _textEditingController!.text = pastedText;
+          Navigator.of(context, rootNavigator: true).pop();
+        },
+        code: formattedPastedText,
+      );
     } else {
       dialogBuider = _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
