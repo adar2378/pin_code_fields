@@ -201,7 +201,7 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable auto unfocus
   final bool autoUnfocus;
 
-  final Function<Widget>(
+  final Widget Function(
       {required Function() onCanceled,
       required Function() onConfirmed})? cusomPasteCodeDialog;
 
