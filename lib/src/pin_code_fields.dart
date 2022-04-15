@@ -201,6 +201,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable auto unfocus
   final bool autoUnfocus;
 
+  final Function<Widget>(
+      {required Function() onCanceled,
+      required Function() onConfirmed})? cusomPasteCodeDialog;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -264,6 +268,7 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
+    this.cusomPasteCodeDialog,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -656,10 +661,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       color: Theme.of(context).colorScheme.onSecondary,
     );
 
-    return showDialog(
-      context: context,
-      useRootNavigator: true,
-      builder: (context) => _dialogConfig.platform == Platform.iOS
+    final Widget dialogBuider;
+
+    final cusomPasteCodeDialog = widget.cusomPasteCodeDialog;
+    if (cusomPasteCodeDialog != null) {
+      dialogBuider = cusomPasteCodeDialog.call(onCanceled: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      }, onConfirmed: () {
+        _textEditingController!.text = pastedText;
+        Navigator.of(context, rootNavigator: true).pop();
+      });
+    } else {
+      dialogBuider = _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
               title: Text(_dialogConfig.dialogTitle!),
               content: RichText(
@@ -709,7 +722,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 ),
               ),
               actions: _getActionButtons(formattedPastedText),
-            ),
+            );
+    }
+
+    return showDialog(
+      context: context,
+      useRootNavigator: true,
+      builder: (context) => dialogBuider,
     );
   }
 
