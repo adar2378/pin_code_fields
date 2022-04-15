@@ -203,7 +203,8 @@ class PinCodeTextField extends StatefulWidget {
 
   final Widget Function(
       {required Function() onCanceled,
-      required Function() onConfirmed})? cusomPasteCodeDialog;
+      required Function() onConfirmed,
+      required String code})? cusomPasteCodeDialog;
 
   PinCodeTextField({
     Key? key,
@@ -670,7 +671,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }, onConfirmed: () {
         _textEditingController!.text = pastedText;
         Navigator.of(context, rootNavigator: true).pop();
-      });
+      }, code: pastedText);
     } else {
       dialogBuider = _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
