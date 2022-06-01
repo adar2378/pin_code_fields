@@ -333,7 +333,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode!.addListener(() {
-      setState(() {});
+      if(mounted) {
+        setState(() {});
+      }
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
 
@@ -374,7 +376,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
-          setState(() => isInErrorMode = true);
+          if(mounted) {
+            setState(() => isInErrorMode = true);
+          }
         }
       });
     }
@@ -440,7 +444,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         runHapticFeedback();
       }
 
-      if (isInErrorMode) {
+      if (mounted && isInErrorMode) {
         setState(() => isInErrorMode = false);
       }
 
@@ -475,9 +479,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.blinkWhenObscuring &&
         _textEditingController!.text.length >
             _inputList.where((x) => x.isNotEmpty).length) {
-      setState(() {
-        _hasBlinked = false;
-      });
+      if(mounted) {
+        setState(() {
+          _hasBlinked = false;
+        });
+      }
 
       if (_blinkDebounce?.isActive ?? false) {
         _blinkDebounce!.cancel();
