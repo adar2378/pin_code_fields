@@ -1,3 +1,7 @@
+# [8.0.0]
+
+- Removed context from widget parameters
+
 # [7.4.0]
 
 - Added new attributes`readOnly`, `textGradient`, `errorTextDirection`, `errorTextMargin`, `autoUnfocus`

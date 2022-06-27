@@ -17,7 +17,6 @@ void main() {
       builder: (context) => MaterialApp(
         home: Scaffold(
           body: PinCodeTextField(
-            appContext: context,
             length: 6,
             onChanged: (input) {},
             errorAnimationController: controller,
@@ -51,16 +50,13 @@ void main() {
           )),
           home: Scaffold(
             backgroundColor: Colors.black,
-            body: Builder(builder: (context) {
-              return PinCodeTextField(
-                appContext: context,
-                autoFocus: true,
-                backgroundColor: Colors.transparent,
-                length: 6,
-                animationDuration: Duration.zero,
-                onChanged: (input) {},
-              );
-            }),
+            body: PinCodeTextField(
+              autoFocus: true,
+              backgroundColor: Colors.transparent,
+              length: 6,
+              animationDuration: Duration.zero,
+              onChanged: (input) {},
+            ),
           ),
         );
       },

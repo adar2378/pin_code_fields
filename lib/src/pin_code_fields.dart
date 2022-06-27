@@ -2,9 +2,6 @@ part of pin_code_fields;
 
 /// Pin code text fields which automatically changes focus and validates
 class PinCodeTextField extends StatefulWidget {
-  /// The [BuildContext] of the application
-  final BuildContext appContext;
-
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
@@ -203,7 +200,6 @@ class PinCodeTextField extends StatefulWidget {
 
   PinCodeTextField({
     Key? key,
-    required this.appContext,
     required this.length,
     this.controller,
     this.obscureText = false,
@@ -599,7 +595,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _focusNode!.hasFocus &&
         widget.showCursor) {
       final cursorColor = widget.cursorColor ??
-          Theme.of(widget.appContext).textSelectionTheme.cursorColor ??
+          Theme.of(context).textSelectionTheme.cursorColor ??
           Theme.of(context).colorScheme.onSecondary;
       final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize! + 8;
 
@@ -897,7 +893,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _onFocus() {
     if (widget.autoUnfocus) {
       if (_focusNode!.hasFocus &&
-          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+          MediaQuery.of(context).viewInsets.bottom == 0) {
         _focusNode!.unfocus();
         Future.delayed(
             const Duration(microseconds: 1), () => _focusNode!.requestFocus());
