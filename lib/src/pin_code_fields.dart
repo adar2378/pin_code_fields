@@ -198,6 +198,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable auto unfocus
   final bool autoUnfocus;
 
+  /// Enables alert dialog which asks about text paste
+  final bool enableDialog;
+
   PinCodeTextField({
     Key? key,
     required this.length,
@@ -260,6 +263,7 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
+    this.enableDialog = true,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -642,11 +646,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     );
   }
 
-  Future<void> _showPasteDialog(String pastedText) {
+  Future<void> _maybeShowPasteDialog(String pastedText) {
     final formattedPastedText = pastedText
         .trim()
         .substring(0, min(pastedText.trim().length, widget.length));
-
+    if (!widget.enableDialog) {
+      _textEditingController!.text = formattedPastedText;
+      return Future.value(null);
+    }
     final defaultPastedTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
       color: Theme.of(context).colorScheme.onSecondary,
@@ -801,10 +808,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                         if (data?.text?.isNotEmpty ?? false) {
                           if (widget.beforeTextPaste != null) {
                             if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
+                              _maybeShowPasteDialog(data.text!);
                             }
                           } else {
-                            _showPasteDialog(data!.text!);
+                            _maybeShowPasteDialog(data!.text!);
                           }
                         }
                       }
