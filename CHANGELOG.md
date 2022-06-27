@@ -1,3 +1,6 @@
+# [8.0.1]
+
+- Added enableDialog property
 # [8.0.0]
 
 - Removed context from widget parameters
