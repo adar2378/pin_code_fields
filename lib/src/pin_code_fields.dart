@@ -232,7 +232,7 @@ class PinCodeTextField extends StatefulWidget {
     this.textCapitalization = TextCapitalization.none,
     this.textInputAction = TextInputAction.done,
     this.autoDismissKeyboard = true,
-    this.autoDisposeControllers = true,
+    this.autoDisposeControllers = false,
     this.onSubmitted,
     this.errorAnimationController,
     this.beforeTextPaste,
@@ -423,7 +423,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
     if (widget.controller == null) {
       _textEditingController = TextEditingController();
     } else {
-      _textEditingController = TextEditingController.fromValue(widget.controller!.value);
+      _textEditingController = widget.controller;
     }
 
     _textEditingController?.addListener(() {
