@@ -19,7 +19,6 @@ void main() {
           body: PinCodeTextField(
             appContext: context,
             length: 6,
-            onChanged: (input) {},
             errorAnimationController: controller,
           ),
         ),
@@ -58,7 +57,6 @@ void main() {
                 backgroundColor: Colors.transparent,
                 length: 6,
                 animationDuration: Duration.zero,
-                onChanged: (input) {},
               );
             }),
           ),
