@@ -365,6 +365,7 @@ Thanks to everyone whoever suggested their thoughts to improve this package. And
 
 ```Dart
 PinCodeTextField(
+  appContext: context,
   length: 6,
   obscureText: false,
   animationType: AnimationType.fade,
@@ -435,6 +436,7 @@ StreamController<ErrorAnimationType> errorController = StreamController<ErrorAni
 
 ```Dart
 PinCodeTextField(
+  appContext: context,
   length: 6,
   obscureText: false,
   animationType: AnimationType.fade,
