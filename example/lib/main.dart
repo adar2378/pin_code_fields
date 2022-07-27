@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -262,13 +263,15 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     borderRadius: BorderRadius.circular(5),
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: const Offset(1, -2),
-                          blurRadius: 5),
+                        color: Colors.green.shade200,
+                        offset: const Offset(1, -2),
+                        blurRadius: 5,
+                      ),
                       BoxShadow(
-                          color: Colors.green.shade200,
-                          offset: const Offset(-1, 2),
-                          blurRadius: 5)
+                        color: Colors.green.shade200,
+                        offset: const Offset(-1, 2),
+                        blurRadius: 5,
+                      )
                     ]),
               ),
               const SizedBox(

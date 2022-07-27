@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_inset_box_shadow: ^1.0.8
 
 dev_dependencies:
   flutter_test:
