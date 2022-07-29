@@ -54,6 +54,9 @@ A flutter package which will help you to generate pin code fields with beautiful
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
+    ///inner Box Shadow for Pincode but it requires [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow) package to work
+  final List<shadow.BoxShadow>? innerBoxShadows;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
