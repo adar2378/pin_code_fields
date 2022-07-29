@@ -8,6 +8,10 @@ class PinCodeTextField extends StatefulWidget {
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
+  ///inner Box Shadow for Pincode but it requires [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow)
+  ///package to work
+  final List<shadow.BoxShadow>? innerBoxShadows;
+
   /// length of how many cells there should be. 3-8 is recommended by me
   final int length;
 
@@ -248,6 +252,7 @@ class PinCodeTextField extends StatefulWidget {
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
     this.boxShadows,
+    this.innerBoxShadows,
     this.showCursor = true,
     this.cursorColor,
     this.cursorWidth = 2,
@@ -836,27 +841,49 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               duration: widget.animationDuration,
               width: _pinTheme.fieldWidth,
               height: _pinTheme.fieldHeight,
-              decoration: BoxDecoration(
-                color: widget.enableActiveFill
-                    ? _getFillColorFromIndex(i)
-                    : Colors.transparent,
-                boxShadow: widget.boxShadows,
-                shape: _pinTheme.shape == PinCodeFieldShape.circle
-                    ? BoxShape.circle
-                    : BoxShape.rectangle,
-                borderRadius: borderRadius,
-                border: _pinTheme.shape == PinCodeFieldShape.underline
-                    ? Border(
-                        bottom: BorderSide(
-                          color: _getColorFromIndex(i),
-                          width: _pinTheme.borderWidth,
-                        ),
-                      )
-                    : Border.all(
-                        color: _getColorFromIndex(i),
-                        width: _pinTheme.borderWidth,
-                      ),
-              ),
+              decoration: widget.innerBoxShadows == null
+                  ? BoxDecoration(
+                      color: widget.enableActiveFill
+                          ? _getFillColorFromIndex(i)
+                          : Colors.transparent,
+                      boxShadow: widget.boxShadows,
+                      shape: _pinTheme.shape == PinCodeFieldShape.circle
+                          ? BoxShape.circle
+                          : BoxShape.rectangle,
+                      borderRadius: borderRadius,
+                      border: _pinTheme.shape == PinCodeFieldShape.underline
+                          ? Border(
+                              bottom: BorderSide(
+                                color: _getColorFromIndex(i),
+                                width: _pinTheme.borderWidth,
+                              ),
+                            )
+                          : Border.all(
+                              color: _getColorFromIndex(i),
+                              width: _pinTheme.borderWidth,
+                            ),
+                    )
+                  : shadow.BoxDecoration(
+                      color: widget.enableActiveFill
+                          ? _getFillColorFromIndex(i)
+                          : Colors.transparent,
+                      boxShadow: widget.innerBoxShadows,
+                      shape: _pinTheme.shape == PinCodeFieldShape.circle
+                          ? BoxShape.circle
+                          : BoxShape.rectangle,
+                      borderRadius: borderRadius,
+                      border: _pinTheme.shape == PinCodeFieldShape.underline
+                          ? Border(
+                              bottom: BorderSide(
+                                color: _getColorFromIndex(i),
+                                width: _pinTheme.borderWidth,
+                              ),
+                            )
+                          : Border.all(
+                              color: _getColorFromIndex(i),
+                              width: _pinTheme.borderWidth,
+                            ),
+                    ),
               child: Center(
                 child: AnimatedSwitcher(
                   switchInCurve: widget.animationCurve,

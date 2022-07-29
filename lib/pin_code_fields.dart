@@ -4,10 +4,11 @@ import 'dart:async';
 
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
-import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart'
+    as shadow;
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/src/cursor_painter.dart';
 import 'package:pin_code_fields/src/models/platform.dart';
