@@ -26,6 +26,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - Haptic Feedback support
 - Animated obscure widget support
 - Single placeholder text
+- inner shadows for Neumorphic design
 
 ## Getting Started ⚡️
 
@@ -44,6 +45,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - `FocosNode` and `TextEditingController` will get disposed automatically. Use `autoDisposeControllers = false` to disable it.
 - to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
 - to use v6.0.0 or above, developers must have Flutter SDK 1.22.0 or above.
+- to use inner shadows in your project [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow) package must be installed.
 
 ## Properties 🔖
 
@@ -54,7 +56,7 @@ A flutter package which will help you to generate pin code fields with beautiful
   ///Box Shadow for Pincode
   final List<BoxShadow>? boxShadows;
 
-    ///inner Box Shadow for Pincode but it requires [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow) package to work
+    ///inner Box Shadow for PinCode
   final List<shadow.BoxShadow>? innerBoxShadows;
 
   /// length of how many cells there should be. 3-8 is recommended by me
