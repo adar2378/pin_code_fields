@@ -45,7 +45,7 @@ A flutter package which will help you to generate pin code fields with beautiful
 - `FocosNode` and `TextEditingController` will get disposed automatically. Use `autoDisposeControllers = false` to disable it.
 - to use v5.0.0 or above, developers must have Flutter SDK 1.20.0 or above.
 - to use v6.0.0 or above, developers must have Flutter SDK 1.22.0 or above.
-- to use inner shadows in your project [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow) package must be installed.
+- to use inner shadows in your project, [flutter_inset_box_shadow](https://pub.dev/packages/flutter_inset_box_shadow) package must be installed.
 
 ## Properties 🔖
 
