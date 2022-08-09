@@ -43,22 +43,29 @@ class PinTheme {
   /// this defines the padding of each enclosing container of an input field. Default is [0.0]
   final EdgeInsetsGeometry fieldOuterPadding;
 
-  const PinTheme.defaults({
-    this.borderRadius = BorderRadius.zero,
-    this.fieldHeight = 50,
-    this.fieldWidth = 40,
-    this.borderWidth = 2,
-    this.fieldOuterPadding = EdgeInsets.zero,
-    this.shape = PinCodeFieldShape.underline,
-    this.activeColor = Colors.green,
-    this.selectedColor = Colors.blue,
-    this.inactiveColor = Colors.red,
-    this.disabledColor = Colors.grey,
-    this.activeFillColor = Colors.green,
-    this.selectedFillColor = Colors.blue,
-    this.inactiveFillColor = Colors.red,
-    this.errorBorderColor = Colors.redAccent,
-  });
+  /// this adds box shadow to specific selected pin code field. Default is none.
+  final List<BoxShadow>? activeBoxShadows;
+
+  //this adds box shadow to inactive pin code field. Default is none.
+  final List<BoxShadow>? inActiveBoxShadows;
+
+  const PinTheme.defaults(
+      {this.borderRadius = BorderRadius.zero,
+      this.fieldHeight = 50,
+      this.fieldWidth = 40,
+      this.borderWidth = 2,
+      this.fieldOuterPadding = EdgeInsets.zero,
+      this.shape = PinCodeFieldShape.underline,
+      this.activeColor = Colors.green,
+      this.selectedColor = Colors.blue,
+      this.inactiveColor = Colors.red,
+      this.disabledColor = Colors.grey,
+      this.activeFillColor = Colors.green,
+      this.selectedFillColor = Colors.blue,
+      this.inactiveFillColor = Colors.red,
+      this.errorBorderColor = Colors.redAccent,
+      this.activeBoxShadows,
+      this.inActiveBoxShadows});
 
   factory PinTheme(
       {Color? activeColor,
@@ -74,40 +81,43 @@ class PinTheme {
       double? fieldWidth,
       double? borderWidth,
       PinCodeFieldShape? shape,
-      EdgeInsetsGeometry? fieldOuterPadding}) {
+      EdgeInsetsGeometry? fieldOuterPadding,
+      List<BoxShadow>? activeBoxShadow,
+      List<BoxShadow>? inActiveBoxShadow}) {
     final defaultValues = PinTheme.defaults();
     return PinTheme.defaults(
-      activeColor:
-          activeColor == null ? defaultValues.activeColor : activeColor,
-      activeFillColor: activeFillColor == null
-          ? defaultValues.activeFillColor
-          : activeFillColor,
-      borderRadius:
-          borderRadius == null ? defaultValues.borderRadius : borderRadius,
-      borderWidth:
-          borderWidth == null ? defaultValues.borderWidth : borderWidth,
-      disabledColor:
-          disabledColor == null ? defaultValues.disabledColor : disabledColor,
-      fieldHeight:
-          fieldHeight == null ? defaultValues.fieldHeight : fieldHeight,
-      fieldWidth: fieldWidth == null ? defaultValues.fieldWidth : fieldWidth,
-      inactiveColor:
-          inactiveColor == null ? defaultValues.inactiveColor : inactiveColor,
-      inactiveFillColor: inactiveFillColor == null
-          ? defaultValues.inactiveFillColor
-          : inactiveFillColor,
-      errorBorderColor: errorBorderColor == null
-          ? defaultValues.errorBorderColor
-          : errorBorderColor,
-      selectedColor:
-          selectedColor == null ? defaultValues.selectedColor : selectedColor,
-      selectedFillColor: selectedFillColor == null
-          ? defaultValues.selectedFillColor
-          : selectedFillColor,
-      shape: shape == null ? defaultValues.shape : shape,
-      fieldOuterPadding: fieldOuterPadding == null
-          ? defaultValues.fieldOuterPadding
-          : fieldOuterPadding,
-    );
+        activeColor:
+            activeColor == null ? defaultValues.activeColor : activeColor,
+        activeFillColor: activeFillColor == null
+            ? defaultValues.activeFillColor
+            : activeFillColor,
+        borderRadius:
+            borderRadius == null ? defaultValues.borderRadius : borderRadius,
+        borderWidth:
+            borderWidth == null ? defaultValues.borderWidth : borderWidth,
+        disabledColor:
+            disabledColor == null ? defaultValues.disabledColor : disabledColor,
+        fieldHeight:
+            fieldHeight == null ? defaultValues.fieldHeight : fieldHeight,
+        fieldWidth: fieldWidth == null ? defaultValues.fieldWidth : fieldWidth,
+        inactiveColor:
+            inactiveColor == null ? defaultValues.inactiveColor : inactiveColor,
+        inactiveFillColor: inactiveFillColor == null
+            ? defaultValues.inactiveFillColor
+            : inactiveFillColor,
+        errorBorderColor: errorBorderColor == null
+            ? defaultValues.errorBorderColor
+            : errorBorderColor,
+        selectedColor:
+            selectedColor == null ? defaultValues.selectedColor : selectedColor,
+        selectedFillColor: selectedFillColor == null
+            ? defaultValues.selectedFillColor
+            : selectedFillColor,
+        shape: shape == null ? defaultValues.shape : shape,
+        fieldOuterPadding: fieldOuterPadding == null
+            ? defaultValues.fieldOuterPadding
+            : fieldOuterPadding,
+        activeBoxShadows: activeBoxShadow == null ? [] : activeBoxShadow,
+        inActiveBoxShadows: inActiveBoxShadow == null ? [] : inActiveBoxShadow);
   }
 }

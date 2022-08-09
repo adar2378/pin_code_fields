@@ -532,6 +532,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return relevantInActiveColor;
   }
 
+  List<BoxShadow>? _getBoxShadowFromIndex(int index) {
+    if (_selectedIndex == index) {
+      return _pinTheme.activeBoxShadows;
+    } else if (_selectedIndex > index) {
+      return _pinTheme.inActiveBoxShadows;
+    }
+
+    return [];
+  }
+
   Widget _renderPinField({
     @required int? index,
   }) {
@@ -840,7 +850,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 color: widget.enableActiveFill
                     ? _getFillColorFromIndex(i)
                     : Colors.transparent,
-                boxShadow: widget.boxShadows,
+                boxShadow: (_pinTheme.activeBoxShadows != null ||
+                        _pinTheme.inActiveBoxShadows != null)
+                    ? _getBoxShadowFromIndex(i)
+                    : widget.boxShadows,
                 shape: _pinTheme.shape == PinCodeFieldShape.circle
                     ? BoxShape.circle
                     : BoxShape.rectangle,
