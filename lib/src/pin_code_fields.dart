@@ -764,6 +764,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ),
           scrollPadding: widget.scrollPadding,
           readOnly: widget.readOnly,
+          obscureText: widget.obscureText,
         ),
       ),
     );
