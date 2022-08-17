@@ -154,6 +154,10 @@ class PinCodeTextField extends StatefulWidget {
   /// Default is [TextDirection.ltr]
   final TextDirection errorTextDirection;
 
+  /// [TextDirection] to control a direction in which text flows.
+  /// Default is [TextDirection.ltr]
+  final TextDirection textDirection;
+
   /// Enables pin autofill for TextFormField.
   /// Default is true
   final bool enablePinAutofill;
@@ -245,6 +249,7 @@ class PinCodeTextField extends StatefulWidget {
     this.errorTextSpace = 16,
     this.errorTextDirection = TextDirection.ltr,
     this.errorTextMargin = EdgeInsets.zero,
+    this.textDirection = TextDirection.ltr,
     this.enablePinAutofill = true,
     this.errorAnimationDuration = 500,
     this.boxShadows,
@@ -838,74 +843,82 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   List<Widget> _generateFields() {
     var result = <Widget>[];
-    for (int i = 0; i < widget.length; i++) {
-      result.add(
-        Container(
-            padding: _pinTheme.fieldOuterPadding,
-            child: AnimatedContainer(
-              curve: widget.animationCurve,
-              duration: widget.animationDuration,
-              width: _pinTheme.fieldWidth,
-              height: _pinTheme.fieldHeight,
-              decoration: BoxDecoration(
-                color: widget.enableActiveFill
-                    ? _getFillColorFromIndex(i)
-                    : Colors.transparent,
-                boxShadow: (_pinTheme.activeBoxShadows != null ||
-                        _pinTheme.inActiveBoxShadows != null)
-                    ? _getBoxShadowFromIndex(i)
-                    : widget.boxShadows,
-                shape: _pinTheme.shape == PinCodeFieldShape.circle
-                    ? BoxShape.circle
-                    : BoxShape.rectangle,
-                borderRadius: borderRadius,
-                border: _pinTheme.shape == PinCodeFieldShape.underline
-                    ? Border(
-                        bottom: BorderSide(
-                          color: _getColorFromIndex(i),
-                          width: _pinTheme.borderWidth,
-                        ),
-                      )
-                    : Border.all(
-                        color: _getColorFromIndex(i),
-                        width: _pinTheme.borderWidth,
-                      ),
-              ),
-              child: Center(
-                child: AnimatedSwitcher(
-                  switchInCurve: widget.animationCurve,
-                  switchOutCurve: widget.animationCurve,
-                  duration: widget.animationDuration,
-                  transitionBuilder: (child, animation) {
-                    if (widget.animationType == AnimationType.scale) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
-                    } else if (widget.animationType == AnimationType.fade) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    } else if (widget.animationType == AnimationType.none) {
-                      return child;
-                    } else {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0, .5),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      );
-                    }
-                  },
-                  child: buildChild(i),
-                ),
-              ),
-            )),
-      );
+    if (widget.textDirection == TextDirection.ltr) {
+      for (int i = 0; i < widget.length; i++) {
+        result.add(_generateField(i));
+      }
+    } else {
+      for (int i = widget.length - 1; i >= 0; i--) {
+        result.add(_generateField(i));
+      }
     }
     return result;
+  }
+
+  Widget _generateField(int index) {
+    return Container(
+        padding: _pinTheme.fieldOuterPadding,
+        child: AnimatedContainer(
+          curve: widget.animationCurve,
+          duration: widget.animationDuration,
+          width: _pinTheme.fieldWidth,
+          height: _pinTheme.fieldHeight,
+          decoration: BoxDecoration(
+            color: widget.enableActiveFill
+                ? _getFillColorFromIndex(index)
+                : Colors.transparent,
+            boxShadow: (_pinTheme.activeBoxShadows != null ||
+                    _pinTheme.inActiveBoxShadows != null)
+                ? _getBoxShadowFromIndex(index)
+                : widget.boxShadows,
+            shape: _pinTheme.shape == PinCodeFieldShape.circle
+                ? BoxShape.circle
+                : BoxShape.rectangle,
+            borderRadius: borderRadius,
+            border: _pinTheme.shape == PinCodeFieldShape.underline
+                ? Border(
+                    bottom: BorderSide(
+                      color: _getColorFromIndex(index),
+                      width: _pinTheme.borderWidth,
+                    ),
+                  )
+                : Border.all(
+                    color: _getColorFromIndex(index),
+                    width: _pinTheme.borderWidth,
+                  ),
+          ),
+          child: Center(
+            child: AnimatedSwitcher(
+              switchInCurve: widget.animationCurve,
+              switchOutCurve: widget.animationCurve,
+              duration: widget.animationDuration,
+              transitionBuilder: (child, animation) {
+                if (widget.animationType == AnimationType.scale) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                } else if (widget.animationType == AnimationType.fade) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                } else if (widget.animationType == AnimationType.none) {
+                  return child;
+                } else {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0, .5),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  );
+                }
+              },
+              child: buildChild(index),
+            ),
+          ),
+        ));
   }
 
   void _onFocus() {
