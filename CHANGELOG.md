@@ -1,3 +1,7 @@
+# [7.4.0+1]
+
+- Added new attributes`placeholdWidget` for inactive textfield.
+
 # [7.4.0]
 
 - Added new attributes`readOnly`, `textGradient`, `errorTextDirection`, `errorTextMargin`, `autoUnfocus`

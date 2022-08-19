@@ -200,6 +200,7 @@ class PinCodeTextField extends StatefulWidget {
 
   /// Enable auto unfocus
   final bool autoUnfocus;
+  final Widget? placeholdWidget;
 
   PinCodeTextField({
     Key? key,
@@ -264,6 +265,7 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
+    this.placeholdWidget,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -651,8 +653,19 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ),
         );
     }
-    return _renderPinField(
-      index: index,
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        _renderPinField(
+          index: index,
+        ),
+        if (!((((_selectedIndex == index) ||
+                    (_selectedIndex == index + 1 &&
+                        index + 1 == widget.length)) &&
+                _focusNode!.hasFocus) ||
+            _selectedIndex > index))
+          widget.placeholdWidget ?? SizedBox()
+      ],
     );
   }
 
