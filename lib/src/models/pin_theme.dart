@@ -49,41 +49,43 @@ class PinTheme {
   //this adds box shadow to inactive pin code field. Default is none.
   final List<BoxShadow>? inActiveBoxShadows;
 
-  const PinTheme.defaults(
-      {this.borderRadius = BorderRadius.zero,
-      this.fieldHeight = 50,
-      this.fieldWidth = 40,
-      this.borderWidth = 2,
-      this.fieldOuterPadding = EdgeInsets.zero,
-      this.shape = PinCodeFieldShape.underline,
-      this.activeColor = Colors.green,
-      this.selectedColor = Colors.blue,
-      this.inactiveColor = Colors.red,
-      this.disabledColor = Colors.grey,
-      this.activeFillColor = Colors.green,
-      this.selectedFillColor = Colors.blue,
-      this.inactiveFillColor = Colors.red,
-      this.errorBorderColor = Colors.redAccent,
-      this.activeBoxShadows,
-      this.inActiveBoxShadows});
+  const PinTheme.defaults({
+    this.borderRadius = BorderRadius.zero,
+    this.fieldHeight = 50,
+    this.fieldWidth = 40,
+    this.borderWidth = 2,
+    this.fieldOuterPadding = EdgeInsets.zero,
+    this.shape = PinCodeFieldShape.underline,
+    this.activeColor = Colors.green,
+    this.selectedColor = Colors.blue,
+    this.inactiveColor = Colors.red,
+    this.disabledColor = Colors.grey,
+    this.activeFillColor = Colors.green,
+    this.selectedFillColor = Colors.blue,
+    this.inactiveFillColor = Colors.red,
+    this.errorBorderColor = Colors.redAccent,
+    this.activeBoxShadows,
+    this.inActiveBoxShadows,
+  });
 
-  factory PinTheme(
-      {Color? activeColor,
-      Color? selectedColor,
-      Color? inactiveColor,
-      Color? disabledColor,
-      Color? activeFillColor,
-      Color? selectedFillColor,
-      Color? inactiveFillColor,
-      Color? errorBorderColor,
-      BorderRadius? borderRadius,
-      double? fieldHeight,
-      double? fieldWidth,
-      double? borderWidth,
-      PinCodeFieldShape? shape,
-      EdgeInsetsGeometry? fieldOuterPadding,
-      List<BoxShadow>? activeBoxShadow,
-      List<BoxShadow>? inActiveBoxShadow}) {
+  factory PinTheme({
+    Color? activeColor,
+    Color? selectedColor,
+    Color? inactiveColor,
+    Color? disabledColor,
+    Color? activeFillColor,
+    Color? selectedFillColor,
+    Color? inactiveFillColor,
+    Color? errorBorderColor,
+    BorderRadius? borderRadius,
+    double? fieldHeight,
+    double? fieldWidth,
+    double? borderWidth,
+    PinCodeFieldShape? shape,
+    EdgeInsetsGeometry? fieldOuterPadding,
+    List<BoxShadow>? activeBoxShadow,
+    List<BoxShadow>? inActiveBoxShadow,
+  }) {
     final defaultValues = PinTheme.defaults();
     return PinTheme.defaults(
       activeColor: activeColor ?? defaultValues.activeColor,
