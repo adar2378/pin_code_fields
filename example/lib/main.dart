@@ -27,15 +27,15 @@ class MyApp extends StatelessWidget {
 }
 
 class PinCodeVerificationScreen extends StatefulWidget {
-  final String? phoneNumber;
-
   const PinCodeVerificationScreen({
     Key? key,
     this.phoneNumber,
   }) : super(key: key);
 
+  final String? phoneNumber;
+
   @override
-  _PinCodeVerificationScreenState createState() =>
+  State<PinCodeVerificationScreen> createState() =>
       _PinCodeVerificationScreenState();
 }
 
