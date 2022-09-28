@@ -17,7 +17,5 @@ class CursorPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter old) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter old) => false;
 }
