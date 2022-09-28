@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CursorPainter extends CustomPainter {
+  CursorPainter({this.cursorColor = Colors.black, this.cursorWidth = 2});
+
   final Color cursorColor;
   final double cursorWidth;
 
-  CursorPainter({this.cursorColor = Colors.black, this.cursorWidth = 2});
   @override
   void paint(Canvas canvas, Size size) {
     final p1 = Offset(0, 0);
