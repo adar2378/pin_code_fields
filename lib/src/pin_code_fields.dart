@@ -726,7 +726,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   Widget build(BuildContext context) {
-    var textField = Directionality(
+    Directionality textField = Directionality(
       textDirection: widget.errorTextDirection,
       child: Padding(
         padding: widget.errorTextMargin,
