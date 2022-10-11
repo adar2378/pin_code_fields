@@ -300,7 +300,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           affirmativeText: widget.dialogConfig!.affirmativeText,
           dialogContent: widget.dialogConfig!.dialogContent,
           dialogTitle: widget.dialogConfig!.dialogTitle,
-          negativeText: widget.dialogConfig!.negativeText);
+          negativeText: widget.dialogConfig!.negativeText,
+        );
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -725,7 +726,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   Widget build(BuildContext context) {
-    var textField = Directionality(
+    Directionality textField = Directionality(
       textDirection: widget.errorTextDirection,
       child: Padding(
         padding: widget.errorTextMargin,

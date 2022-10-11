@@ -23,12 +23,13 @@ class DialogConfig {
     this.platform = Platform.other,
   });
 
-  factory DialogConfig(
-      {String? affirmativeText,
-      String? dialogContent,
-      String? dialogTitle,
-      String? negativeText,
-      Platform? platform}) {
+  factory DialogConfig({
+    String? affirmativeText,
+    String? dialogContent,
+    String? dialogTitle,
+    String? negativeText,
+    Platform? platform,
+  }) {
     return DialogConfig._internal(
       affirmativeText: affirmativeText == null ? "Paste" : affirmativeText,
       dialogContent: dialogContent == null
