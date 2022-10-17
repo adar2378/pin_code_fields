@@ -54,6 +54,16 @@ class PinCodeTextField extends StatefulWidget {
   /// returns the typed text when user presses done/next action on the keyboard
   final ValueChanged<String>? onSubmitted;
 
+  /// The [onEditingComplete] callback also runs when the user finishes editing.
+  /// It's different from [onSubmitted] because it has a default value which
+  /// updates the text controller and yields the keyboard focus. Applications that
+  /// require different behavior can override the default [onEditingComplete]
+  /// callback.
+  ///
+  /// Set this to empty function if you don't want the keyboard to automatically close
+  /// when user presses done/next.
+  VoidCallback? onEditingComplete;
+
   /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
   final TextStyle? textStyle;
 
@@ -234,6 +244,7 @@ class PinCodeTextField extends StatefulWidget {
     this.autoDismissKeyboard = true,
     this.autoDisposeControllers = true,
     this.onSubmitted,
+    this.onEditingComplete,
     this.errorAnimationController,
     this.beforeTextPaste,
     this.dialogConfig,
@@ -754,6 +765,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           ],
           // trigger on the complete event handler from the keyboard
           onFieldSubmitted: widget.onSubmitted,
+          onEditingComplete: widget.onEditingComplete,
           enableInteractiveSelection: false,
           showCursor: false,
           // using same as background color so tha it can blend into the view
