@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       home: const PinCodeVerificationScreen(
-        phoneNumber: "+8801376221108", // a random number, please don't call xD
+        phoneNumber: "+8801376221100", // a random number, please don't call xD
       ),
     );
   }
