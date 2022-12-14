@@ -321,6 +321,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void initState() {
+    super.initState();
     // if (!kReleaseMode) {
     //   print(
     //       "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
@@ -334,7 +335,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode!.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
 
@@ -375,14 +378,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
-          setState(() => isInErrorMode = true);
+          if (mounted) {
+            setState(() => isInErrorMode = true);
+          }
         }
       });
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty)
       _setTextToInput(_textEditingController!.text);
-    super.initState();
   }
 
   // validating all the values
@@ -441,7 +445,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         runHapticFeedback();
       }
 
-      if (isInErrorMode) {
+      if (isInErrorMode && mounted) {
         setState(() => isInErrorMode = false);
       }
 
@@ -476,9 +480,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.blinkWhenObscuring &&
         _textEditingController!.text.length >
             _inputList.where((x) => x.isNotEmpty).length) {
-      setState(() {
-        _hasBlinked = false;
-      });
+      if (mounted) {
+        setState(() {
+          _hasBlinked = false;
+        });
+      }
 
       if (_blinkDebounce?.isActive ?? false) {
         _blinkDebounce!.cancel();
