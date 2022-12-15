@@ -335,9 +335,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode!.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
+      _setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
 
@@ -378,9 +376,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
-          if (mounted) {
-            setState(() => isInErrorMode = true);
-          }
+
+          _setState(() => isInErrorMode = true);
         }
       });
     }
@@ -445,8 +442,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         runHapticFeedback();
       }
 
-      if (isInErrorMode && mounted) {
-        setState(() => isInErrorMode = false);
+      if (isInErrorMode) {
+        _setState(() => isInErrorMode = false);
       }
 
       _debounceBlink();
@@ -480,22 +477,18 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.blinkWhenObscuring &&
         _textEditingController!.text.length >
             _inputList.where((x) => x.isNotEmpty).length) {
-      if (mounted) {
-        setState(() {
-          _hasBlinked = false;
-        });
-      }
+      _setState(() {
+        _hasBlinked = false;
+      });
 
       if (_blinkDebounce?.isActive ?? false) {
         _blinkDebounce!.cancel();
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
-        if (mounted) {
-          setState(() {
-            _hasBlinked = true;
-          });
-        }
+        _setState(() {
+          _hasBlinked = true;
+        });
       });
     }
   }
@@ -937,11 +930,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       replaceInputList[i] = data.length > i ? data[i] : "";
     }
 
-    if (mounted)
-      setState(() {
-        _selectedIndex = data.length;
-        _inputList = replaceInputList;
-      });
+    _setState(() {
+      _selectedIndex = data.length;
+      _inputList = replaceInputList;
+    });
   }
 
   List<Widget> _getActionButtons(String pastedText) {
@@ -980,6 +972,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       ]);
     }
     return resultList;
+  }
+
+  void _setState(void Function() function) {
+    if (mounted) {
+      setState(function);
+    }
   }
 }
 
