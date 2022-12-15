@@ -201,6 +201,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Enable auto unfocus
   final bool autoUnfocus;
 
+  /// Builds separator children
+  final IndexedWidgetBuilder? separatorBuilder;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -264,6 +267,7 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
+    this.separatorBuilder,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -905,6 +909,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               ),
             )),
       );
+      if (widget.separatorBuilder != null && i != widget.length - 1) {
+        result.add(widget.separatorBuilder!(context, i));
+      }
     }
     return result;
   }
