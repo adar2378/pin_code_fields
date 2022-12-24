@@ -325,6 +325,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void initState() {
+    super.initState();
     // if (!kReleaseMode) {
     //   print(
     //       "IF YOU WANT TO USE COLOR FILL FOR EACH CELL THEN SET enableActiveFill = true");
@@ -338,7 +339,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode!.addListener(() {
-      setState(() {});
+      _setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
 
@@ -379,14 +380,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           widget.errorAnimationController!.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
-          setState(() => isInErrorMode = true);
+
+          _setState(() => isInErrorMode = true);
         }
       });
     }
     // If a default value is set in the TextEditingController, then set to UI
     if (_textEditingController!.text.isNotEmpty)
       _setTextToInput(_textEditingController!.text);
-    super.initState();
   }
 
   // validating all the values
@@ -442,7 +443,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }
 
       if (isInErrorMode) {
-        setState(() => isInErrorMode = false);
+        _setState(() => isInErrorMode = false);
       }
 
       _debounceBlink();
@@ -476,7 +477,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     if (widget.blinkWhenObscuring &&
         _textEditingController!.text.length >
             _inputList.where((x) => x.isNotEmpty).length) {
-      setState(() {
+      _setState(() {
         _hasBlinked = false;
       });
 
@@ -485,11 +486,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
-        if (mounted) {
-          setState(() {
-            _hasBlinked = true;
-          });
-        }
+        _setState(() {
+          _hasBlinked = true;
+        });
       });
     }
   }
@@ -934,11 +933,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       replaceInputList[i] = data.length > i ? data[i] : "";
     }
 
-    if (mounted)
-      setState(() {
-        _selectedIndex = data.length;
-        _inputList = replaceInputList;
-      });
+    _setState(() {
+      _selectedIndex = data.length;
+      _inputList = replaceInputList;
+    });
   }
 
   List<Widget> _getActionButtons(String pastedText) {
@@ -977,6 +975,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       ]);
     }
     return resultList;
+  }
+
+  void _setState(void Function() function) {
+    if (mounted) {
+      setState(function);
+    }
   }
 }
 
