@@ -432,13 +432,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
   }
 
-  // Assigning the text controller, if empty assiging a new one.
+  // Assigning the text controller, if empty assigning a new one.
   void _assignController() {
-    if (widget.controller == null) {
-      _textEditingController = TextEditingController();
-    } else {
-      _textEditingController = widget.controller;
-    }
+      _textEditingController =  widget.controller ?? TextEditingController();
 
     _textEditingController?.addListener(() {
       if (widget.useHapticFeedback) {
