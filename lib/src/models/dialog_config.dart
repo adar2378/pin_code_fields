@@ -14,13 +14,13 @@ class DialogConfig {
   final String? negativeText;
 
   /// The default dialog theme, should it be iOS or other(including web and Android)
-  final Platform platform;
+  final PinCodePlatform platform;
   DialogConfig._internal({
     this.dialogContent,
     this.dialogTitle,
     this.affirmativeText,
     this.negativeText,
-    this.platform = Platform.other,
+    this.platform = PinCodePlatform.other,
   });
 
   factory DialogConfig({
@@ -28,7 +28,7 @@ class DialogConfig {
     String? dialogContent,
     String? dialogTitle,
     String? negativeText,
-    Platform? platform,
+    PinCodePlatform? platform,
   }) {
     return DialogConfig._internal(
       affirmativeText: affirmativeText == null ? "Paste" : affirmativeText,
@@ -37,7 +37,7 @@ class DialogConfig {
           : dialogContent,
       dialogTitle: dialogTitle == null ? "Paste Code" : dialogTitle,
       negativeText: negativeText == null ? "Cancel" : negativeText,
-      platform: platform == null ? Platform.other : platform,
+      platform: platform == null ? PinCodePlatform.other : platform,
     );
   }
 }
