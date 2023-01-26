@@ -62,7 +62,7 @@ class PinCodeTextField extends StatefulWidget {
   ///
   /// Set this to empty function if you don't want the keyboard to automatically close
   /// when user presses done/next.
-  VoidCallback? onEditingComplete;
+  final VoidCallback? onEditingComplete;
 
   /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
   final TextStyle? textStyle;
@@ -446,7 +446,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // Assigning the text controller, if empty assigning a new one.
   void _assignController() {
-      _textEditingController =  widget.controller ?? TextEditingController();
+    _textEditingController = widget.controller ?? TextEditingController();
 
     _textEditingController?.addListener(() {
       if (widget.useHapticFeedback) {
