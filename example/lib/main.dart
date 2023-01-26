@@ -15,9 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        backgroundColor: Colors.white,
         scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.blue,
+          backgroundColor: Colors.white,
+        ),
       ),
       home: const PinCodeVerificationScreen(
         phoneNumber: "+8801376221100", // a random number, please don't call xD
