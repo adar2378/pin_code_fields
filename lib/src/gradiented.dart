@@ -1,8 +1,8 @@
 part of pin_code_fields;
 
 /// Don't forget to set a child foreground color to white
-class Gradiented extends StatelessWidget {
-  const Gradiented({required this.child, required this.gradient});
+class TextGradient extends StatelessWidget {
+  const TextGradient({required this.child, required this.gradient});
 
   final Widget child;
   final Gradient gradient;

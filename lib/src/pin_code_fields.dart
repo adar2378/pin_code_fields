@@ -312,10 +312,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
-          affirmativeText: widget.dialogConfig!.affirmativeText,
-          dialogContent: widget.dialogConfig!.dialogContent,
-          dialogTitle: widget.dialogConfig!.dialogTitle,
-          negativeText: widget.dialogConfig!.negativeText,
+          affirmativeText: widget.dialogConfig?.affirmativeText,
+          dialogContent: widget.dialogConfig?.dialogContent,
+          dialogTitle: widget.dialogConfig?.dialogTitle,
+          negativeText: widget.dialogConfig?.negativeText,
         );
   PinTheme get _pinTheme => widget.pinTheme;
 
@@ -349,7 +349,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       borderRadius = _pinTheme.borderRadius;
     }
     _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode!.addListener(() {
+    _focusNode?.addListener(() {
       _setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
@@ -388,7 +388,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     if (widget.errorAnimationController != null) {
       _errorAnimationSubscription =
-          widget.errorAnimationController!.stream.listen((errorAnimation) {
+          widget.errorAnimationController?.stream.listen((errorAnimation) {
         if (errorAnimation == ErrorAnimationType.shake) {
           _controller.forward();
 
@@ -397,8 +397,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       });
     }
     // If a default value is set in the TextEditingController, then set to UI
-    if (_textEditingController!.text.isNotEmpty)
-      _setTextToInput(_textEditingController!.text);
+    if ((_textEditingController?.text??'').isNotEmpty)
+      _setTextToInput(_textEditingController?.text??'');
   }
 
   // validating all the values
@@ -459,7 +459,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
       _debounceBlink();
 
-      var currentText = _textEditingController!.text;
+      var currentText = _textEditingController?.text ??'';
 
       if (widget.enabled && _inputList.join("") != currentText) {
         if (currentText.length >= widget.length) {
@@ -470,10 +470,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             }
             //  delay the onComplete event handler to give the onChange event handler enough time to complete
             Future.delayed(Duration(milliseconds: 300),
-                () => widget.onCompleted!(currentText));
+                () => widget.onCompleted?.call(currentText));
           }
 
-          if (widget.autoDismissKeyboard) _focusNode!.unfocus();
+          if (widget.autoDismissKeyboard) _focusNode?.unfocus();
         }
         widget.onChanged?.call(currentText);
       }
@@ -486,14 +486,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     // set has blinked to false and back to true
     // after duration
     if (widget.blinkWhenObscuring &&
-        _textEditingController!.text.length >
+        (_textEditingController?.text.length??0) >
             _inputList.where((x) => x.isNotEmpty).length) {
       _setState(() {
         _hasBlinked = false;
       });
 
       if (_blinkDebounce?.isActive ?? false) {
-        _blinkDebounce!.cancel();
+        _blinkDebounce?.cancel();
       }
 
       _blinkDebounce = Timer(widget.blinkDuration, () {
@@ -508,7 +508,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void dispose() {
     if (widget.autoDisposeControllers) {
       _textEditingController!.dispose();
-      _focusNode!.dispose();
+      _focusNode?.dispose();
       // if (!kReleaseMode) {
       //   print(
       //       "*** Disposing _textEditingController and _focusNode, To disable this feature please set autoDisposeControllers = false***");
@@ -572,7 +572,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     if (_inputList[index!].isEmpty && _hintAvailable) {
       return Text(
-        widget.hintCharacter!,
+        widget.hintCharacter??'',
         key: ValueKey(_inputList[index]),
         style: _hintStyle,
       );
@@ -583,7 +583,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             ? widget.obscuringCharacter
             : _inputList[index];
     return widget.textGradient != null
-        ? Gradiented(
+        ? TextGradient(
             gradient: widget.textGradient!,
             child: Text(
               text,
@@ -682,7 +682,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       useRootNavigator: true,
       builder: (context) => _dialogConfig.platform == Platform.iOS
           ? CupertinoAlertDialog(
-              title: Text(_dialogConfig.dialogTitle!),
+              title: Text(_dialogConfig.dialogTitle??''),
               content: RichText(
                 text: TextSpan(
                   text: _dialogConfig.dialogContent,
@@ -827,11 +827,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                         var data = await Clipboard.getData("text/plain");
                         if (data?.text?.isNotEmpty ?? false) {
                           if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
+                            if (widget.beforeTextPaste!(data?.text)) {
+                              _showPasteDialog(data?.text??'');
                             }
                           } else {
-                            _showPasteDialog(data!.text!);
+                            _showPasteDialog(data?.text??'');
                           }
                         }
                       }
