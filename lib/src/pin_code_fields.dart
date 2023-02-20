@@ -309,6 +309,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -317,6 +318,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           dialogTitle: widget.dialogConfig!.dialogTitle,
           negativeText: widget.dialogConfig!.negativeText,
         );
+
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -446,40 +448,42 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // Assigning the text controller, if empty assigning a new one.
   void _assignController() {
-      _textEditingController =  widget.controller ?? TextEditingController();
+    _textEditingController = widget.controller ?? TextEditingController();
 
-    _textEditingController?.addListener(() {
-      if (widget.useHapticFeedback) {
-        runHapticFeedback();
-      }
+    _textEditingController?.addListener(_textEditingControllerListener);
+  }
 
-      if (isInErrorMode) {
-        _setState(() => isInErrorMode = false);
-      }
+  void _textEditingControllerListener() {
+    if (widget.useHapticFeedback) {
+      runHapticFeedback();
+    }
 
-      _debounceBlink();
+    if (isInErrorMode) {
+      _setState(() => isInErrorMode = false);
+    }
 
-      var currentText = _textEditingController!.text;
+    _debounceBlink();
 
-      if (widget.enabled && _inputList.join("") != currentText) {
-        if (currentText.length >= widget.length) {
-          if (widget.onCompleted != null) {
-            if (currentText.length > widget.length) {
-              // removing extra text longer than the length
-              currentText = currentText.substring(0, widget.length);
-            }
-            //  delay the onComplete event handler to give the onChange event handler enough time to complete
-            Future.delayed(Duration(milliseconds: 300),
-                () => widget.onCompleted!(currentText));
+    var currentText = _textEditingController!.text;
+
+    if (widget.enabled && _inputList.join("") != currentText) {
+      if (currentText.length >= widget.length) {
+        if (widget.onCompleted != null) {
+          if (currentText.length > widget.length) {
+            // removing extra text longer than the length
+            currentText = currentText.substring(0, widget.length);
           }
-
-          if (widget.autoDismissKeyboard) _focusNode!.unfocus();
+          //  delay the onComplete event handler to give the onChange event handler enough time to complete
+          Future.delayed(Duration(milliseconds: 300),
+              () => widget.onCompleted!(currentText));
         }
-        widget.onChanged?.call(currentText);
-      }
 
-      _setTextToInput(currentText);
-    });
+        if (widget.autoDismissKeyboard) _focusNode!.unfocus();
+      }
+      widget.onChanged?.call(currentText);
+    }
+
+    _setTextToInput(currentText);
   }
 
   void _debounceBlink() {
@@ -506,6 +510,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void dispose() {
+    _textEditingController!.removeListener(_textEditingControllerListener);
     if (widget.autoDisposeControllers) {
       _textEditingController!.dispose();
       _focusNode!.dispose();
