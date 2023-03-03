@@ -393,6 +393,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           _controller.forward();
 
           _setState(() => isInErrorMode = true);
+        } else if (errorAnimation == ErrorAnimationType.clear) {
+          _setState(() => isInErrorMode = false);
         }
       });
     }
@@ -1001,4 +1003,4 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
 enum PinCodeFieldShape { box, underline, circle }
 
-enum ErrorAnimationType { shake }
+enum ErrorAnimationType { shake, clear }
