@@ -31,13 +31,11 @@ class DialogConfig {
     Platform? platform,
   }) {
     return DialogConfig._internal(
-      affirmativeText: affirmativeText == null ? "Paste" : affirmativeText,
-      dialogContent: dialogContent == null
-          ? "Do you want to paste this code "
-          : dialogContent,
-      dialogTitle: dialogTitle == null ? "Paste Code" : dialogTitle,
-      negativeText: negativeText == null ? "Cancel" : negativeText,
-      platform: platform == null ? Platform.other : platform,
+      affirmativeText: affirmativeText ?? "Paste",
+      dialogContent: dialogContent ?? "Do you want to paste this code ",
+      dialogTitle: dialogTitle ?? "Paste Code",
+      negativeText: negativeText ?? "Cancel",
+      platform: platform ?? Platform.other,
     );
   }
 }
