@@ -41,6 +41,7 @@ class PinCodeVerificationScreen extends StatefulWidget {
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
+
   // ..text = "123456";
 
   // ignore: close_sinks
@@ -103,7 +104,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: RichText(
                   text: TextSpan(
                     text: "Enter the code sent to ",
@@ -182,8 +183,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     // onTap: () {
                     //   print("Pressed");
                     // },
+                    callOnChangedWhen: () =>
+                    textEditingController.text.length > 2,
                     onChanged: (value) {
-                      debugPrint(value);
+                      debugPrint("Value change : $value");
                       setState(() {
                         currentText = value;
                       });
@@ -236,7 +239,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               ),
               Container(
                 margin:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 30),
                 child: ButtonTheme(
                   height: 50,
                   child: TextButton(
@@ -249,7 +252,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         setState(() => hasError = true);
                       } else {
                         setState(
-                          () {
+                              () {
                             hasError = false;
                             snackBar("OTP Verified!!");
                           },
