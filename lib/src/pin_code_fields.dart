@@ -446,7 +446,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   // Assigning the text controller, if empty assigning a new one.
   void _assignController() {
-      _textEditingController =  widget.controller ?? TextEditingController();
+    _textEditingController = widget.controller ?? TextEditingController();
 
     _textEditingController?.addListener(() {
       if (widget.useHapticFeedback) {
@@ -541,6 +541,26 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     Color relevantInActiveColor = _pinTheme.inactiveColor;
     if (isInErrorMode) relevantInActiveColor = _pinTheme.errorBorderColor;
     return relevantInActiveColor;
+  }
+
+  double _getBorderWidthForIndex(int index) {
+    if (!widget.enabled) {
+      return _pinTheme.disabledBorderWidth;
+    }
+
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+        _focusNode!.hasFocus) {
+      return _pinTheme.selectedBorderWidth;
+    } else if (_selectedIndex > index) {
+      double relevantActiveBorderWidth = _pinTheme.activeBorderWidth;
+      if (isInErrorMode) relevantActiveBorderWidth = _pinTheme.errorBorderWidth;
+      return relevantActiveBorderWidth;
+    }
+
+    double relevantActiveBorderWidth = _pinTheme.inactiveBorderWidth;
+    if (isInErrorMode) relevantActiveBorderWidth = _pinTheme.errorBorderWidth;
+    return relevantActiveBorderWidth;
   }
 
   List<BoxShadow>? _getBoxShadowFromIndex(int index) {
@@ -875,12 +895,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     ? Border(
                         bottom: BorderSide(
                           color: _getColorFromIndex(i),
-                          width: _pinTheme.borderWidth,
+                          width: _getBorderWidthForIndex(i),
                         ),
                       )
                     : Border.all(
                         color: _getColorFromIndex(i),
-                        width: _pinTheme.borderWidth,
+                        width: _getBorderWidthForIndex(i),
                       ),
               ),
               child: Center(
