@@ -394,6 +394,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           _controller.forward();
 
           _setState(() => isInErrorMode = true);
+        } else if (errorAnimation == ErrorAnimationType.clear) {
+          _setState(() => isInErrorMode = false);
         }
       });
     }
@@ -449,38 +451,40 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _assignController() {
     _textEditingController = widget.controller ?? TextEditingController();
 
-    _textEditingController?.addListener(() {
-      if (widget.useHapticFeedback) {
-        runHapticFeedback();
-      }
+    _textEditingController?.addListener(_textEditingControllerListener);
+  }
 
-      if (isInErrorMode) {
-        _setState(() => isInErrorMode = false);
-      }
+  void _textEditingControllerListener() {
+    if (widget.useHapticFeedback) {
+      runHapticFeedback();
+    }
 
-      _debounceBlink();
+    if (isInErrorMode) {
+      _setState(() => isInErrorMode = false);
+    }
 
-      var currentText = _textEditingController!.text;
+    _debounceBlink();
 
-      if (widget.enabled && _inputList.join("") != currentText) {
-        if (currentText.length >= widget.length) {
-          if (widget.onCompleted != null) {
-            if (currentText.length > widget.length) {
-              // removing extra text longer than the length
-              currentText = currentText.substring(0, widget.length);
-            }
-            //  delay the onComplete event handler to give the onChange event handler enough time to complete
-            Future.delayed(Duration(milliseconds: 300),
-                () => widget.onCompleted!(currentText));
+    var currentText = _textEditingController!.text;
+
+    if (widget.enabled && _inputList.join("") != currentText) {
+      if (currentText.length >= widget.length) {
+        if (widget.onCompleted != null) {
+          if (currentText.length > widget.length) {
+            // removing extra text longer than the length
+            currentText = currentText.substring(0, widget.length);
           }
-
-          if (widget.autoDismissKeyboard) _focusNode!.unfocus();
+          //  delay the onComplete event handler to give the onChange event handler enough time to complete
+          Future.delayed(Duration(milliseconds: 300),
+              () => widget.onCompleted!(currentText));
         }
-        widget.onChanged?.call(currentText);
-      }
 
+        if (widget.autoDismissKeyboard) _focusNode!.unfocus();
+      }
       _setTextToInput(currentText);
-    });
+
+      widget.onChanged?.call(currentText);
+    }
   }
 
   void _debounceBlink() {
@@ -507,6 +511,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
   @override
   void dispose() {
+    _textEditingController!.removeListener(_textEditingControllerListener);
     if (widget.autoDisposeControllers) {
       _textEditingController!.dispose();
       _focusNode!.dispose();
@@ -1001,4 +1006,4 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
 enum PinCodeFieldShape { box, underline, circle }
 
-enum ErrorAnimationType { shake }
+enum ErrorAnimationType { shake, clear }
