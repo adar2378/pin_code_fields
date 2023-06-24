@@ -316,6 +316,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           dialogContent: widget.dialogConfig!.dialogContent,
           dialogTitle: widget.dialogConfig!.dialogTitle,
           negativeText: widget.dialogConfig!.negativeText,
+          platform: widget.dialogConfig!.platform,
         );
   PinTheme get _pinTheme => widget.pinTheme;
 
