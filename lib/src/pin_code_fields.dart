@@ -62,7 +62,7 @@ class PinCodeTextField extends StatefulWidget {
   ///
   /// Set this to empty function if you don't want the keyboard to automatically close
   /// when user presses done/next.
-  VoidCallback? onEditingComplete;
+  final VoidCallback? onEditingComplete;
 
   /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
   final TextStyle? textStyle;
