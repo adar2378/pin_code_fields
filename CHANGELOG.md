@@ -1,3 +1,7 @@
+# [8.0.1]
+
+- Added `activeBorderWidth`, `selectedBorderWidth`, `inactiveBorderWidth`,`disabledBorderWidth`, `errorBorderWidth`
+
 # [8.0.0]
 
 - Updated Dart SDK constraint `sdk: ">=2.12.0 <4.0.0"`
