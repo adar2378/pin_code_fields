@@ -1,3 +1,7 @@
+# [7.5.1]
+
+- Bug fixes
+
 # [7.5.0]
 
 - Updated Dart SDK constraint `sdk: ">=2.12.0 <4.0.0"`
