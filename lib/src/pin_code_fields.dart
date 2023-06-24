@@ -549,6 +549,26 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return relevantInActiveColor;
   }
 
+  double _getBorderWidthForIndex(int index) {
+    if (!widget.enabled) {
+      return _pinTheme.disabledBorderWidth;
+    }
+
+    if (((_selectedIndex == index) ||
+            (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
+        _focusNode!.hasFocus) {
+      return _pinTheme.selectedBorderWidth;
+    } else if (_selectedIndex > index) {
+      double relevantActiveBorderWidth = _pinTheme.activeBorderWidth;
+      if (isInErrorMode) relevantActiveBorderWidth = _pinTheme.errorBorderWidth;
+      return relevantActiveBorderWidth;
+    }
+
+    double relevantActiveBorderWidth = _pinTheme.inactiveBorderWidth;
+    if (isInErrorMode) relevantActiveBorderWidth = _pinTheme.errorBorderWidth;
+    return relevantActiveBorderWidth;
+  }
+
   List<BoxShadow>? _getBoxShadowFromIndex(int index) {
     if (_selectedIndex == index) {
       return _pinTheme.activeBoxShadows;
@@ -883,12 +903,12 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     ? Border(
                         bottom: BorderSide(
                           color: _getColorFromIndex(i),
-                          width: _pinTheme.borderWidth,
+                          width: _getBorderWidthForIndex(i),
                         ),
                       )
                     : Border.all(
                         color: _getColorFromIndex(i),
-                        width: _pinTheme.borderWidth,
+                        width: _getBorderWidthForIndex(i),
                       ),
               ),
               child: Center(
