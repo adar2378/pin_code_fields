@@ -214,6 +214,12 @@ class PinCodeTextField extends StatefulWidget {
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
 
+  /// Text that appears below the [InputDecorator.child] and the border.
+  ///
+  /// In a [PinCodeTextField], this is overridden by the value returned from
+  /// [validator], if that is not null.
+  final String? errorText;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -271,6 +277,7 @@ class PinCodeTextField extends StatefulWidget {
     this.textGradient,
     this.readOnly = false,
     this.autoUnfocus = true,
+    this.errorText,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -804,6 +811,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             disabledBorder: InputBorder.none,
             errorBorder: InputBorder.none,
             focusedErrorBorder: InputBorder.none,
+            errorText: widget.errorText,
           ),
           style: TextStyle(
             color: Colors.transparent,
