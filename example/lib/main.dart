@@ -138,7 +138,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     horizontal: 30,
                   ),
                   child: PinCodeTextField(
-                    appContext: context,
+                    context: context,
                     pastedTextStyle: TextStyle(
                       color: Colors.green.shade600,
                       fontWeight: FontWeight.bold,
