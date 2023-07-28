@@ -1,6 +1,6 @@
 name: pin_code_fields
 description: A flutter package which will help you to generate pin code fields. Can be useful for OTP for example.
-version: 8.0.1
+version: 8.0.2
 homepage: https://github.com/adar2378
 repository: https://github.com/adar2378/pin_code_fields
 
