@@ -183,6 +183,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Height of the cursor, default to FontSize + 8;
   final double? cursorHeight;
 
+  /// Duration of cursor animation, default to 1000 ms
+  final Duration cursorAnimationDuration;
+
   /// Autofill cleanup action
   final AutofillContextAction onAutoFillDisposeAction;
 
@@ -266,6 +269,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+    this.cursorAnimationDuration = const Duration(milliseconds: 1000),
     this.hintCharacter,
     this.hintStyle,
     this.textGradient,
@@ -358,7 +362,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     _hasBlinked = true;
 
     _cursorController = AnimationController(
-        duration: Duration(milliseconds: 1000), vsync: this);
+        duration: widget.cursorAnimationDuration, vsync: this);
     _cursorAnimation = Tween<double>(
       begin: 1,
       end: 0,
