@@ -14,6 +14,9 @@ class PinCodeTextField extends StatefulWidget {
   /// you already know what it does i guess :P default is false
   final bool obscureText;
 
+  /// When you want to paste your code without shown the popup, make it false
+  final bool showPopup;
+
   /// Character used for obscuring text if obscureText is true.
   ///
   /// Must not be empty. Single character is recommended.
@@ -220,6 +223,7 @@ class PinCodeTextField extends StatefulWidget {
     required this.length,
     this.controller,
     this.obscureText = false,
+    this.showPopup = true,
     this.obscuringCharacter = '●',
     this.obscuringWidget,
     this.blinkWhenObscuring = false,
@@ -309,6 +313,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -318,6 +323,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig!.negativeText,
           platform: widget.dialogConfig!.platform,
         );
+
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -854,12 +860,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     ? () async {
                         var data = await Clipboard.getData("text/plain");
                         if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
-                            }
+                          if (!widget.showPopup) {
+                            _textEditingController!.text = data!.text!;
                           } else {
-                            _showPasteDialog(data!.text!);
+                            if (widget.beforeTextPaste != null) {
+                              if (widget.beforeTextPaste!(data!.text)) {
+                                _showPasteDialog(data.text!);
+                              }
+                            } else {
+                              _showPasteDialog(data!.text!);
+                            }
                           }
                         }
                       }

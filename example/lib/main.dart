@@ -43,6 +43,7 @@ class PinCodeVerificationScreen extends StatefulWidget {
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
+
   // ..text = "123456";
 
   // ignore: close_sinks
@@ -145,6 +146,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     ),
                     length: 6,
                     obscureText: true,
+                    showPopup: false,
                     obscuringCharacter: '*',
                     obscuringWidget: const FlutterLogo(
                       size: 24,
