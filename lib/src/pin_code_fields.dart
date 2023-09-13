@@ -309,7 +309,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
-
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -319,7 +318,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig!.negativeText,
           platform: widget.dialogConfig!.platform,
         );
-
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -695,6 +693,73 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     );
   }
 
+  Future<void> _showPasteDialog(String pastedText) {
+    final formattedPastedText = pastedText
+        .trim()
+        .substring(0, min(pastedText.trim().length, widget.length));
+
+    final defaultPastedTextStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Theme.of(context).colorScheme.onSecondary,
+    );
+
+    return showDialog(
+      context: context,
+      useRootNavigator: true,
+      builder: (context) => _dialogConfig.platform == PinCodePlatform.iOS
+          ? CupertinoAlertDialog(
+              title: Text(_dialogConfig.dialogTitle!),
+              content: RichText(
+                text: TextSpan(
+                  text: _dialogConfig.dialogContent,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.labelLarge!.color,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: formattedPastedText,
+                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+                    ),
+                    TextSpan(
+                      text: "?",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.labelLarge!.color,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: _getActionButtons(formattedPastedText),
+            )
+          : AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text(_dialogConfig.dialogTitle!),
+              content: RichText(
+                text: TextSpan(
+                  text: _dialogConfig.dialogContent,
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.labelLarge!.color),
+                  children: [
+                    TextSpan(
+                      text: formattedPastedText,
+                      style: widget.pastedTextStyle ?? defaultPastedTextStyle,
+                    ),
+                    TextSpan(
+                      text: " ?",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.labelLarge!.color,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: _getActionButtons(formattedPastedText),
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Directionality textField = Directionality(
@@ -789,7 +854,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     ? () async {
                         var data = await Clipboard.getData("text/plain");
                         if (data?.text?.isNotEmpty ?? false) {
-                          _textEditingController!.text = data!.text!;
+                          if (widget.beforeTextPaste != null) {
+                            if (widget.beforeTextPaste!(data!.text)) {
+                              _showPasteDialog(data.text!);
+                            }
+                          } else {
+                            _showPasteDialog(data!.text!);
+                          }
                         }
                       }
                     : null,
@@ -906,6 +977,44 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       _selectedIndex = data.length;
       _inputList = replaceInputList;
     });
+  }
+
+  List<Widget> _getActionButtons(String pastedText) {
+    var resultList = <Widget>[];
+    if (_dialogConfig.platform == PinCodePlatform.iOS) {
+      resultList.addAll([
+        CupertinoDialogAction(
+          child: Text(_dialogConfig.negativeText!),
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+        CupertinoDialogAction(
+          child: Text(_dialogConfig.affirmativeText!),
+          onPressed: () {
+            _textEditingController!.text = pastedText;
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+      ]);
+    } else {
+      resultList.addAll([
+        TextButton(
+          child: Text(_dialogConfig.negativeText!),
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+        TextButton(
+          child: Text(_dialogConfig.affirmativeText!),
+          onPressed: () {
+            _textEditingController!.text = pastedText;
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+        ),
+      ]);
+    }
+    return resultList;
   }
 
   void _setState(void Function() function) {
