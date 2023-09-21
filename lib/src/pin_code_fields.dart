@@ -208,9 +208,6 @@ class PinCodeTextField extends StatefulWidget {
   /// Makes the pin cells readOnly
   final bool readOnly;
 
-  /// Enable auto unfocus
-  final bool autoUnfocus;
-
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
 
@@ -270,7 +267,6 @@ class PinCodeTextField extends StatefulWidget {
     this.hintStyle,
     this.textGradient,
     this.readOnly = false,
-    this.autoUnfocus = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -954,28 +950,15 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }
 
   void _onFocus() {
-    if (widget.autoUnfocus) {
-      if (_focusNode!.hasFocus &&
-          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
-        _focusNode!.unfocus();
-        Future.delayed(
-          const Duration(microseconds: 1),
-          () => _focusNode!.requestFocus(),
-        );
-      } else {
-        _focusNode!.requestFocus();
-      }
+    if (_focusNode!.hasFocus &&
+        MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+      _focusNode!.unfocus();
+      Future.delayed(
+        const Duration(microseconds: 1),
+            () => _focusNode!.requestFocus(),
+      );
     } else {
-      if (_focusNode!.hasFocus &&
-          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
-        _focusNode!.unfocus();
-        Future.delayed(
-          const Duration(microseconds: 1),
-              () => _focusNode!.requestFocus(),
-        );
-      } else {
-        _focusNode!.requestFocus();
-      }
+      _focusNode!.requestFocus();
     }
   }
 
