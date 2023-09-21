@@ -270,7 +270,7 @@ class PinCodeTextField extends StatefulWidget {
     this.hintStyle,
     this.textGradient,
     this.readOnly = false,
-    this.autoUnfocus = true,
+    this.autoUnfocus = false,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
@@ -309,6 +309,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -318,6 +319,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig!.negativeText,
           platform: widget.dialogConfig!.platform,
         );
+
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -957,12 +959,23 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
         _focusNode!.unfocus();
         Future.delayed(
-            const Duration(microseconds: 1), () => _focusNode!.requestFocus());
+          const Duration(microseconds: 1),
+          () => _focusNode!.requestFocus(),
+        );
       } else {
         _focusNode!.requestFocus();
       }
     } else {
-      _focusNode!.requestFocus();
+      if (_focusNode!.hasFocus &&
+          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+        _focusNode!.unfocus();
+        Future.delayed(
+          const Duration(microseconds: 1),
+              () => _focusNode!.requestFocus(),
+        );
+      } else {
+        _focusNode!.requestFocus();
+      }
     }
   }
 
