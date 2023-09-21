@@ -244,9 +244,6 @@ A flutter package which will help you to generate pin code fields with beautiful
   /// Makes the pin cells readOnly
   final bool readOnly;
 
-  /// Enable auto unfocus
-  final bool autoUnfocus;
-
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
 ```
