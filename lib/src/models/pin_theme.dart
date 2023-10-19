@@ -139,4 +139,53 @@ class PinTheme {
           disabledBorderWidth ?? defaultValues.disabledBorderWidth,
     );
   }
+
+  /// Creates a copy of this [PinTheme] but with the given fields replaced with the new values.
+  PinTheme copyWith({
+    Color? activeColor,
+    Color? selectedColor,
+    Color? inactiveColor,
+    Color? disabledColor,
+    Color? activeFillColor,
+    Color? selectedFillColor,
+    Color? inactiveFillColor,
+    Color? errorBorderColor,
+    BorderRadius? borderRadius,
+    double? fieldHeight,
+    double? fieldWidth,
+    double? borderWidth,
+    double? activeBorderWidth,
+    double? selectedBorderWidth,
+    double? inactiveBorderWidth,
+    double? disabledBorderWidth,
+    double? errorBorderWidth,
+    PinCodeFieldShape? shape,
+    EdgeInsetsGeometry? fieldOuterPadding,
+    List<BoxShadow>? activeBoxShadow,
+    List<BoxShadow>? inActiveBoxShadow,
+  }) {
+    return PinTheme(
+      activeColor: activeColor ?? this.activeColor,
+      selectedColor: selectedColor ?? this.selectedColor,
+      inactiveColor: inactiveColor ?? this.inactiveColor,
+      disabledColor: disabledColor ?? this.disabledColor,
+      activeFillColor: activeFillColor ?? this.activeFillColor,
+      selectedFillColor: selectedFillColor ?? this.selectedFillColor,
+      inactiveFillColor: inactiveFillColor ?? this.inactiveFillColor,
+      errorBorderColor: errorBorderColor ?? this.errorBorderColor,
+      borderRadius: borderRadius ?? this.borderRadius,
+      fieldHeight: fieldHeight ?? this.fieldHeight,
+      fieldWidth: fieldWidth ?? this.fieldWidth,
+      borderWidth: borderWidth ?? this.borderWidth,
+      activeBorderWidth: activeBorderWidth ?? this.activeBorderWidth,
+      selectedBorderWidth: selectedBorderWidth ?? this.selectedBorderWidth,
+      inactiveBorderWidth: inactiveBorderWidth ?? this.inactiveBorderWidth,
+      disabledBorderWidth: disabledBorderWidth ?? this.disabledBorderWidth,
+      errorBorderWidth: errorBorderWidth ?? this.errorBorderWidth,
+      shape: shape ?? this.shape,
+      fieldOuterPadding: fieldOuterPadding ?? this.fieldOuterPadding,
+      activeBoxShadow: activeBoxShadow ?? this.activeBoxShadows,
+      inActiveBoxShadow: inActiveBoxShadow ?? this.inActiveBoxShadows,
+    );
+  }
 }
