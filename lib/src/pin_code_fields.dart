@@ -132,6 +132,10 @@ class PinCodeTextField extends StatefulWidget {
   /// work with all form windows
   final Function? onTap;
 
+  /// Clears next fields on tap. Default is false.
+  /// e.g. If users taps second field, all fields except first one will be cleared.
+  final bool clearNextFieldsOnTap;
+
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig? dialogConfig;
 
@@ -235,6 +239,7 @@ class PinCodeTextField extends StatefulWidget {
     this.autoFocus = false,
     this.focusNode,
     this.onTap,
+    this.clearNextFieldsOnTap = false,
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
     this.textStyle,
@@ -880,7 +885,21 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     var result = <Widget>[];
     for (int i = 0; i < widget.length; i++) {
       result.add(
-        Container(
+        GestureDetector(
+          onTap: () {
+            _onFocus();
+            widget.onTap?.call();
+            if (i < _selectedIndex && widget.clearNextFieldsOnTap) {
+              _selectedIndex = i;
+              _textEditingController!.value = TextEditingValue(
+                  text: _textEditingController!.text.substring(0, i),
+                  selection: TextSelection.fromPosition(TextPosition(
+                      offset: _textEditingController!.text
+                          .substring(0, i)
+                          .length)));
+            }
+          },
+          child: Container(
             padding: _pinTheme.fieldOuterPadding,
             child: AnimatedContainer(
               curve: widget.animationCurve,
@@ -942,7 +961,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   child: buildChild(i),
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       );
       if (widget.separatorBuilder != null && i != widget.length - 1) {
         result.add(widget.separatorBuilder!(context, i));
