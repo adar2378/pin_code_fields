@@ -43,6 +43,7 @@ class PinCodeVerificationScreen extends StatefulWidget {
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
+
   // ..text = "123456";
 
   // ignore: close_sinks
@@ -216,9 +217,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "Didn't receive the code? ",
-                    style: TextStyle(color: Colors.black54, fontSize: 15),
+                  const Flexible(
+                    child: Text(
+                      "Didn't receive the code? ",
+                      style: TextStyle(color: Colors.black54, fontSize: 15),
+                    ),
                   ),
                   TextButton(
                     onPressed: () => snackBar("OTP resend!!"),
