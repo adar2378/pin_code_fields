@@ -67,6 +67,9 @@ class PinCodeTextField extends StatefulWidget {
   /// the style of the text, default is [ fontSize: 20, fontWeight: FontWeight.bold]
   final TextStyle? textStyle;
 
+  /// [TextScaler] for pin code field and hint text.
+  final TextScaler? textScaler;
+
   /// the style of the pasted text, default is [fontWeight: FontWeight.bold] while
   /// [TextStyle.color] is [ThemeData.colorScheme.onSecondary]
   final TextStyle? pastedTextStyle;
@@ -238,6 +241,7 @@ class PinCodeTextField extends StatefulWidget {
     this.enabled = true,
     this.inputFormatters = const <TextInputFormatter>[],
     this.textStyle,
+    this.textScaler,
     this.useHapticFeedback = false,
     this.hapticFeedbackTypes = HapticFeedbackTypes.light,
     this.pastedTextStyle,
@@ -309,6 +313,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
+
   DialogConfig get _dialogConfig => widget.dialogConfig == null
       ? DialogConfig()
       : DialogConfig(
@@ -318,6 +323,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           negativeText: widget.dialogConfig!.negativeText,
           platform: widget.dialogConfig!.platform,
         );
+
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
@@ -601,6 +607,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         widget.hintCharacter!,
         key: ValueKey(_inputList[index]),
         style: _hintStyle,
+        textScaler: widget.textScaler,
       );
     }
 
@@ -615,12 +622,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               text,
               key: ValueKey(_inputList[index]),
               style: _textStyle.copyWith(color: Colors.white),
+              textScaler: widget.textScaler,
             ),
           )
         : Text(
             text,
             key: ValueKey(_inputList[index]),
             style: _textStyle,
+            textScaler: widget.textScaler,
           );
   }
 
