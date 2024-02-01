@@ -31,13 +31,13 @@ class PinTheme {
   /// Width of the input field which is currently selected. Default is 2
   final double selectedBorderWidth;
 
-    /// Width of the input fields which don't have inputs. Default is 2
+  /// Width of the input fields which don't have inputs. Default is 2
   final double inactiveBorderWidth;
 
   /// Width of the input fields if the [PinCodeTextField] is disabled. Default is 2
   final double disabledBorderWidth;
 
-    /// Width of the input field when in error mode. Default is 2
+  /// Width of the input field when in error mode. Default is 2
   final double errorBorderWidth;
 
   /// Border radius of each pin code field
@@ -61,7 +61,7 @@ class PinTheme {
   /// this adds box shadow to specific selected pin code field. Default is none.
   final List<BoxShadow>? activeBoxShadows;
 
-  //this adds box shadow to inactive pin code field. Default is none.
+  /// this adds box shadow to inactive pin code field. Default is none.
   final List<BoxShadow>? inActiveBoxShadows;
 
   const PinTheme.defaults({
