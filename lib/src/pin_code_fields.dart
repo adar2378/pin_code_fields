@@ -214,6 +214,11 @@ class PinCodeTextField extends StatefulWidget {
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
 
+
+  /// This event is triggered when a tap is detected outside the pincode text field.
+  /// useful for dismissing the keyboard or other actions.
+  final TapRegionCallback? onTapOutside;
+
   PinCodeTextField({
     Key? key,
     required this.appContext,
@@ -279,6 +284,7 @@ class PinCodeTextField extends StatefulWidget {
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
     this.separatorBuilder,
+    this.onTapOutside,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -767,6 +773,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       child: Padding(
         padding: widget.errorTextMargin,
         child: TextFormField(
+          onTapOutside: widget.onTapOutside,
           textInputAction: widget.textInputAction,
           controller: _textEditingController,
           focusNode: _focusNode,
