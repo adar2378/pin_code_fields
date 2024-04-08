@@ -479,7 +479,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               () => widget.onCompleted!(currentText));
         }
 
-        if (widget.autoDismissKeyboard) _focusNode.unfocus();
+        print('${_selectedIndex} ${_textEditingController.text.length}');
+
+        if (widget.autoDismissKeyboard &&
+            _selectedIndex == _textEditingController.text.length - 1)
+          _focusNode.unfocus();
       }
       _setTextToInput(currentText);
 
@@ -788,7 +792,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           autovalidateMode: widget.autovalidateMode,
           inputFormatters: [
             ...widget.inputFormatters,
-            LengthLimitingTextInputFormatter(
+            //TODO: uncomment
+            PinCodeInputFormatter(
               widget.length,
             ), // this limits the input length
           ],
@@ -905,15 +910,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           onTap: () {
             if (widget.onTap != null) widget.onTap!();
             _onFocus();
-
-            if (i + 1 <= _textEditingController.text.length) {
-              _textEditingController.selection =
-                  TextSelection(baseOffset: i, extentOffset: i + 1);
-            } else {
-              _textEditingController.selection = TextSelection.collapsed(
-                offset: _textEditingController.text.length,
-              );
-            }
+            _textEditingController.selection = TextSelection.collapsed(
+              offset: i + 1 < _textEditingController.text.length
+                  ? i
+                  : _textEditingController.text.length,
+            );
           },
           child: Container(
               padding: _pinTheme.fieldOuterPadding,
@@ -1063,3 +1064,31 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 enum PinCodeFieldShape { box, underline, circle }
 
 enum ErrorAnimationType { shake, clear }
+
+class PinCodeInputFormatter extends TextInputFormatter {
+  final int maxLength;
+
+  PinCodeInputFormatter(this.maxLength);
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text.length <= maxLength) return newValue;
+
+    final selection = newValue.selection;
+    final offset = selection.baseOffset;
+    final text = newValue.text;
+
+    if (text.length - oldValue.text.length == 1 &&
+        offset - oldValue.selection.baseOffset == 1) {
+      return TextEditingValue(
+        text: '${text.substring(0, offset)}${text.substring(offset + 1)}',
+        selection: selection,
+      );
+    }
+
+    return TextEditingValue(text: text.substring(0, maxLength));
+  }
+}
