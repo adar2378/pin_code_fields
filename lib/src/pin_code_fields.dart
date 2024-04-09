@@ -294,6 +294,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   int _selectedIndex = 0;
   BorderRadius? borderRadius;
 
+  bool _characterSelected = false;
+
   // Whether the character has blinked
   bool _hasBlinked = false;
 
@@ -351,6 +353,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(() {
+      print('focus ${_focusNode.hasFocus}');
+      if (_focusNode.hasFocus) {
+        _characterSelected = false;
+      } else if (!_characterSelected && !_focusNode.hasFocus) {
+        _textEditingController.selection = TextSelection.collapsed(
+          offset: _textEditingController.text.length,
+        );
+      }
       _setState(() {});
     }); // Rebuilds on every change to reflect the correct color on each field.
     _inputList = List<String>.filled(widget.length, "");
@@ -915,6 +925,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                   ? i
                   : _textEditingController.text.length,
             );
+            _characterSelected = true;
           },
           child: Container(
               padding: _pinTheme.fieldOuterPadding,
@@ -1082,7 +1093,8 @@ class PinCodeInputFormatter extends TextInputFormatter {
     final text = newValue.text;
 
     if (text.length - oldValue.text.length == 1 &&
-        offset - oldValue.selection.baseOffset == 1) {
+        offset - oldValue.selection.baseOffset == 1 &&
+        offset <= maxLength) {
       return TextEditingValue(
         text: '${text.substring(0, offset)}${text.substring(offset + 1)}',
         selection: selection,
