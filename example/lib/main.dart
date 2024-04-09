@@ -144,11 +144,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     length: 6,
-                    // obscureText: true,
-                    // obscuringCharacter: '*',
-                    // obscuringWidget: const FlutterLogo(
-                    //   size: 24,
-                    // ),
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    obscuringWidget: const FlutterLogo(
+                      size: 24,
+                    ),
                     blinkWhenObscuring: true,
                     animationType: AnimationType.fade,
                     validator: (v) {
