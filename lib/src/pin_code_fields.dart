@@ -353,7 +353,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(() {
-      print('focus ${_focusNode.hasFocus}');
       if (_focusNode.hasFocus) {
         _characterSelected = false;
       } else if (!_characterSelected && !_focusNode.hasFocus) {
@@ -488,8 +487,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           Future.delayed(Duration(milliseconds: 300),
               () => widget.onCompleted!(currentText));
         }
-
-        print('${_selectedIndex} ${_textEditingController.text.length}');
 
         if (widget.autoDismissKeyboard &&
             _selectedIndex == _textEditingController.text.length - 1)
@@ -802,7 +799,6 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           autovalidateMode: widget.autovalidateMode,
           inputFormatters: [
             ...widget.inputFormatters,
-            //TODO: uncomment
             PinCodeInputFormatter(
               widget.length,
             ), // this limits the input length
@@ -811,19 +807,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           onFieldSubmitted: widget.onSubmitted,
           onEditingComplete: widget.onEditingComplete,
           enableInteractiveSelection: false,
-          //TODO: uncomment
-          // showCursor: false,
-          //TODO: remove
-
-          showCursor: true,
+          showCursor: false,
           // using same as background color so tha it can blend into the view
-          //TODO: uncomment
-          // cursorWidth: 0.01,
-          //TODO: remove
-          cursorWidth: 2,
-          //TODO: remove
-          cursorColor: Colors.black,
-
+          cursorWidth: 0.01,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(0),
             border: InputBorder.none,
@@ -834,16 +820,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
             errorBorder: InputBorder.none,
             focusedErrorBorder: InputBorder.none,
           ),
-          //TODO: Uncomment
-          // style: TextStyle(
-          //   color: Colors.transparent,
-          //   height: .01,
-          //   fontSize: kIsWeb
-          //       ? 1
-          //       : 0.01, // it is a hidden textfield which should remain transparent and extremely small
-          // ),
-          //TODO: Remove
-          style: TextStyle(color: Colors.black, height: 1, fontSize: 32),
+          style: TextStyle(
+            color: Colors.transparent,
+            height: .01,
+            fontSize: kIsWeb
+                ? 1
+                : 0.01, // it is a hidden textfield which should remain transparent and extremely small
+          ),
+
           scrollPadding: widget.scrollPadding,
           readOnly: widget.readOnly,
           obscureText: widget.obscureText,
@@ -877,32 +861,28 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               top: 0,
               left: 0,
               right: 0,
-              //TODO: remove
-              child: Opacity(
-                opacity: 0.3,
-                child: GestureDetector(
-                  onTap: () {
-                    if (widget.onTap != null) widget.onTap!();
-                    _onFocus();
-                  },
-                  onLongPress: widget.enabled
-                      ? () async {
-                          var data = await Clipboard.getData("text/plain");
-                          if (data?.text?.isNotEmpty ?? false) {
-                            if (widget.beforeTextPaste != null) {
-                              if (widget.beforeTextPaste!(data!.text)) {
-                                _showPasteDialog(data.text!);
-                              }
-                            } else {
-                              _showPasteDialog(data!.text!);
+              child: GestureDetector(
+                onTap: () {
+                  if (widget.onTap != null) widget.onTap!();
+                  _onFocus();
+                },
+                onLongPress: widget.enabled
+                    ? () async {
+                        var data = await Clipboard.getData("text/plain");
+                        if (data?.text?.isNotEmpty ?? false) {
+                          if (widget.beforeTextPaste != null) {
+                            if (widget.beforeTextPaste!(data!.text)) {
+                              _showPasteDialog(data.text!);
                             }
+                          } else {
+                            _showPasteDialog(data!.text!);
                           }
                         }
-                      : null,
-                  child: Row(
-                    mainAxisAlignment: widget.mainAxisAlignment,
-                    children: _generateFields(),
-                  ),
+                      }
+                    : null,
+                child: Row(
+                  mainAxisAlignment: widget.mainAxisAlignment,
+                  children: _generateFields(),
                 ),
               ),
             ),
