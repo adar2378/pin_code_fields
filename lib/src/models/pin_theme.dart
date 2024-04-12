@@ -25,19 +25,19 @@ class PinTheme {
   /// Color of the input field when in error mode. Default is [Colors.redAccent]
   final Color errorBorderColor;
 
-  /// Width of the input fields which have inputs. Default is 2
+  /// Width of the input fields which have inputs. Default is 2 or [borderWidth] if set
   final double activeBorderWidth;
 
-  /// Width of the input field which is currently selected. Default is 2
+  /// Width of the input field which is currently selected. Default is 2 or [borderWidth] if set
   final double selectedBorderWidth;
 
-  /// Width of the input fields which don't have inputs. Default is 2
+  /// Width of the input fields which don't have inputs. Default is 2 or [borderWidth] if set
   final double inactiveBorderWidth;
 
   /// Width of the input fields if the [PinCodeTextField] is disabled. Default is 2
   final double disabledBorderWidth;
 
-  /// Width of the input field when in error mode. Default is 2
+  /// Width of the input field when in error mode. Default is 2 or [borderWidth] if set
   final double errorBorderWidth;
 
   /// Border radius of each pin code field
@@ -49,7 +49,7 @@ class PinTheme {
   /// [width] for the pin code field. default is [40.0]
   final double fieldWidth;
 
-  /// Border width for the each input fields. Default is [2.0]
+  /// Border width for each input fields. Can be overridden by the individual widths.
   final double? borderWidth;
 
   /// this defines the shape of the input fields. Default is underlined
