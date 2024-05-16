@@ -132,6 +132,9 @@ class PinCodeTextField extends StatefulWidget {
   /// work with all form windows
   final Function? onTap;
 
+  /// Whether to show a confirmation dialog before pasting or not (defaults to true).
+  final bool showPasteConfirmationDialog;
+
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig? dialogConfig;
 
@@ -250,6 +253,7 @@ class PinCodeTextField extends StatefulWidget {
     this.onEditingComplete,
     this.errorAnimationController,
     this.beforeTextPaste,
+    this.showPasteConfirmationDialog = true,
     this.dialogConfig,
     this.pinTheme = const PinTheme.defaults(),
     this.keyboardAppearance,
@@ -278,7 +282,7 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
-    this.separatorBuilder,
+    this.separatorBuilder
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -856,11 +860,16 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 },
                 onLongPress: widget.enabled
                     ? () async {
-                  var data = await Clipboard.getData("text/plain");
-                  if (data?.text?.isNotEmpty ?? false) {
-                    if (widget.beforeTextPaste != null) {
-                      if (widget.beforeTextPaste!(data!.text)) {
-                        _showPasteDialog(data.text!);
+                        var data = await Clipboard.getData("text/plain");
+                        if (data?.text?.isNotEmpty ?? false) {
+                          if (widget.beforeTextPaste != null) {
+                            if (widget.beforeTextPaste!(data!.text)) {
+                              widget.showPasteConfirmationDialog ? _showPasteDialog(data.text!) : _paste(data.text!);
+                            }
+                          } else {
+                            widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
+                          }
+                        }
                       }
                     } else {
                       _showPasteDialog(data!.text!);
@@ -878,6 +887,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         ),
       ),
     );
+  }
+
+  void _paste(String text) {
+    _textEditingController!.text = text;
   }
 
   List<Widget> _generateFields() {
@@ -996,7 +1009,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         CupertinoDialogAction(
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
-            _textEditingController!.text = pastedText;
+            _paste(pastedText);
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
@@ -1012,7 +1025,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         TextButton(
           child: Text(_dialogConfig.affirmativeText!),
           onPressed: () {
-            _textEditingController!.text = pastedText;
+            _paste(pastedText);
             Navigator.of(context, rootNavigator: true).pop();
           },
         ),
