@@ -1,3 +1,13 @@
+# [8.0.1]
+
+- Added `activeBorderWidth`, `selectedBorderWidth`, `inactiveBorderWidth`,`disabledBorderWidth`, `errorBorderWidth`
+
+# [8.0.0]
+
+- Updated Dart SDK constraint `sdk: ">=2.12.0 <4.0.0"`
+- Use `PinCodePlatform` instead `Platform` enum
+- Numerous bug fixes, thanks to each and one contributer for resolving issues
+
 # [7.4.0]
 
 - Added new attributes`readOnly`, `textGradient`, `errorTextDirection`, `errorTextMargin`, `autoUnfocus`
