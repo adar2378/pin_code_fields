@@ -1,4 +1,3 @@
-
 part of pin_code_fields;
 
 /// Pin code text fields which automatically changes focus and validates
@@ -870,14 +869,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                           } else {
                             widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
                           }
+                        } else {
+                          _showPasteDialog(data!.text!);
                         }
                       }
-                    } else {
-                      _showPasteDialog(data!.text!);
-                    }
-                  }
-                }
-                    : null,
+                : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
                   children: _generateFields(),
