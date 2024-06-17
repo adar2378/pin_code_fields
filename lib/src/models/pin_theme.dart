@@ -22,6 +22,9 @@ class PinTheme {
   /// Colors of the input fields which don't have inputs. Default is [Colors.red]
   final Color inactiveFillColor;
 
+  /// The color to fill in the background of the input fields if the [PinCodeTextField] is disabled.
+  final Color disabledFillColor;
+
   /// Color of the input field when in error mode. Default is [Colors.redAccent]
   final Color errorBorderColor;
 
@@ -78,6 +81,7 @@ class PinTheme {
     this.activeFillColor = Colors.green,
     this.selectedFillColor = Colors.blue,
     this.inactiveFillColor = Colors.red,
+    this.disabledFillColor = Colors.grey,
     this.errorBorderColor = Colors.redAccent,
     this.activeBorderWidth = 2,
     this.selectedBorderWidth = 2,
@@ -96,6 +100,7 @@ class PinTheme {
     Color? activeFillColor,
     Color? selectedFillColor,
     Color? inactiveFillColor,
+    Color? disabledFillColor,
     Color? errorBorderColor,
     BorderRadius? borderRadius,
     double? fieldHeight,
@@ -125,6 +130,7 @@ class PinTheme {
       errorBorderColor: errorBorderColor ?? defaultValues.errorBorderColor,
       selectedColor: selectedColor ?? defaultValues.selectedColor,
       selectedFillColor: selectedFillColor ?? defaultValues.selectedFillColor,
+      disabledFillColor: disabledFillColor ?? defaultValues.disabledFillColor,
       shape: shape ?? defaultValues.shape,
       fieldOuterPadding: fieldOuterPadding ?? defaultValues.fieldOuterPadding,
       activeBoxShadows: activeBoxShadow ?? [],

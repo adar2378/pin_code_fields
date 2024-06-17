@@ -635,7 +635,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 // selects the right fill color for the field
   Color _getFillColorFromIndex(int index) {
     if (!widget.enabled) {
-      return _pinTheme.disabledColor;
+      return _pinTheme.disabledFillColor;
     }
     if (((_selectedIndex == index) ||
         (_selectedIndex == index + 1 && index + 1 == widget.length)) &&
@@ -869,14 +869,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                           } else {
                             widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
                           }
+                        } else {
+                          _showPasteDialog(data!.text!);
                         }
                       }
-                    } else {
-                      _showPasteDialog(data!.text!);
-                    }
-                  }
-                }
-                    : null,
+                : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
                   children: _generateFields(),
