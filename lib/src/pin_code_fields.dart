@@ -193,8 +193,12 @@ class PinCodeTextField extends StatefulWidget {
   final bool useExternalAutoFillGroup;
 
   /// Displays a hint or placeholder in the field if it's value is empty.
-  /// It only appears if it's not null. Single character is recommended.
+  /// It only appears if it's not null. Single character is recommended or
+  /// precisely the amount of characters as pin fields. In this case each
+  /// character will be associated to the corresponding field with the same index.
   final String? hintCharacter;
+
+  final bool spreadHintCharacters;
 
   /// the style of the [hintCharacter], default is [fontSize: 20, fontWeight: FontWeight.bold]
   /// and it also uses the [textStyle]'s properties
@@ -271,7 +275,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorWidth = 2,
     this.cursorHeight,
     this.hintCharacter,
-    this.hintStyle,
+      this.spreadHintCharacters = false,
     this.textGradient,
     this.readOnly = false,
     this.autoUnfocus = true,
@@ -537,6 +541,21 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     super.dispose();
   }
 
+  String _resolveHintText(int fieldIndex) {
+    if (widget.hintCharacter == null) {
+      return '';
+    }
+
+    var resolvedHintText = widget.hintCharacter;
+    if (widget.spreadHintCharacters &&
+        widget.hintCharacter!.length >= widget.length) {
+      resolvedHintText =
+          widget.hintCharacter!.characters.characterAt(fieldIndex).string;
+    }
+
+    return resolvedHintText!;
+  }
+
   // selects the right color for the field
   Color _getColorFromIndex(int index) {
     if (!widget.enabled) {
@@ -605,8 +624,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
 
     if (_inputList[index!].isEmpty && _hintAvailable) {
+      var resolvedHintCharacter = _resolveHintText(index);
       return Text(
-        widget.hintCharacter!,
+        resolvedHintCharacter,
         key: ValueKey(_inputList[index]),
         style: _hintStyle,
       );
