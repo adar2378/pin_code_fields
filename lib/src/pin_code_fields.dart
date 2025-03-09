@@ -278,9 +278,10 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorHeight,
     this.hintCharacter,
       this.spreadHintCharacters = false,
-    this.textGradient,
-    this.readOnly = false,
-    this.autoUnfocus = true,
+      this.hintStyle,
+      this.textGradient,
+      this.readOnly = false,
+      this.autoUnfocus = true,
 
     /// Default for [AutofillGroup]
     this.onAutoFillDisposeAction = AutofillContextAction.commit,
