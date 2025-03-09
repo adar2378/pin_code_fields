@@ -194,10 +194,12 @@ class PinCodeTextField extends StatefulWidget {
 
   /// Displays a hint or placeholder in the field if it's value is empty.
   /// It only appears if it's not null. Single character is recommended or
-  /// precisely the amount of characters as pin fields. In this case each
+  /// precisely the amount of characters as pin fields with [spreadHintCharacters] set to true.
   /// character will be associated to the corresponding field with the same index.
   final String? hintCharacter;
 
+  // When set to true will spread hint characters across each pin field as long
+  // as there is enough characters.
   final bool spreadHintCharacters;
 
   /// the style of the [hintCharacter], default is [fontSize: 20, fontWeight: FontWeight.bold]
