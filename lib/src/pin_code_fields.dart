@@ -138,6 +138,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Configuration for paste dialog. Read more [DialogConfig]
   final DialogConfig? dialogConfig;
 
+  /// Trim is automatically applied to the clipboard content, [disableTrimOnPaste] allows to disable this
+  final bool disableTrimOnPaste;
+
   /// Theme for the pin cells. Read more [PinTheme]
   final PinTheme pinTheme;
 
@@ -254,6 +257,7 @@ class PinCodeTextField extends StatefulWidget {
     this.errorAnimationController,
     this.beforeTextPaste,
     this.showPasteConfirmationDialog = true,
+    this.disableTrimOnPaste = false,
     this.dialogConfig,
     this.pinTheme = const PinTheme.defaults(),
     this.keyboardAppearance,
@@ -701,11 +705,35 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     );
   }
 
-  Future<void> _showPasteDialog(String pastedText) {
-    final formattedPastedText = pastedText
-        .trim()
-        .substring(0, min(pastedText.trim().length, widget.length));
+  /// Applies the user-defined input formatters to a given string.
+  /// Also applies trimming and length limiting.
+  String _applyFormattersAndLimit(String text) {
+    // Start with the raw text in a TextEditingValue
+    TextEditingValue currentValue = TextEditingValue(text: text);
 
+    // Apply each formatter sequentially
+    // Note: We use TextEditingValue.empty as oldValue to simulate inserting the whole text
+    for (final formatter in widget.inputFormatters) {
+      currentValue = formatter.formatEditUpdate(
+        TextEditingValue.empty, // Represents the state before pasting
+        currentValue, // The text we want to format
+      );
+    }
+
+    String formattedText = currentValue.text;
+
+    if (!widget.disableTrimOnPaste) {
+      formattedText = formattedText.trim();
+    }
+
+    if (formattedText.length > widget.length) {
+      formattedText = formattedText.substring(0, widget.length);
+    }
+
+    return formattedText;
+  }
+
+  Future<void> _showPasteDialog(String formattedPastedText) async {
     final defaultPastedTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
       color: Theme.of(context).colorScheme.onSecondary,
@@ -861,21 +889,24 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 onLongPress: widget.enabled
                     ? () async {
                         var data = await Clipboard.getData("text/plain");
-                        if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              widget.showPasteConfirmationDialog ? _showPasteDialog(data.text!) : _paste(data.text!);
-                            }
-                          } else {
-                            widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
-                          }
+                        final text = data?.text;
+                        if (text == null) {
+                          return;
+                        }
+                        final formattedText = _applyFormattersAndLimit(text);
+                        if (formattedText.isEmpty) {
+                          return;
+                        }
+                        final beforeTextPaste = widget.beforeTextPaste;
+                        if (beforeTextPaste != null && !beforeTextPaste(text)) {
+                          return;
+                        }
+                        if (widget.showPasteConfirmationDialog) {
+                          _showPasteDialog(formattedText);
+                        } else {
+                          _paste(formattedText);
                         }
                       }
-                    } else {
-                      _showPasteDialog(data!.text!);
-                    }
-                  }
-                }
                     : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
