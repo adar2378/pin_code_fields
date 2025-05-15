@@ -216,6 +216,9 @@ class PinCodeTextField extends StatefulWidget {
 
   /// Builds separator children
   final IndexedWidgetBuilder? separatorBuilder;
+  
+  /// Hide keyboard on tapping outside input field
+  final bool hideKeyboardOnTapOutside;
 
   PinCodeTextField({
     Key? key,
@@ -282,7 +285,8 @@ class PinCodeTextField extends StatefulWidget {
     /// Default create internal [AutofillGroup]
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
-    this.separatorBuilder
+    this.separatorBuilder,
+    this.hideKeyboardOnTapOutside = false,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -775,6 +779,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
       child: Padding(
         padding: widget.errorTextMargin,
         child: TextFormField(
+          onTapOutside: widget.hideKeyboardOnTapOutside ? (event) => _focusNode?.unfocus() : null,
           textInputAction: widget.textInputAction,
           controller: _textEditingController,
           focusNode: _focusNode,
