@@ -123,6 +123,8 @@ class PinCodeTextField extends StatefulWidget {
 
   final TextInputAction textInputAction;
 
+  final Function(String text)? onHandleTextCopyPaste;
+
   /// Triggers the error animation
   final StreamController<ErrorAnimationType>? errorAnimationController;
 
@@ -282,6 +284,7 @@ class PinCodeTextField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20),
     this.separatorBuilder,
     this.enableTextPaste = true,
+    this.onHandleTextCopyPaste,
   })  : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
@@ -801,16 +804,19 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
                   if (widget.onTap != null) widget.onTap!();
                   _onFocus();
                 },
-                onLongPress: widget.enabled && widget.enableTextPaste
+                onLongPress: (widget.enabled && widget.enableTextPaste)
                     ? () async {
-                        var data = await Clipboard.getData("text/plain");
-                        if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              _showPasteDialog(data.text!);
+                        final data = await Clipboard.getData("text/plain");
+                        final text = data?.text;
+                        if (text?.isNotEmpty ?? false) {
+                          final shouldProceed = widget.beforeTextPaste?.call(text!) ?? true;
+                          if (shouldProceed) {
+                            if (widget.onHandleTextCopyPaste != null) {
+                              widget.onHandleTextCopyPaste?.call(text!);
+                            } else {
+                              ///using for test
+                              _showPasteDialog(text!);
                             }
-                          } else {
-                            _showPasteDialog(data!.text!);
                           }
                         }
                       }
