@@ -812,7 +812,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField> with TickerProvider
                           final shouldProceed = widget.beforeTextPaste?.call(text!) ?? true;
                           if (shouldProceed) {
                             if (widget.onHandleTextCopyPaste != null) {
-                              widget.onHandleTextCopyPaste?.call(text!);
+                              ///format test before parse
+                              final formattedPastedText = text!.trim().substring(0, min(text.trim().length, widget.length));
+                              widget.onHandleTextCopyPaste?.call(formattedPastedText);
                             } else {
                               ///using for test
                               _showPasteDialog(text!);
