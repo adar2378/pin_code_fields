@@ -186,6 +186,9 @@ class PinCodeTextField extends StatefulWidget {
   /// Height of the cursor, default to FontSize + 8;
   final double? cursorHeight;
 
+  /// Radius of the cursor, default to 0
+  final double? cursorRadius;
+
   /// Autofill cleanup action
   final AutofillContextAction onAutoFillDisposeAction;
 
@@ -270,6 +273,7 @@ class PinCodeTextField extends StatefulWidget {
     this.cursorColor,
     this.cursorWidth = 2,
     this.cursorHeight,
+    this.cursorRadius = 0,
     this.hintCharacter,
     this.hintStyle,
     this.textGradient,
@@ -672,6 +676,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                     painter: CursorPainter(
                       cursorColor: cursorColor,
                       cursorWidth: widget.cursorWidth,
+                      cursorRadius: widget.cursorRadius ?? 0,
                     ),
                   ),
                 ),
@@ -691,6 +696,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               painter: CursorPainter(
                 cursorColor: cursorColor,
                 cursorWidth: widget.cursorWidth,
+                cursorRadius: widget.cursorRadius ?? 0,
               ),
             ),
           ),
