@@ -46,3 +46,6 @@ build/
 .classpath
 .settings
 .doc
+
+# FVM Version Cache
+.fvm/
