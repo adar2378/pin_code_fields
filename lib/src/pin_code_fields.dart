@@ -287,7 +287,8 @@ class PinCodeTextField extends StatefulWidget {
     this.useExternalAutoFillGroup = false,
     this.scrollPadding = const EdgeInsets.all(20),
     this.separatorBuilder
-  })  : assert(obscuringCharacter.isNotEmpty),
+  })
+      : assert(obscuringCharacter.isNotEmpty),
         super(key: key);
 
   @override
@@ -317,29 +318,34 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   late Animation<Offset> _offsetAnimation;
 
   late Animation<double> _cursorAnimation;
-  DialogConfig get _dialogConfig => widget.dialogConfig == null
-      ? DialogConfig()
-      : DialogConfig(
-    affirmativeText: widget.dialogConfig!.affirmativeText,
-    dialogContent: widget.dialogConfig!.dialogContent,
-    dialogTitle: widget.dialogConfig!.dialogTitle,
-    negativeText: widget.dialogConfig!.negativeText,
-    platform: widget.dialogConfig!.platform,
-  );
+
+  DialogConfig get _dialogConfig =>
+      widget.dialogConfig == null
+          ? DialogConfig()
+          : DialogConfig(
+        affirmativeText: widget.dialogConfig!.affirmativeText,
+        dialogContent: widget.dialogConfig!.dialogContent,
+        dialogTitle: widget.dialogConfig!.dialogTitle,
+        negativeText: widget.dialogConfig!.negativeText,
+        platform: widget.dialogConfig!.platform,
+      );
+
   PinTheme get _pinTheme => widget.pinTheme;
 
   Timer? _blinkDebounce;
 
-  TextStyle get _textStyle => TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-  ).merge(widget.textStyle);
+  TextStyle get _textStyle =>
+      TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ).merge(widget.textStyle);
 
-  TextStyle get _hintStyle => _textStyle
-      .copyWith(
-    color: _pinTheme.disabledColor,
-  )
-      .merge(widget.hintStyle);
+  TextStyle get _hintStyle =>
+      _textStyle
+          .copyWith(
+        color: _pinTheme.disabledColor,
+      )
+          .merge(widget.hintStyle);
 
   bool get _hintAvailable => widget.hintCharacter != null;
 
@@ -504,7 +510,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     // after duration
     if (widget.blinkWhenObscuring &&
         _textEditingController!.text.length >
-            _inputList.where((x) => x.isNotEmpty).length) {
+            _inputList
+                .where((x) => x.isNotEmpty)
+                .length) {
       _setState(() {
         _hasBlinked = false;
       });
@@ -598,7 +606,9 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
 
     bool showObscured = !widget.blinkWhenObscuring ||
         (widget.blinkWhenObscuring && _hasBlinked) ||
-        index != _inputList.where((x) => x.isNotEmpty).length - 1;
+        index != _inputList
+            .where((x) => x.isNotEmpty)
+            .length - 1;
 
     if (widget.obscuringWidget != null) {
       if (showObscured) {
@@ -658,8 +668,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
         _focusNode!.hasFocus &&
         widget.showCursor) {
       final cursorColor = widget.cursorColor ??
-          Theme.of(widget.appContext).textSelectionTheme.cursorColor ??
-          Theme.of(context).colorScheme.onSecondary;
+          Theme
+              .of(widget.appContext)
+              .textSelectionTheme
+              .cursorColor ??
+          Theme
+              .of(context)
+              .colorScheme
+              .onSecondary;
       final cursorHeight = widget.cursorHeight ?? _textStyle.fontSize! + 8;
 
       if ((_selectedIndex == index + 1 && index + 1 == widget.length)) {
@@ -710,24 +726,34 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   Future<void> _showPasteDialog(String pastedText) {
     final formattedPastedText = pastedText
         .trim()
-        .substring(0, min(pastedText.trim().length, widget.length));
+        .substring(0, min(pastedText
+        .trim()
+        .length, widget.length));
 
     final defaultPastedTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      color: Theme.of(context).colorScheme.onSecondary,
+      color: Theme
+          .of(context)
+          .colorScheme
+          .onSecondary,
     );
 
     return showDialog(
       context: context,
       useRootNavigator: true,
-      builder: (context) => _dialogConfig.platform == PinCodePlatform.iOS
+      builder: (context) =>
+      _dialogConfig.platform == PinCodePlatform.iOS
           ? CupertinoAlertDialog(
         title: Text(_dialogConfig.dialogTitle!),
         content: RichText(
           text: TextSpan(
             text: _dialogConfig.dialogContent,
             style: TextStyle(
-              color: Theme.of(context).textTheme.labelLarge!.color,
+              color: Theme
+                  .of(context)
+                  .textTheme
+                  .labelLarge!
+                  .color,
             ),
             children: [
               TextSpan(
@@ -737,7 +763,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               TextSpan(
                 text: "?",
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.labelLarge!.color,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge!
+                      .color,
                 ),
               )
             ],
@@ -754,7 +784,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
           text: TextSpan(
             text: _dialogConfig.dialogContent,
             style: TextStyle(
-                color: Theme.of(context).textTheme.labelLarge!.color),
+                color: Theme
+                    .of(context)
+                    .textTheme
+                    .labelLarge!
+                    .color),
             children: [
               TextSpan(
                 text: formattedPastedText,
@@ -763,7 +797,11 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
               TextSpan(
                 text: " ?",
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.labelLarge!.color,
+                  color: Theme
+                      .of(context)
+                      .textTheme
+                      .labelLarge!
+                      .color,
                 ),
               )
             ],
@@ -866,19 +904,14 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 },
                 onLongPress: widget.enabled
                     ? () async {
-                        var data = await Clipboard.getData("text/plain");
-                        if (data?.text?.isNotEmpty ?? false) {
-                          if (widget.beforeTextPaste != null) {
-                            if (widget.beforeTextPaste!(data!.text)) {
-                              widget.showPasteConfirmationDialog ? _showPasteDialog(data.text!) : _paste(data.text!);
-                            }
-                          } else {
-                            widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
-                          }
-                        }
-                      }
-                    } else {
-                      _showPasteDialog(data!.text!);
+                  final data = await Clipboard.getData('text/plain');
+                  if (data?.text?.isNotEmpty ?? false) {
+                    final text = data!.text!;
+                    final canPaste = widget.beforeTextPaste?.call(text) ?? true;
+                    if (canPaste) {
+                      widget.showPasteConfirmationDialog
+                          ? _showPasteDialog(text)
+                          : _paste(text);
                     }
                   }
                 }
@@ -977,7 +1010,10 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   void _onFocus() {
     if (widget.autoUnfocus) {
       if (_focusNode!.hasFocus &&
-          MediaQuery.of(widget.appContext).viewInsets.bottom == 0) {
+          MediaQuery
+              .of(widget.appContext)
+              .viewInsets
+              .bottom == 0) {
         _focusNode!.unfocus();
         Future.delayed(
             const Duration(microseconds: 1), () => _focusNode!.requestFocus());
