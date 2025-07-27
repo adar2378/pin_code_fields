@@ -908,8 +908,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                 color: widget.enableActiveFill
                     ? _getFillColorFromIndex(i)
                     : Colors.transparent,
-                boxShadow: (_pinTheme.activeBoxShadows != null ||
-                    _pinTheme.inActiveBoxShadows != null)
+                boxShadow: (_pinTheme.activeBoxShadows?.isNotEmpty ?? false) ||
+                        (_pinTheme.inActiveBoxShadows?.isNotEmpty ?? false)
                     ? _getBoxShadowFromIndex(i)
                     : widget.boxShadows,
                 shape: _pinTheme.shape == PinCodeFieldShape.circle
