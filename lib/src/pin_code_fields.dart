@@ -605,10 +605,13 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     }
 
     if (_inputList[index!].isEmpty && _hintAvailable) {
-      return Text(
-        widget.hintCharacter!,
-        key: ValueKey(_inputList[index]),
-        style: _hintStyle,
+      return Semantics(
+        identifier: "otpOf$index",
+        child: Text(
+          widget.hintCharacter!,
+          key: ValueKey(_inputList[index]),
+          style: _hintStyle,
+        ),
       );
     }
 
@@ -619,17 +622,23 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     return widget.textGradient != null
         ? Gradiented(
       gradient: widget.textGradient!,
-      child: Text(
-        text,
-        key: ValueKey(_inputList[index]),
-        style: _textStyle.copyWith(color: Colors.white),
+      child: Semantics(
+        identifier: "otpOf$index",
+        child: Text(
+          text,
+          key: ValueKey(_inputList[index]),
+          style: _textStyle.copyWith(color: Colors.white),
+        ),
       ),
     )
-        : Text(
-      text,
-      key: ValueKey(_inputList[index]),
-      style: _textStyle,
-    );
+        : Semantics(
+      identifier: "otpOf$index",    
+      child: Text(
+                text,
+                key: ValueKey(_inputList[index]),
+                style: _textStyle,
+              ),
+        );
   }
 
 // selects the right fill color for the field
@@ -869,14 +878,8 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                           } else {
                             widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
                           }
-                        }
-                      }
-                    } else {
-                      _showPasteDialog(data!.text!);
-                    }
                   }
-                }
-                    : null,
+                } : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
                   children: _generateFields(),
