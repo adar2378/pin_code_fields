@@ -138,6 +138,13 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     horizontal: 30,
                   ),
                   child: PinCodeTextField(
+                    errorBuilder: (context, error) => Text(
+                      error,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
+                    ),
                     appContext: context,
                     pastedTextStyle: TextStyle(
                       color: Colors.green.shade600,
