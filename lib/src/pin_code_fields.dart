@@ -588,7 +588,7 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
   }
 
   Widget _renderPinField({
-    @required int? index,
+    int? index,
   }) {
     assert(index != null);
 
@@ -864,25 +864,24 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
                         if (data?.text?.isNotEmpty ?? false) {
                           if (widget.beforeTextPaste != null) {
                             if (widget.beforeTextPaste!(data!.text)) {
-                              widget.showPasteConfirmationDialog ? _showPasteDialog(data.text!) : _paste(data.text!);
+                              widget.showPasteConfirmationDialog
+                                  ? _showPasteDialog(data.text!)
+                                  : _paste(data.text!);
                             }
                           } else {
-                            widget.showPasteConfirmationDialog ? _showPasteDialog(data!.text!) : _paste(data!.text!);
+                            widget.showPasteConfirmationDialog
+                                ? _showPasteDialog(data!.text!)
+                                : _paste(data!.text!);
                           }
                         }
                       }
-                    } else {
-                      _showPasteDialog(data!.text!);
-                    }
-                  }
-                }
                     : null,
                 child: Row(
                   mainAxisAlignment: widget.mainAxisAlignment,
                   children: _generateFields(),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -897,69 +896,75 @@ class _PinCodeTextFieldState extends State<PinCodeTextField>
     var result = <Widget>[];
     for (int i = 0; i < widget.length; i++) {
       result.add(
-        Container(
-            padding: _pinTheme.fieldOuterPadding,
-            child: AnimatedContainer(
-              curve: widget.animationCurve,
-              duration: widget.animationDuration,
-              width: _pinTheme.fieldWidth,
-              height: _pinTheme.fieldHeight,
-              decoration: BoxDecoration(
-                color: widget.enableActiveFill
-                    ? _getFillColorFromIndex(i)
-                    : Colors.transparent,
-                boxShadow: (_pinTheme.activeBoxShadows != null ||
-                    _pinTheme.inActiveBoxShadows != null)
-                    ? _getBoxShadowFromIndex(i)
-                    : widget.boxShadows,
-                shape: _pinTheme.shape == PinCodeFieldShape.circle
-                    ? BoxShape.circle
-                    : BoxShape.rectangle,
-                borderRadius: borderRadius,
-                border: _pinTheme.shape == PinCodeFieldShape.underline
-                    ? Border(
-                  bottom: BorderSide(
-                    color: _getColorFromIndex(i),
-                    width: _getBorderWidthForIndex(i),
-                  ),
-                )
-                    : Border.all(
-                  color: _getColorFromIndex(i),
-                  width: _getBorderWidthForIndex(i),
-                ),
-              ),
-              child: Center(
-                child: AnimatedSwitcher(
-                  switchInCurve: widget.animationCurve,
-                  switchOutCurve: widget.animationCurve,
+        Semantics(
+            identifier: "otp_digit_$i",
+            onTap: () {
+              if (widget.onTap != null) widget.onTap!();
+              _onFocus();
+            },
+            child: Container(
+                padding: _pinTheme.fieldOuterPadding,
+                child: AnimatedContainer(
+                  curve: widget.animationCurve,
                   duration: widget.animationDuration,
-                  transitionBuilder: (child, animation) {
-                    if (widget.animationType == AnimationType.scale) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
-                    } else if (widget.animationType == AnimationType.fade) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    } else if (widget.animationType == AnimationType.none) {
-                      return child;
-                    } else {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0, .5),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: child,
-                      );
-                    }
-                  },
-                  child: buildChild(i),
-                ),
-              ),
-            )),
+                  width: _pinTheme.fieldWidth,
+                  height: _pinTheme.fieldHeight,
+                  decoration: BoxDecoration(
+                    color: widget.enableActiveFill
+                        ? _getFillColorFromIndex(i)
+                        : Colors.transparent,
+                    boxShadow: (_pinTheme.activeBoxShadows != null ||
+                            _pinTheme.inActiveBoxShadows != null)
+                        ? _getBoxShadowFromIndex(i)
+                        : widget.boxShadows,
+                    shape: _pinTheme.shape == PinCodeFieldShape.circle
+                        ? BoxShape.circle
+                        : BoxShape.rectangle,
+                    borderRadius: borderRadius,
+                    border: _pinTheme.shape == PinCodeFieldShape.underline
+                        ? Border(
+                            bottom: BorderSide(
+                              color: _getColorFromIndex(i),
+                              width: _getBorderWidthForIndex(i),
+                            ),
+                          )
+                        : Border.all(
+                            color: _getColorFromIndex(i),
+                            width: _getBorderWidthForIndex(i),
+                          ),
+                  ),
+                  child: Center(
+                    child: AnimatedSwitcher(
+                      switchInCurve: widget.animationCurve,
+                      switchOutCurve: widget.animationCurve,
+                      duration: widget.animationDuration,
+                      transitionBuilder: (child, animation) {
+                        if (widget.animationType == AnimationType.scale) {
+                          return ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          );
+                        } else if (widget.animationType == AnimationType.fade) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        } else if (widget.animationType == AnimationType.none) {
+                          return child;
+                        } else {
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0, .5),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        }
+                      },
+                      child: buildChild(i),
+                    ),
+                  ),
+                ))),
       );
       if (widget.separatorBuilder != null && i != widget.length - 1) {
         result.add(widget.separatorBuilder!(context, i));

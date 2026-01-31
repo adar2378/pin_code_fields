@@ -1,0 +1,20 @@
+appId: com.example.pin_code_fields_example
+---
+- tapOn: 
+    id: otp_digit_0
+- inputText: 1
+- tapOn: 
+    id: otp_digit_1
+- inputText: 2
+- tapOn: 
+    id: otp_digit_2
+- inputText: 3
+- tapOn: 
+    id: otp_digit_3
+- inputText: 4
+- tapOn: 
+    id: otp_digit_4
+- inputText: 5
+- tapOn: 
+    id: otp_digit_5
+- inputText: 6
