@@ -1,3 +1,7 @@
+## 9.2.0
+
+ - **FIX**: reorder inputFormatters so user formatters run before length limit.
+
 # Changelog
 
 ## [9.1.0] - Theme Extension & Material Form Field

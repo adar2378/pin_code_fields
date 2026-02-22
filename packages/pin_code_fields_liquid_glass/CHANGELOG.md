@@ -1,3 +1,9 @@
+## 0.1.0-dev.2
+
+ - **REFACTOR**: fix example app related linter issues.
+ - **FEAT**: add form field for liquid glass package.
+ - **FEAT**: init liquid glass inputs.
+
 # Changelog
 
 ## 0.1.0-dev.1
