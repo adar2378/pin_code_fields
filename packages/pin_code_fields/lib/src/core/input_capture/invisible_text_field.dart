@@ -135,13 +135,15 @@ class InvisibleTextField extends StatelessWidget {
 
   List<TextInputFormatter> _buildInputFormatters() {
     return [
-      // Length limit applied first
-      LengthLimitingTextInputFormatter(length),
-      // Custom formatters
+      // User formatters run first so they can normalise pasted text
+      // (e.g. strip whitespace from "12 34 56") before the length limit
+      // or digits-only filter discard characters.
       ...?inputFormatters,
       // Digits-only filter if numeric keyboard
       if (keyboardType == TextInputType.number)
         FilteringTextInputFormatter.digitsOnly,
+      // Length limit applied last so it counts only the final characters
+      LengthLimitingTextInputFormatter(length),
     ];
   }
 }
