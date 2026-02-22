@@ -268,10 +268,10 @@ User Types → Invisible EditableText → TextEditingController
 
 ### Input Formatting Order
 
-In `InvisibleTextField`:
-1. `LengthLimitingTextInputFormatter(length)` - Applied FIRST
-2. Custom user-provided formatters (`inputFormatters`)
-3. `FilteringTextInputFormatter.digitsOnly` - Applied if `keyboardType == TextInputType.number`
+In `InvisibleTextField._buildInputFormatters()`:
+1. Custom user-provided formatters (`inputFormatters`) - Applied FIRST so they can normalise pasted text (e.g. strip whitespace)
+2. `FilteringTextInputFormatter.digitsOnly` - Applied if `keyboardType == TextInputType.number`
+3. `LengthLimitingTextInputFormatter(length)` - Applied LAST so it counts only the final characters
 
 ### Blink Effect for Obscured Text
 

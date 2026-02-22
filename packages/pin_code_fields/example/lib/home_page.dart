@@ -28,6 +28,7 @@ import 'demos/customization/text_gradient_demo.dart';
 import 'demos/interactions/clipboard_demo.dart';
 import 'demos/interactions/form_validation_demo.dart';
 import 'demos/interactions/autofill_demo.dart';
+import 'demos/interactions/custom_formatters_demo.dart';
 
 // Playground
 import 'playground/playground_page.dart';
@@ -316,6 +317,10 @@ class _FeaturesTab extends StatelessWidget {
             _FeatureItem(
               title: 'Autofill & SMS',
               page: const AutofillDemo(),
+            ),
+            _FeatureItem(
+              title: 'Custom Input Formatters',
+              page: const CustomFormattersDemo(),
             ),
           ],
         ),
