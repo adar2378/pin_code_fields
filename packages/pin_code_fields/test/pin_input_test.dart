@@ -1,5 +1,6 @@
 import 'dart:ui' show SemanticsFlag;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -191,6 +192,122 @@ void main() {
       await tester.pump();
 
       expect(capturedCells!.every((c) => c.isFilled), true);
+    });
+
+    group('Input Formatters', () {
+      testWidgets('whitespace-stripping formatter allows full paste',
+          (tester) async {
+        String? changedValue;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 6,
+                autoFocus: true,
+                inputFormatters: [_WhitespaceRemovingFormatter()],
+                builder: (context, cells) => Row(
+                  children:
+                      cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+                onChanged: (value) => changedValue = value,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '12 34 56');
+        await tester.pump();
+
+        expect(changedValue, '123456');
+      });
+
+      testWidgets(
+          'whitespace-stripping formatter works with numeric keyboard',
+          (tester) async {
+        String? changedValue;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                autoFocus: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [_WhitespaceRemovingFormatter()],
+                builder: (context, cells) => Row(
+                  children:
+                      cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+                onChanged: (value) => changedValue = value,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '1 2 3 4');
+        await tester.pump();
+
+        expect(changedValue, '1234');
+      });
+
+      testWidgets('uppercase formatter converts text', (tester) async {
+        String? changedValue;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 6,
+                autoFocus: true,
+                keyboardType: TextInputType.text,
+                inputFormatters: [_UppercaseFormatter()],
+                builder: (context, cells) => Row(
+                  children:
+                      cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+                onChanged: (value) => changedValue = value,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), 'abcdef');
+        await tester.pump();
+
+        expect(changedValue, 'ABCDEF');
+      });
+
+      testWidgets('digits-only filter works without custom formatters',
+          (tester) async {
+        String? changedValue;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                autoFocus: true,
+                keyboardType: TextInputType.number,
+                builder: (context, cells) => Row(
+                  children:
+                      cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+                onChanged: (value) => changedValue = value,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '12ab34');
+        await tester.pump();
+
+        expect(changedValue, '1234');
+      });
     });
 
     group('Semantics', () {
@@ -410,4 +527,34 @@ void main() {
       });
     });
   });
+}
+
+// ── Test helpers ────────────────────────────────────────────────────────────
+
+class _WhitespaceRemovingFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final stripped = newValue.text.replaceAll(RegExp(r'\s'), '');
+    return newValue.copyWith(
+      text: stripped,
+      selection: TextSelection.collapsed(offset: stripped.length),
+    );
+  }
+}
+
+class _UppercaseFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final upper = newValue.text.toUpperCase();
+    return newValue.copyWith(
+      text: upper,
+      selection: TextSelection.collapsed(offset: upper.length),
+    );
+  }
 }
