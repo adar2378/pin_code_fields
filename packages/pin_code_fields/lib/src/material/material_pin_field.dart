@@ -77,6 +77,7 @@ class MaterialPinField extends StatefulWidget {
     this.separatorBuilder,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.mainAxisSize = MainAxisSize.min,
     // Cursor
     this.mouseCursor,
     // Keyboard
@@ -253,6 +254,12 @@ class MaterialPinField extends StatefulWidget {
   ///
   /// Defaults to [CrossAxisAlignment.center].
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// How much horizontal space the row of cells should occupy.
+  ///
+  /// Defaults to [MainAxisSize.min], which sizes the row to fit the cells.
+  /// Use [MainAxisSize.max] to expand the row to fill available space.
+  final MainAxisSize mainAxisSize;
 
   /// The mouse cursor to show when hovering over the widget.
   ///
@@ -437,6 +444,7 @@ class _MaterialPinFieldState extends State<MaterialPinField>
           separatorBuilder: widget.separatorBuilder,
           mainAxisAlignment: widget.mainAxisAlignment,
           crossAxisAlignment: widget.crossAxisAlignment,
+          mainAxisSize: widget.mainAxisSize,
         );
       },
     );

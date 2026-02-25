@@ -102,6 +102,7 @@ class MaterialPinFormField extends FormField<String> {
     this.separatorBuilder,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.mainAxisSize = MainAxisSize.min,
     // Cursor
     this.mouseCursor,
     // Keyboard
@@ -244,6 +245,12 @@ class MaterialPinFormField extends FormField<String> {
 
   /// How the cells should be aligned vertically.
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// How much horizontal space the row of cells should occupy.
+  ///
+  /// Defaults to [MainAxisSize.min], which sizes the row to fit the cells.
+  /// Use [MainAxisSize.max] to expand the row to fill available space.
+  final MainAxisSize mainAxisSize;
 
   /// The mouse cursor to show when hovering over the widget.
   final MouseCursor? mouseCursor;
@@ -392,6 +399,7 @@ class _MaterialPinFormFieldState extends FormFieldState<String>
           separatorBuilder: widget.separatorBuilder,
           mainAxisAlignment: widget.mainAxisAlignment,
           crossAxisAlignment: widget.crossAxisAlignment,
+          mainAxisSize: widget.mainAxisSize,
         );
       },
     );

@@ -21,6 +21,7 @@ class MaterialPinRow extends StatelessWidget {
     this.separatorBuilder,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.mainAxisSize = MainAxisSize.min,
   });
 
   /// List of cell data for each PIN position.
@@ -60,10 +61,19 @@ class MaterialPinRow extends StatelessWidget {
   /// How the cells should be aligned vertically.
   final CrossAxisAlignment crossAxisAlignment;
 
+  /// How much horizontal space the row should occupy.
+  ///
+  /// Defaults to [MainAxisSize.min], which makes the row wrap its contents
+  /// and take up only as much horizontal space as needed by the cells and
+  /// separators. Use [MainAxisSize.max] when you want the row to expand to
+  /// fill the available horizontal space, for example to have the cells
+  /// distributed across the full width of their parent.
+  final MainAxisSize mainAxisSize;
+
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: mainAxisSize,
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
       children: _buildChildren(context),
