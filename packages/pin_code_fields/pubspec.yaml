@@ -1,6 +1,6 @@
 name: pin_code_fields
 description: A highly customizable PIN/OTP input field for Flutter with Material Design support and headless core for custom UIs.
-version: 9.2.0
+version: 9.3.0
 homepage: https://github.com/adar2378/pin_code_fields
 repository: https://github.com/adar2378/pin_code_fields
 issue_tracker: https://github.com/adar2378/pin_code_fields/issues

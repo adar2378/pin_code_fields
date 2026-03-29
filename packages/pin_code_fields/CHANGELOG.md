@@ -1,3 +1,12 @@
+## 9.3.0
+
+ - **FEAT**: add `semanticHintBuilder` parameter for customizable accessibility hints.
+   - Enables localization of screen reader hints to different languages
+   - Supports custom terminology (e.g., "characters" instead of "digits")
+   - Allows static hints for context-specific guidance
+   - Maintains backward compatibility with default English hints
+   - Fixes #424
+
 ## 9.2.0
 
  - **FIX**: reorder inputFormatters so user formatters run before length limit.
