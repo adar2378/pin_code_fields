@@ -18,6 +18,15 @@ typedef PinCellBuilder = Widget Function(
   List<PinCellData> cells,
 );
 
+/// Builder function for custom semantic hint messages.
+///
+/// Receives the current filled count and total length to build
+/// a dynamic accessibility hint.
+typedef SemanticHintBuilder = String Function(
+  int filledCount,
+  int totalLength,
+);
+
 /// Headless PIN input widget.
 ///
 /// This widget captures keyboard input and manages PIN state but delegates
@@ -88,6 +97,7 @@ class PinInput extends StatefulWidget {
     this.autofillContextAction = AutofillContextAction.commit,
     // Semantics
     this.semanticLabel,
+    this.semanticHintBuilder,
   })  : assert(length > 0, 'Length must be greater than 0'),
         assert(
           obscuringCharacter.length > 0,
@@ -319,6 +329,57 @@ class PinInput extends StatefulWidget {
   /// )
   /// ```
   final String? semanticLabel;
+
+  /// Builder for custom semantic hint messages.
+  ///
+  /// This allows customization of the accessibility hint announced by screen
+  /// readers, which is useful for:
+  /// - **Localization**: Translate hints to different languages
+  /// - **Custom terminology**: Use "characters" instead of "digits"
+  /// - **Context-specific guidance**: Provide custom instructions
+  ///
+  /// The builder receives:
+  /// - `filledCount`: Number of cells currently filled
+  /// - `totalLength`: Total number of cells in the PIN field
+  ///
+  /// If not provided, defaults to English hints like:
+  /// - "Enter 3 more digits" (when incomplete)
+  /// - "PIN complete" (when filled)
+  ///
+  /// Example - Localization:
+  /// ```dart
+  /// PinInput(
+  ///   length: 6,
+  ///   semanticHintBuilder: (filled, total) {
+  ///     final remaining = total - filled;
+  ///     return remaining > 0
+  ///         ? 'Introduzca $remaining ${remaining == 1 ? 'dígito' : 'dígitos'} más'
+  ///         : 'PIN completo';
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// Example - Custom terminology:
+  /// ```dart
+  /// PinInput(
+  ///   length: 4,
+  ///   semanticHintBuilder: (filled, total) {
+  ///     final remaining = total - filled;
+  ///     return remaining > 0
+  ///         ? 'Enter $remaining more ${remaining == 1 ? 'character' : 'characters'}'
+  ///         : 'Code complete';
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// Example - Static hint:
+  /// ```dart
+  /// PinInput(
+  ///   length: 6,
+  ///   semanticHintBuilder: (_, __) => 'Enter your security code',
+  /// )
+  /// ```
+  final SemanticHintBuilder? semanticHintBuilder;
 
   @override
   State<PinInput> createState() => _PinInputState();
@@ -880,9 +941,12 @@ class _PinInputState extends State<PinInput>
     final semanticValue = widget.obscureText
         ? '●' * filledCount // Don't reveal obscured text
         : currentText;
-    final semanticHint = filledCount < widget.length
-        ? 'Enter ${widget.length - filledCount} more ${widget.length - filledCount == 1 ? 'digit' : 'digits'}'
-        : 'PIN complete';
+
+    // Use custom hint builder if provided, otherwise use default
+    final semanticHint = widget.semanticHintBuilder?.call(filledCount, widget.length) ??
+        (filledCount < widget.length
+            ? 'Enter ${widget.length - filledCount} more ${widget.length - filledCount == 1 ? 'digit' : 'digits'}'
+            : 'PIN complete');
 
     return Semantics(
       label: widget.semanticLabel ?? '${widget.length}-digit PIN code field',

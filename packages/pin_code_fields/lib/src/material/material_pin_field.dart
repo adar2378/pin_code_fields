@@ -89,6 +89,7 @@ class MaterialPinField extends StatefulWidget {
     this.errorTextStyle,
     // Accessibility
     this.semanticLabel,
+    this.semanticHintBuilder,
   }) : assert(length > 0, 'Length must be greater than 0');
 
   /// Number of PIN cells.
@@ -324,6 +325,14 @@ class MaterialPinField extends StatefulWidget {
   /// ```
   final String? semanticLabel;
 
+  /// Builder for custom semantic hint messages.
+  ///
+  /// Allows customization of the accessibility hint for localization,
+  /// custom terminology, or context-specific guidance.
+  ///
+  /// See [PinInput.semanticHintBuilder] for detailed documentation and examples.
+  final SemanticHintBuilder? semanticHintBuilder;
+
   @override
   State<MaterialPinField> createState() => _MaterialPinFieldState();
 }
@@ -432,6 +441,7 @@ class _MaterialPinFieldState extends State<MaterialPinField>
       keyboardAppearance: widget.keyboardAppearance,
       scrollPadding: widget.scrollPadding,
       semanticLabel: widget.semanticLabel,
+      semanticHintBuilder: widget.semanticHintBuilder,
       builder: (context, cells) {
         return MaterialPinRow(
           cells: cells,

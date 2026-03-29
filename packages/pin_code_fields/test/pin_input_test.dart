@@ -525,6 +525,154 @@ void main() {
         // ignore: deprecated_member_use
         expect(semantics.hasFlag(SemanticsFlag.isEnabled), false);
       });
+
+      testWidgets('uses custom semanticHintBuilder for dynamic hints',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                autoFocus: true,
+                semanticHintBuilder: (filled, total) {
+                  final remaining = total - filled;
+                  return remaining > 0
+                      ? 'Enter $remaining more ${remaining == 1 ? 'character' : 'characters'}'
+                      : 'Code complete';
+                },
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        Finder findPinSemantics() => find.byWidgetPredicate((widget) {
+              if (widget is Semantics) {
+                return widget.properties.label?.contains('PIN code field') ??
+                    false;
+              }
+              return false;
+            });
+
+        // Initially empty - should use custom hint
+        var semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Enter 4 more characters');
+
+        // Enter 3 characters
+        await tester.enterText(find.byType(EditableText), '123');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Enter 1 more character');
+
+        // Complete
+        await tester.enterText(find.byType(EditableText), '1234');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Code complete');
+      });
+
+      testWidgets('uses custom semanticHintBuilder for static hint',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                autoFocus: true,
+                semanticHintBuilder: (_, __) => 'Enter your security code',
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        Finder findPinSemantics() => find.byWidgetPredicate((widget) {
+              if (widget is Semantics) {
+                return widget.properties.label?.contains('PIN code field') ??
+                    false;
+              }
+              return false;
+            });
+
+        // Should use static custom hint regardless of filled count
+        var semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Enter your security code');
+
+        // Enter some digits
+        await tester.enterText(find.byType(EditableText), '12');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Enter your security code');
+
+        // Complete
+        await tester.enterText(find.byType(EditableText), '1234');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Enter your security code');
+      });
+
+      testWidgets('uses custom semanticHintBuilder for localization',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 6,
+                autoFocus: true,
+                semanticHintBuilder: (filled, total) {
+                  final remaining = total - filled;
+                  return remaining > 0
+                      ? 'Introduzca $remaining ${remaining == 1 ? 'dígito' : 'dígitos'} más'
+                      : 'PIN completo';
+                },
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        Finder findPinSemantics() => find.byWidgetPredicate((widget) {
+              if (widget is Semantics) {
+                return widget.properties.label?.contains('PIN code field') ??
+                    false;
+              }
+              return false;
+            });
+
+        // Initially empty - Spanish hint
+        var semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Introduzca 6 dígitos más');
+
+        // Enter 5 digits
+        await tester.enterText(find.byType(EditableText), '12345');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'Introduzca 1 dígito más');
+
+        // Complete
+        await tester.enterText(find.byType(EditableText), '123456');
+        await tester.pump();
+
+        semantics = tester.getSemantics(findPinSemantics());
+        expect(semantics.hint, 'PIN completo');
+      });
     });
   });
 }
