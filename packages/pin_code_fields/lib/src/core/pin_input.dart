@@ -942,11 +942,13 @@ class _PinInputState extends State<PinInput>
         ? '●' * filledCount // Don't reveal obscured text
         : currentText;
 
-    // Use custom hint builder if provided, otherwise use default
-    final semanticHint = widget.semanticHintBuilder?.call(filledCount, widget.length) ??
-        (filledCount < widget.length
-            ? 'Enter ${widget.length - filledCount} more ${widget.length - filledCount == 1 ? 'digit' : 'digits'}'
-            : 'PIN complete');
+    // Suppress hint when disabled so the platform can announce "dimmed" unobstructed.
+    final semanticHint = widget.enabled
+        ? (widget.semanticHintBuilder?.call(filledCount, widget.length) ??
+            (filledCount < widget.length
+                ? 'Enter ${widget.length - filledCount} more ${widget.length - filledCount == 1 ? 'digit' : 'digits'}'
+                : 'PIN complete'))
+        : null;
 
     return Semantics(
       label: widget.semanticLabel ?? '${widget.length}-digit PIN code field',
@@ -954,7 +956,7 @@ class _PinInputState extends State<PinInput>
       hint: semanticHint,
       textField: true,
       enabled: widget.enabled,
-      focused: _focusNode.hasFocus,
+      focused: widget.enabled && _focusNode.hasFocus,
       obscured: widget.obscureText,
       child: content,
     );
