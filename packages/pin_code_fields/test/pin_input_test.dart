@@ -526,6 +526,140 @@ void main() {
         expect(semantics.hasFlag(SemanticsFlag.isEnabled), false);
       });
 
+      testWidgets('suppresses semantic hint when disabled', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 6,
+                enabled: false,
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        final semanticsFinder = find.byWidgetPredicate((widget) {
+          if (widget is Semantics) {
+            return widget.properties.label?.contains('PIN code field') ?? false;
+          }
+          return false;
+        });
+        final semantics = tester.getSemantics(semanticsFinder);
+        // Hint must be absent so the platform can announce "dimmed" cleanly.
+        expect(semantics.hint, isEmpty);
+      });
+
+      testWidgets('suppresses semantic hint when disabled with pre-filled value',
+          (tester) async {
+        final controller = PinInputController(text: '1234');
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                enabled: false,
+                pinController: controller,
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        final semanticsFinder = find.byWidgetPredicate((widget) {
+          if (widget is Semantics) {
+            return widget.properties.label?.contains('PIN code field') ?? false;
+          }
+          return false;
+        });
+        final semantics = tester.getSemantics(semanticsFinder);
+        // "PIN complete" hint must also be suppressed when disabled.
+        expect(semantics.hint, isEmpty);
+      });
+
+      testWidgets('suppresses custom semanticHintBuilder when disabled',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 4,
+                enabled: false,
+                semanticHintBuilder: (_, __) => 'Enter your security code',
+                builder: (context, cells) => Row(
+                  children: cells.map((c) => Text(c.character ?? '-')).toList(),
+                ),
+              ),
+            ),
+          ),
+        );
+
+        final semanticsFinder = find.byWidgetPredicate((widget) {
+          if (widget is Semantics) {
+            return widget.properties.label?.contains('PIN code field') ?? false;
+          }
+          return false;
+        });
+        final semantics = tester.getSemantics(semanticsFinder);
+        // Custom hint builder output must be suppressed too.
+        expect(semantics.hint, isEmpty);
+      });
+
+      testWidgets(
+          'does not report focused state when field is disabled after focus',
+          (tester) async {
+        bool enabled = true;
+
+        await tester.pumpWidget(
+          StatefulBuilder(
+            builder: (context, setState) => MaterialApp(
+              home: Scaffold(
+                body: Column(
+                  children: [
+                    PinInput(
+                      length: 4,
+                      enabled: enabled,
+                      autoFocus: true,
+                      builder: (context, cells) => Row(
+                        children:
+                            cells.map((c) => Text(c.character ?? '-')).toList(),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => setState(() => enabled = false),
+                      child: const Text('Disable'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump();
+
+        // Disable the field while it potentially has focus.
+        await tester.tap(find.text('Disable'));
+        await tester.pump();
+
+        final semanticsFinder = find.byWidgetPredicate((widget) {
+          if (widget is Semantics) {
+            return widget.properties.label?.contains('PIN code field') ?? false;
+          }
+          return false;
+        });
+        final semantics = tester.getSemantics(semanticsFinder);
+        // ignore: deprecated_member_use
+        expect(semantics.hasFlag(SemanticsFlag.isFocused), false);
+      });
+
       testWidgets('uses custom semanticHintBuilder for dynamic hints',
           (tester) async {
         await tester.pumpWidget(
