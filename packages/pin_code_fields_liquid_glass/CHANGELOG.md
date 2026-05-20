@@ -1,3 +1,7 @@
+## 0.1.0-dev.3
+
+ - Update a dependency to the latest release.
+
 ## 0.1.0-dev.2
 
  - **REFACTOR**: fix example app related linter issues.

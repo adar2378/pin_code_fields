@@ -1,6 +1,6 @@
 name: pin_code_fields_liquid_glass
 description: iOS 26 Liquid Glass styled PIN input field for Flutter. Built on pin_code_fields with GPU-accelerated glass effects.
-version: 0.1.0-dev.2
+version: 0.1.0-dev.3
 homepage: https://github.com/adar2378/pin_code_fields
 repository: https://github.com/adar2378/pin_code_fields
 issue_tracker: https://github.com/adar2378/pin_code_fields/issues
@@ -33,7 +33,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  pin_code_fields: ^9.2.0
+  pin_code_fields: ^9.4.0
   liquid_glass_renderer: ^0.2.0-dev.4
 
 dev_dependencies:

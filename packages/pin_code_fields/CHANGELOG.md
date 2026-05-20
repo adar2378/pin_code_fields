@@ -1,3 +1,13 @@
+## 9.4.0
+
+ - **FIX**: suppress semantic hint and focused state when disabled (#427).
+ - **FIX**: reorder inputFormatters so user formatters run before length limit.
+ - **FIX**: reorder inputFormatters so user formatters run before length limit.
+ - **FEAT**: add semanticHintBuilder for customizable accessibility hints.
+ - **FEAT**: add custom input formatters demo.
+ - **FEAT**: add mainAxisSize property for flexible sizing.
+ - **FEAT**: add custom input formatters demo.
+
 ## 9.3.0
 
  - **FEAT**: add `semanticHintBuilder` parameter for customizable accessibility hints.
