@@ -1,3 +1,19 @@
+## 10.0.0
+
+### Breaking Changes ⚠️
+
+Migrate to Flutter 3.47's standalone design-system packages.
+
+- **Material / Cupertino imports**: `package:flutter/material.dart` and `package:flutter/cupertino.dart` are replaced with `package:material_ui/material_ui.dart` and `package:cupertino_ui/cupertino_ui.dart`.
+- **New dependencies**: `material_ui` and `cupertino_ui` (the Flutter SDK still ships the old libraries in 3.47, but they are scheduled for deprecation).
+- **Minimum SDK**: Dart `^3.12.0`, Flutter `>=3.44.0` (tested on Flutter 3.47.1 / Dart 3.13.1).
+
+Apps that still import `package:flutter/material.dart` should either migrate with `dart fix --apply --code=migrate_design_widgets`, or wrap mixed trees with `MaterialUiCompatibilityBridge`. See [migration/10.0.0/MIGRATION_GUIDE.md](migration/10.0.0/MIGRATION_GUIDE.md).
+
+### Features ✨
+
+- **Flutter 3.47 support**: PIN fields now use the pub.dev `material_ui` / `cupertino_ui` 1.0 packages so Material types (`ThemeData`, `ColorScheme`, selection handles, context menus) stay in sync with the decoupled design system.
+
 ## 9.4.0
 
  - **FIX**: suppress semantic hint and focused state when disabled (#427).
