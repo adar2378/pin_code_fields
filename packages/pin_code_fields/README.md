@@ -66,12 +66,22 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  pin_code_fields: ^9.0.0
+  pin_code_fields: ^10.0.0
+  material_ui: ^1.0.0
+```
+
+Requires **Flutter 3.44+** (tested on **Flutter 3.47**). `pin_code_fields` now depends on the standalone [`material_ui`](https://pub.dev/packages/material_ui) and [`cupertino_ui`](https://pub.dev/packages/cupertino_ui) packages introduced in Flutter 3.47.
+
+If you are still on `package:flutter/material.dart`, run:
+
+```bash
+dart fix --apply --code=migrate_design_widgets
 ```
 
 ### Quick Start - Material Design
 
 ```dart
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 MaterialPinField(
@@ -91,6 +101,7 @@ MaterialPinField(
 For complete control over the UI, use the headless `PinInput`:
 
 ```dart
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 PinInput(
@@ -412,6 +423,17 @@ PinCellData(
   isBlinking: false,  // Showing real char before obscure
 )
 ```
+
+## Migration from v9.x 🔄
+
+v10.0.0 is a **major** release for Flutter 3.47: Material and Cupertino now live in standalone packages.
+
+1. Upgrade Flutter (`flutter upgrade` to 3.47, or at least 3.44).
+2. Bump the dependency to `pin_code_fields: ^10.0.0` and add `material_ui: ^1.0.0`.
+3. Replace `package:flutter/material.dart` with `package:material_ui/material_ui.dart` (`dart fix --apply --code=migrate_design_widgets`).
+4. If some of your dependencies still use the SDK Material library, wrap the app with `MaterialUiCompatibilityBridge`.
+
+📖 **Full migration guide**: [migration/10.0.0/MIGRATION_GUIDE.md](https://github.com/adar2378/pin_code_fields/blob/main/packages/pin_code_fields/migration/10.0.0/MIGRATION_GUIDE.md)
 
 ## Migration from v8.x 🔄
 

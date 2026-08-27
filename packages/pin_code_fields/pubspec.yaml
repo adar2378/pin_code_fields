@@ -1,6 +1,6 @@
 name: pin_code_fields
 description: A highly customizable PIN/OTP input field for Flutter with Material Design support and headless core for custom UIs.
-version: 9.4.0
+version: 10.0.0
 homepage: https://github.com/adar2378/pin_code_fields
 repository: https://github.com/adar2378/pin_code_fields
 issue_tracker: https://github.com/adar2378/pin_code_fields/issues
@@ -13,15 +13,15 @@ topics:
   - input
 
 screenshots:
-  - description: 'OTP Verification - Outlined style with gradient background'
+  - description: "OTP Verification - Outlined style with gradient background"
     path: screenshots/outlined.png
-  - description: 'Payment Confirmation - Obscured PIN with dark theme'
+  - description: "Payment Confirmation - Obscured PIN with dark theme"
     path: screenshots/filled.png
-  - description: 'Creative Animations - Multiple animation styles'
+  - description: "Creative Animations - Multiple animation styles"
     path: screenshots/underlined.png
-  - description: 'Custom Cursors - Various cursor styles'
+  - description: "Custom Cursors - Various cursor styles"
     path: screenshots/cursors.png
-  - description: 'Text Gradients - Rainbow and gold gradients'
+  - description: "Text Gradients - Rainbow and gold gradients"
     path: screenshots/gradient_texts.png
 
 platforms:
@@ -33,14 +33,17 @@ platforms:
   windows:
 
 environment:
-  sdk: ^3.5.0
-  flutter: ">=3.0.0"
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.0.0
+  cupertino_ui: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+
