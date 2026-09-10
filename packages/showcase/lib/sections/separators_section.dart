@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/section_title.dart';
@@ -96,9 +96,7 @@ class _SeparatorDemoState extends State<_SeparatorDemo> {
           color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isDark
-                ? const Color(0xFF2A2A3E)
-                : const Color(0xFFE5E7EB),
+            color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
           ),
           boxShadow: _hovered
               ? [
@@ -116,9 +114,9 @@ class _SeparatorDemoState extends State<_SeparatorDemo> {
             const SizedBox(height: 16),
             Text(
               widget.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 16,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 4),
             Text(
@@ -152,10 +150,7 @@ class _SeparatorDemoState extends State<_SeparatorDemo> {
                 padding: const EdgeInsets.symmetric(horizontal: 6),
                 child: Text(
                   '—',
-                  style: TextStyle(
-                    color: colorScheme.outline,
-                    fontSize: 20,
-                  ),
+                  style: TextStyle(color: colorScheme.outline, fontSize: 20),
                 ),
               );
             }
@@ -216,11 +211,7 @@ class _SeparatorDemoState extends State<_SeparatorDemo> {
             if (index == 2) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Icon(
-                  Icons.lock,
-                  size: 16,
-                  color: colorScheme.outline,
-                ),
+                child: Icon(Icons.lock, size: 16, color: colorScheme.outline),
               );
             }
             return const SizedBox(width: 6);

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/section_title.dart';
@@ -96,8 +96,9 @@ class _NeumorphismDemoState extends State<_NeumorphismDemo> {
           ],
           focusedBoxShadows: [
             BoxShadow(
-              color:
-                  const Color(0xFF6366F1).withValues(alpha: isDark ? 0.3 : 0.2),
+              color: const Color(
+                0xFF6366F1,
+              ).withValues(alpha: isDark ? 0.3 : 0.2),
               blurRadius: 12,
               spreadRadius: 1,
             ),
@@ -284,11 +285,7 @@ class _GoldGradientDemoState extends State<_GoldGradientDemo> {
           borderColor: Colors.amber.shade300,
           focusedBorderColor: Colors.amber.shade600,
           textGradient: const LinearGradient(
-            colors: [
-              Color(0xFFD4AF37),
-              Color(0xFFF5E7A3),
-              Color(0xFFD4AF37),
-            ],
+            colors: [Color(0xFFD4AF37), Color(0xFFF5E7A3), Color(0xFFD4AF37)],
             stops: [0.0, 0.5, 1.0],
           ),
         ),
@@ -383,13 +380,12 @@ class _DemoCardState extends State<_DemoCard> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: widget.backgroundColor ??
+          color:
+              widget.backgroundColor ??
               (isDark ? const Color(0xFF1A1A2E) : Colors.white),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isDark
-                ? const Color(0xFF2A2A3E)
-                : const Color(0xFFE5E7EB),
+            color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
           ),
           boxShadow: _hovered
               ? [
@@ -407,9 +403,9 @@ class _DemoCardState extends State<_DemoCard> {
             const SizedBox(height: 16),
             Text(
               widget.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 16,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 4),
             Text(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/demo_card.dart';
@@ -185,12 +185,14 @@ class _BouncingCellState extends State<_BouncingCell>
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    _scaleAnim = Tween<double>(begin: 1.0, end: 1.15).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-    _bounceAnim = Tween<double>(begin: 0, end: -8).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnim = Tween<double>(
+      begin: 1.0,
+      end: 1.15,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    _bounceAnim = Tween<double>(
+      begin: 0,
+      end: -8,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -217,8 +219,7 @@ class _BouncingCellState extends State<_BouncingCell>
       animation: _controller,
       builder: (context, child) {
         return Transform.translate(
-          offset: Offset(
-              0, widget.cell.isFocused ? _bounceAnim.value : 0),
+          offset: Offset(0, widget.cell.isFocused ? _bounceAnim.value : 0),
           child: Transform.scale(
             scale: widget.cell.isFocused ? _scaleAnim.value : 1.0,
             child: child,
@@ -238,9 +239,7 @@ class _BouncingCellState extends State<_BouncingCell>
                   colors: [colorScheme.primary, colorScheme.secondary],
                 )
               : null,
-          color: widget.cell.isFilled
-              ? null
-              : const Color(0xFF1E1E2E),
+          color: widget.cell.isFilled ? null : const Color(0xFF1E1E2E),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: widget.cell.isFocused
@@ -269,8 +268,8 @@ class _BouncingCellState extends State<_BouncingCell>
                   ),
                 )
               : widget.cell.isFocused
-                  ? _BlinkingCursor()
-                  : null,
+              ? _BlinkingCursor()
+              : null,
         ),
       ),
     );
@@ -334,8 +333,9 @@ class _GlowWaveDemo extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: cells
-              .map((cell) =>
-                  _GlowWaveCell(cell: cell, totalCells: cells.length))
+              .map(
+                (cell) => _GlowWaveCell(cell: cell, totalCells: cells.length),
+              )
               .toList(),
         );
       },
@@ -365,9 +365,10 @@ class _GlowWaveCellState extends State<_GlowWaveCell>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _glowAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _glowAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
   }
 
   @override
@@ -417,7 +418,8 @@ class _GlowWaveCellState extends State<_GlowWaveCell>
                 ? [
                     BoxShadow(
                       color: cellColor.withValues(
-                          alpha: 0.3 + 0.4 * glowIntensity),
+                        alpha: 0.3 + 0.4 * glowIntensity,
+                      ),
                       blurRadius: 8 + 12 * glowIntensity,
                       spreadRadius: 1 + 3 * glowIntensity,
                     ),
@@ -510,15 +512,14 @@ class _MorphingCell extends StatelessWidget {
               color: cell.isFocused
                   ? const Color(0xFF10B981)
                   : cell.isFilled
-                      ? Colors.transparent
-                      : colorScheme.outlineVariant,
+                  ? Colors.transparent
+                  : colorScheme.outlineVariant,
               width: 2,
             ),
             boxShadow: cell.isFilled
                 ? [
                     BoxShadow(
-                      color:
-                          const Color(0xFF10B981).withValues(alpha: 0.4),
+                      color: const Color(0xFF10B981).withValues(alpha: 0.4),
                       blurRadius: 16,
                       spreadRadius: 2,
                     ),
@@ -539,18 +540,14 @@ class _MorphingCell extends StatelessWidget {
                     ),
                   )
                 : cell.isFocused
-                    ? const Icon(
-                        Icons.edit,
-                        color: Color(0xFF10B981),
-                        size: 20,
-                      )
-                    : Text(
-                        '${cell.index + 1}',
-                        style: TextStyle(
-                          color: colorScheme.outline,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                ? const Icon(Icons.edit, color: Color(0xFF10B981), size: 20)
+                : Text(
+                    '${cell.index + 1}',
+                    style: TextStyle(
+                      color: colorScheme.outline,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
           ),
         );
       },

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields_liquid_glass/pin_code_fields_liquid_glass.dart';
 
 import '../components/code_block.dart';
@@ -51,7 +51,8 @@ class LiquidGlassSection extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           const CodeBlock(
-            code: '''import 'package:pin_code_fields_liquid_glass/pin_code_fields_liquid_glass.dart';
+            code:
+                '''import 'package:pin_code_fields_liquid_glass/pin_code_fields_liquid_glass.dart';
 
 LiquidGlassPinField(
   length: 6,
@@ -194,26 +195,28 @@ class _GlassStyleCardState extends State<_GlassStyleCard> {
               padding: const EdgeInsets.all(24),
               child: Column(
                 children: [
-                  LiquidGlassPinField(
-                    length: 4,
-                    pinController: _controller,
-                    theme: _theme,
-                    enableHapticFeedback: false,
+                  // pin_code_fields_liquid_glass still uses SDK
+                  // flutter/material, so bridge the material_ui theme to it.
+                  // ignore: deprecated_member_use
+                  MaterialUiCompatibilityBridge(
+                    child: LiquidGlassPinField(
+                      length: 4,
+                      pinController: _controller,
+                      theme: _theme,
+                      enableHapticFeedback: false,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge?.copyWith(color: Colors.white),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     widget.description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white70,
-                    ),
+                    style: const TextStyle(fontSize: 14, color: Colors.white70),
                     textAlign: TextAlign.center,
                   ),
                 ],

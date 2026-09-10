@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Breakpoints for responsive layout.
 enum Breakpoint { mobile, tablet, desktop }
@@ -13,10 +13,7 @@ Breakpoint getBreakpoint(BuildContext context) {
 
 /// Responsive builder that provides the current breakpoint.
 class ResponsiveBuilder extends StatelessWidget {
-  const ResponsiveBuilder({
-    super.key,
-    required this.builder,
-  });
+  const ResponsiveBuilder({super.key, required this.builder});
 
   final Widget Function(BuildContext context, Breakpoint breakpoint) builder;
 
@@ -68,8 +65,7 @@ class ResponsiveGrid extends StatelessWidget {
             return LayoutBuilder(
               builder: (context, constraints) {
                 final parentWidth = constraints.maxWidth;
-                final itemWidth =
-                    (parentWidth - totalSpacing) / columns;
+                final itemWidth = (parentWidth - totalSpacing) / columns;
                 return SizedBox(
                   width: itemWidth.clamp(0, parentWidth),
                   child: child,

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/section_title.dart';
@@ -93,17 +93,14 @@ class _ShapeDemoState extends State<_ShapeDemo> {
           color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isDark
-                ? const Color(0xFF2A2A3E)
-                : const Color(0xFFE5E7EB),
+            color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
           ),
           boxShadow: _hovered
               ? [
                   BoxShadow(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                     blurRadius: 16,
                     spreadRadius: 1,
                   ),
@@ -128,14 +125,13 @@ class _ShapeDemoState extends State<_ShapeDemo> {
             const SizedBox(height: 16),
             Text(
               widget.label,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 16,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(fontSize: 16),
             ),
             const SizedBox(height: 4),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: isDark
                     ? const Color(0xFF1E1E2E)

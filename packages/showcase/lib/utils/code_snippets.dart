@@ -1,6 +1,7 @@
 /// Code snippets for the showcase code examples section.
 abstract final class CodeSnippets {
-  static const quickStart = '''import 'package:pin_code_fields/pin_code_fields.dart';
+  static const quickStart =
+      '''import 'package:pin_code_fields/pin_code_fields.dart';
 
 MaterialPinField(
   length: 6,
@@ -38,7 +39,8 @@ print(controller.hasError);  // true/false
 // Don't forget to dispose!
 controller.dispose();''';
 
-  static const headless = '''import 'package:pin_code_fields/pin_code_fields.dart';
+  static const headless =
+      '''import 'package:pin_code_fields/pin_code_fields.dart';
 
 PinInput(
   length: 4,
@@ -73,7 +75,8 @@ PinInput(
   onCompleted: (pin) => print('PIN: \$pin'),
 )''';
 
-  static const liquidGlass = '''import 'package:pin_code_fields_liquid_glass/pin_code_fields_liquid_glass.dart';
+  static const liquidGlass =
+      '''import 'package:pin_code_fields_liquid_glass/pin_code_fields_liquid_glass.dart';
 
 // Separate style (individual glass cells)
 LiquidGlassPinField(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'responsive.dart';
 
@@ -61,11 +61,17 @@ class _SectionWrapperState extends State<SectionWrapper>
     final bp = getBreakpoint(context);
     final defaultPadding = switch (bp) {
       Breakpoint.desktop => const EdgeInsets.symmetric(
-          horizontal: 64, vertical: 80),
+        horizontal: 64,
+        vertical: 80,
+      ),
       Breakpoint.tablet => const EdgeInsets.symmetric(
-          horizontal: 40, vertical: 64),
+        horizontal: 40,
+        vertical: 64,
+      ),
       Breakpoint.mobile => const EdgeInsets.symmetric(
-          horizontal: 20, vertical: 48),
+        horizontal: 20,
+        vertical: 48,
+      ),
     };
 
     Widget content = Container(
@@ -92,13 +98,16 @@ class _SectionWrapperState extends State<SectionWrapper>
             curve: Curves.easeOut,
           ),
           child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.05),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: _fadeController,
-              curve: Curves.easeOut,
-            )),
+            position:
+                Tween<Offset>(
+                  begin: const Offset(0, 0.05),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: _fadeController,
+                    curve: Curves.easeOut,
+                  ),
+                ),
             child: content,
           ),
         ),
@@ -110,10 +119,7 @@ class _SectionWrapperState extends State<SectionWrapper>
 }
 
 class _FadeInOnScroll extends StatefulWidget {
-  const _FadeInOnScroll({
-    required this.child,
-    required this.onVisible,
-  });
+  const _FadeInOnScroll({required this.child, required this.onVisible});
 
   final Widget child;
   final ValueChanged<bool> onVisible;
@@ -149,9 +155,6 @@ class _FadeInOnScrollState extends State<_FadeInOnScroll> {
   Widget build(BuildContext context) {
     // Check on every build (triggered by scroll rebuilds)
     WidgetsBinding.instance.addPostFrameCallback((_) => _check());
-    return KeyedSubtree(
-      key: _key,
-      child: widget.child,
-    );
+    return KeyedSubtree(key: _key, child: widget.child);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:web/web.dart' as web;
 
 import 'layout/nav_bar.dart';
@@ -180,15 +180,11 @@ class _ShowcaseHomeState extends State<ShowcaseHome> {
               SliverToBoxAdapter(
                 child: PackagesSection(sectionKey: _packagesKey),
               ),
-              SliverToBoxAdapter(
-                child: ShapesSection(sectionKey: _shapesKey),
-              ),
+              SliverToBoxAdapter(child: ShapesSection(sectionKey: _shapesKey)),
               SliverToBoxAdapter(
                 child: SeparatorsSection(sectionKey: _separatorsKey),
               ),
-              SliverToBoxAdapter(
-                child: ExtrasSection(sectionKey: _extrasKey),
-              ),
+              SliverToBoxAdapter(child: ExtrasSection(sectionKey: _extrasKey)),
               SliverToBoxAdapter(
                 child: AnimationsSection(sectionKey: _animationsKey),
               ),
@@ -207,9 +203,7 @@ class _ShowcaseHomeState extends State<ShowcaseHome> {
               SliverToBoxAdapter(
                 child: InstallSection(sectionKey: _installKey),
               ),
-              const SliverToBoxAdapter(
-                child: FooterSection(),
-              ),
+              const SliverToBoxAdapter(child: FooterSection()),
             ],
           ),
 

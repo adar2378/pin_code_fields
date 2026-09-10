@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/feature_chip.dart';
@@ -103,9 +103,7 @@ class _PackageCardState extends State<_PackageCard> {
           border: Border.all(
             color: _hovered
                 ? widget.color.withValues(alpha: 0.5)
-                : (isDark
-                    ? const Color(0xFF2A2A3E)
-                    : const Color(0xFFE5E7EB)),
+                : (isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB)),
           ),
           boxShadow: [
             BoxShadow(
@@ -140,10 +138,7 @@ class _PackageCardState extends State<_PackageCard> {
               ],
             ),
             const SizedBox(height: 20),
-            Text(
-              widget.title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             Text(
               widget.description,
@@ -202,9 +197,7 @@ class _PackageCardState extends State<_PackageCard> {
             widget.color.withValues(alpha: 0.05),
           ],
         ),
-        border: Border.all(
-          color: widget.color.withValues(alpha: 0.2),
-        ),
+        border: Border.all(color: widget.color.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -217,9 +210,7 @@ class _PackageCardState extends State<_PackageCard> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: widget.color.withValues(alpha: i < 2 ? 0.2 : 0.08),
-              border: Border.all(
-                color: widget.color.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: widget.color.withValues(alpha: 0.3)),
             ),
             child: Center(
               child: i < 2
@@ -253,8 +244,11 @@ class _PackageCardState extends State<_PackageCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.auto_awesome,
-                size: 16, color: widget.color.withValues(alpha: 0.5)),
+            Icon(
+              Icons.auto_awesome,
+              size: 16,
+              color: widget.color.withValues(alpha: 0.5),
+            ),
             const SizedBox(width: 8),
             Text(
               'Stay tuned',

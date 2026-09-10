@@ -3,12 +3,13 @@ description: Web showcase for the pin_code_fields ecosystem
 publish_to: 'none'
 
 environment:
-  sdk: ^3.5.0
-  flutter: ">=3.0.0"
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  material_ui: ^1.0.0
   pin_code_fields:
     path: ../pin_code_fields
   pin_code_fields_liquid_glass:

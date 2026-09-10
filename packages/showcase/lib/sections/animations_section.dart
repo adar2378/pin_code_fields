@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/code_block.dart';
@@ -129,8 +129,7 @@ class _AnimationDemo extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(20),
@@ -164,17 +163,12 @@ class _ErrorShakeDemo extends StatelessWidget {
         color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark
-              ? const Color(0xFF2A2A3E)
-              : const Color(0xFFE5E7EB),
+          color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
         ),
       ),
       child: Column(
         children: [
-          Text(
-            'Error Shake',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          Text('Error Shake', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 8),
           Text(
             'Type a PIN and trigger an error',

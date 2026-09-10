@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Simple regex-based Dart syntax highlighting for code blocks.
 class DartSyntaxHighlighter {
@@ -25,16 +25,81 @@ class DartSyntaxHighlighter {
   final Color propertyColor;
 
   static const _keywords = {
-    'abstract', 'as', 'assert', 'async', 'await', 'break', 'case', 'catch',
-    'class', 'const', 'continue', 'covariant', 'default', 'deferred', 'do',
-    'dynamic', 'else', 'enum', 'export', 'extends', 'extension', 'external',
-    'factory', 'false', 'final', 'finally', 'for', 'Function', 'get', 'hide',
-    'if', 'implements', 'import', 'in', 'interface', 'is', 'late', 'library',
-    'mixin', 'new', 'null', 'on', 'operator', 'part', 'required', 'rethrow',
-    'return', 'sealed', 'set', 'show', 'static', 'super', 'switch', 'sync',
-    'this', 'throw', 'true', 'try', 'typedef', 'var', 'void', 'when', 'while',
-    'with', 'yield', 'override', 'int', 'double', 'String', 'bool', 'List',
-    'Map', 'Set', 'Future', 'Stream',
+    'abstract',
+    'as',
+    'assert',
+    'async',
+    'await',
+    'break',
+    'case',
+    'catch',
+    'class',
+    'const',
+    'continue',
+    'covariant',
+    'default',
+    'deferred',
+    'do',
+    'dynamic',
+    'else',
+    'enum',
+    'export',
+    'extends',
+    'extension',
+    'external',
+    'factory',
+    'false',
+    'final',
+    'finally',
+    'for',
+    'Function',
+    'get',
+    'hide',
+    'if',
+    'implements',
+    'import',
+    'in',
+    'interface',
+    'is',
+    'late',
+    'library',
+    'mixin',
+    'new',
+    'null',
+    'on',
+    'operator',
+    'part',
+    'required',
+    'rethrow',
+    'return',
+    'sealed',
+    'set',
+    'show',
+    'static',
+    'super',
+    'switch',
+    'sync',
+    'this',
+    'throw',
+    'true',
+    'try',
+    'typedef',
+    'var',
+    'void',
+    'when',
+    'while',
+    'with',
+    'yield',
+    'override',
+    'int',
+    'double',
+    'String',
+    'bool',
+    'List',
+    'Map',
+    'Set',
+    'Future',
+    'Stream',
   };
 
   // Regex patterns ordered by priority
@@ -91,29 +156,35 @@ class DartSyntaxHighlighter {
     for (final m in filtered) {
       // Add plain text before this match
       if (m.start > pos) {
-        spans.add(TextSpan(
-          text: code.substring(pos, m.start),
-          style: TextStyle(color: defaultColor),
-        ));
+        spans.add(
+          TextSpan(
+            text: code.substring(pos, m.start),
+            style: TextStyle(color: defaultColor),
+          ),
+        );
       }
 
       // Add colored match
       final text = code.substring(m.start, m.end);
       final color = _colorForPattern(m.patternIndex);
-      spans.add(TextSpan(
-        text: text,
-        style: TextStyle(color: color),
-      ));
+      spans.add(
+        TextSpan(
+          text: text,
+          style: TextStyle(color: color),
+        ),
+      );
 
       pos = m.end;
     }
 
     // Add remaining text
     if (pos < code.length) {
-      spans.add(TextSpan(
-        text: code.substring(pos),
-        style: TextStyle(color: defaultColor),
-      ));
+      spans.add(
+        TextSpan(
+          text: code.substring(pos),
+          style: TextStyle(color: defaultColor),
+        ),
+      );
     }
 
     return TextSpan(children: spans);
@@ -121,14 +192,14 @@ class DartSyntaxHighlighter {
 
   Color _colorForPattern(int index) {
     return switch (index) {
-      0 => commentColor,    // Comments
+      0 => commentColor, // Comments
       1 || 2 => stringColor, // Multi-line strings
       3 || 4 => stringColor, // Strings
-      5 => annotationColor,  // Annotations
-      6 => numberColor,      // Numbers
-      7 => keywordColor,     // Keywords
-      8 => classColor,       // PascalCase (class names)
-      9 => propertyColor,    // Named parameters
+      5 => annotationColor, // Annotations
+      6 => numberColor, // Numbers
+      7 => keywordColor, // Keywords
+      8 => classColor, // PascalCase (class names)
+      9 => propertyColor, // Named parameters
       _ => defaultColor,
     };
   }

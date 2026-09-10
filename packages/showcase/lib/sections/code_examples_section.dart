@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../components/code_block.dart';
 import '../components/section_title.dart';
@@ -114,20 +114,19 @@ class _TabButtonState extends State<_TabButton> {
             color: widget.isActive
                 ? Theme.of(context).colorScheme.primary
                 : (_hovered
-                    ? Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.1)
-                    : (widget.isDark
-                        ? const Color(0xFF1A1A2E)
-                        : const Color(0xFFF3F4F6))),
+                      ? Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.1)
+                      : (widget.isDark
+                            ? const Color(0xFF1A1A2E)
+                            : const Color(0xFFF3F4F6))),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: widget.isActive
                   ? Theme.of(context).colorScheme.primary
                   : (widget.isDark
-                      ? const Color(0xFF2A2A3E)
-                      : const Color(0xFFE5E7EB)),
+                        ? const Color(0xFF2A2A3E)
+                        : const Color(0xFFE5E7EB)),
             ),
           ),
           child: Text(

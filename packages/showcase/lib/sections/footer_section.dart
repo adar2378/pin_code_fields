@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:web/web.dart' as web;
 
 /// Footer with links, credits.
@@ -47,26 +47,24 @@ class FooterSection extends StatelessWidget {
                 children: [
                   _FooterLink(
                     label: 'GitHub',
-                    onTap: () => _openUrl(
-                        'https://github.com/adar2378/pin_code_fields'),
+                    onTap: () =>
+                        _openUrl('https://github.com/adar2378/pin_code_fields'),
                   ),
                   _FooterLink(
                     label: 'pub.dev',
-                    onTap: () => _openUrl(
-                        'https://pub.dev/packages/pin_code_fields'),
+                    onTap: () =>
+                        _openUrl('https://pub.dev/packages/pin_code_fields'),
                   ),
                   _FooterLink(
                     label: 'API Docs',
                     onTap: () => _openUrl(
-                        'https://pub.dev/documentation/pin_code_fields/latest/'),
+                      'https://pub.dev/documentation/pin_code_fields/latest/',
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 32),
-              Container(
-                height: 1,
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
+              Container(height: 1, color: Colors.white.withValues(alpha: 0.1)),
               const SizedBox(height: 24),
               Text(
                 'Built with Flutter',

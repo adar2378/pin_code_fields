@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 
 import '../components/section_title.dart';
@@ -34,7 +34,8 @@ class InstallSection extends StatelessWidget {
                 steps: [
                   _InstallStep(
                     title: '1. Add to pubspec.yaml',
-                    code: 'dependencies:\n  pin_code_fields: ^9.0.0',
+                    code:
+                        'dependencies:\n  pin_code_fields: ^10.0.0\n  material_ui: ^1.0.0',
                   ),
                   _InstallStep(
                     title: '2. Import',
@@ -43,7 +44,8 @@ class InstallSection extends StatelessWidget {
                   ),
                   _InstallStep(
                     title: '3. Use',
-                    code: 'MaterialPinField(\n'
+                    code:
+                        'MaterialPinField(\n'
                         '  length: 6,\n'
                         '  onCompleted: (pin) => print(pin),\n'
                         ')',
@@ -67,7 +69,8 @@ class InstallSection extends StatelessWidget {
                   ),
                   _InstallStep(
                     title: '3. Use',
-                    code: 'LiquidGlassPinField(\n'
+                    code:
+                        'LiquidGlassPinField(\n'
                         '  length: 6,\n'
                         '  theme: LiquidGlassPinTheme.blended(\n'
                         '    blur: 10,\n'
@@ -114,9 +117,7 @@ class _PackageInstall extends StatelessWidget {
         color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark
-              ? const Color(0xFF2A2A3E)
-              : const Color(0xFFE5E7EB),
+          color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
         ),
       ),
       child: Column(
@@ -128,10 +129,7 @@ class _PackageInstall extends StatelessWidget {
               Container(
                 width: 8,
                 height: 8,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                ),
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -178,10 +176,7 @@ class _PackageInstall extends StatelessWidget {
 }
 
 class _CopyableCodeBlock extends StatefulWidget {
-  const _CopyableCodeBlock({
-    required this.code,
-    required this.isDark,
-  });
+  const _CopyableCodeBlock({required this.code, required this.isDark});
 
   final String code;
   final bool isDark;
@@ -244,7 +239,9 @@ class _CopyableCodeBlockState extends State<_CopyableCodeBlock> {
                     size: 14,
                     color: _copied
                         ? const Color(0xFF10B981)
-                        : (widget.isDark ? Colors.white54 : const Color(0xFF9CA3AF)),
+                        : (widget.isDark
+                              ? Colors.white54
+                              : const Color(0xFF9CA3AF)),
                   ),
                 ),
               ),

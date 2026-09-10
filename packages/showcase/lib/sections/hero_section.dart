@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/auto_typing_pin.dart';
@@ -60,8 +60,7 @@ class _HeroSectionState extends State<HeroSection>
                 return CustomPaint(
                   painter: _HeroBgPainter(
                     animation: _bgController.value,
-                    isDark:
-                        Theme.of(context).brightness == Brightness.dark,
+                    isDark: Theme.of(context).brightness == Brightness.dark,
                   ),
                 );
               },
@@ -122,18 +121,19 @@ class _HeroSectionState extends State<HeroSection>
                     runSpacing: 8,
                     alignment: WrapAlignment.center,
                     children: const [
+                      FeatureChip(label: 'v9.0.0', color: Color(0xFF10B981)),
                       FeatureChip(
-                          label: 'v9.0.0',
-                          color: Color(0xFF10B981)),
+                        label: 'Headless Core',
+                        color: Color(0xFF6366F1),
+                      ),
                       FeatureChip(
-                          label: 'Headless Core',
-                          color: Color(0xFF6366F1)),
+                        label: 'Material Design',
+                        color: Color(0xFF8B5CF6),
+                      ),
                       FeatureChip(
-                          label: 'Material Design',
-                          color: Color(0xFF8B5CF6)),
-                      FeatureChip(
-                          label: 'Liquid Glass',
-                          color: Color(0xFFEC4899)),
+                        label: 'Liquid Glass',
+                        color: Color(0xFFEC4899),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 48),
@@ -152,8 +152,9 @@ class _HeroSectionState extends State<HeroSection>
                         borderColor: const Color(0xFF4A4A5E),
                         focusedBorderColor: const Color(0xFF818CF8),
                         fillColor: Colors.white.withValues(alpha: 0.05),
-                        focusedFillColor:
-                            const Color(0xFF6366F1).withValues(alpha: 0.1),
+                        focusedFillColor: const Color(
+                          0xFF6366F1,
+                        ).withValues(alpha: 0.1),
                         textStyle: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -261,9 +262,7 @@ class _FloatingOrb extends StatelessWidget {
         height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: RadialGradient(
-            colors: [color, color.withValues(alpha: 0)],
-          ),
+          gradient: RadialGradient(colors: [color, color.withValues(alpha: 0)]),
         ),
       ),
     );
@@ -333,8 +332,7 @@ class _CtaButtonState extends State<_CtaButton> {
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          padding:
-              const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
           decoration: BoxDecoration(
             gradient: widget.isPrimary
                 ? const LinearGradient(
@@ -347,12 +345,11 @@ class _CtaButtonState extends State<_CtaButton> {
             borderRadius: BorderRadius.circular(12),
             border: widget.isPrimary
                 ? null
-                : Border.all(
-                    color: Colors.white.withValues(alpha: 0.2),
-                  ),
+                : Border.all(color: Colors.white.withValues(alpha: 0.2)),
           ),
-          transform:
-              _hovered ? Matrix4.diagonal3Values(1.03, 1.03, 1.0) : Matrix4.identity(),
+          transform: _hovered
+              ? Matrix4.diagonal3Values(1.03, 1.03, 1.0)
+              : Matrix4.identity(),
           transformAlignment: Alignment.center,
           child: Text(
             widget.label,

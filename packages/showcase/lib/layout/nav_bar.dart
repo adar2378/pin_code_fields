@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'responsive.dart';
 
@@ -142,8 +142,8 @@ class _NavLinkState extends State<_NavLink> {
     final color = widget.isActive
         ? Theme.of(context).colorScheme.primary
         : (_hovered
-            ? (widget.isDark ? Colors.white70 : const Color(0xFF6B7280))
-            : (widget.isDark ? Colors.white54 : const Color(0xFF9CA3AF)));
+              ? (widget.isDark ? Colors.white70 : const Color(0xFF6B7280))
+              : (widget.isDark ? Colors.white54 : const Color(0xFF9CA3AF)));
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -157,8 +157,7 @@ class _NavLinkState extends State<_NavLink> {
             widget.label,
             style: TextStyle(
               fontSize: 13,
-              fontWeight:
-                  widget.isActive ? FontWeight.w600 : FontWeight.w500,
+              fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.w500,
               color: color,
             ),
           ),
@@ -186,8 +185,7 @@ class ShowcaseDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor:
-          isDarkMode ? const Color(0xFF1A1A2E) : Colors.white,
+      backgroundColor: isDarkMode ? const Color(0xFF1A1A2E) : Colors.white,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

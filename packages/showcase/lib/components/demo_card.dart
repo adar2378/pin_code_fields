@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../layout/responsive.dart';
 import 'code_block.dart';
@@ -36,22 +36,17 @@ class _DemoCardState extends State<DemoCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: isDark
-              ? const Color(0xFF1A1A2E)
-              : Colors.white,
+          color: isDark ? const Color(0xFF1A1A2E) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isDark
-                ? const Color(0xFF2A2A3E)
-                : const Color(0xFFE5E7EB),
+            color: isDark ? const Color(0xFF2A2A3E) : const Color(0xFFE5E7EB),
           ),
           boxShadow: _isHovered
               ? [
                   BoxShadow(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                     blurRadius: 20,
                     spreadRadius: 2,
                   ),
@@ -87,7 +82,9 @@ class _DemoCardState extends State<DemoCard> {
                   onTap: () => setState(() => _showCode = !_showCode),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 12),
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
@@ -101,9 +98,7 @@ class _DemoCardState extends State<DemoCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _showCode
-                              ? Icons.code_off
-                              : Icons.code,
+                          _showCode ? Icons.code_off : Icons.code,
                           size: 18,
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -131,15 +126,11 @@ class _DemoCardState extends State<DemoCard> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        flex: 55,
-                        child: Center(child: widget.demo),
-                      ),
+                      Expanded(flex: 55, child: Center(child: widget.demo)),
                       const SizedBox(width: 24),
                       Expanded(
                         flex: 45,
-                        child: CodeBlock(
-                            code: widget.code, maxHeight: 300),
+                        child: CodeBlock(code: widget.code, maxHeight: 300),
                       ),
                     ],
                   ),

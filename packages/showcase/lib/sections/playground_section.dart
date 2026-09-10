@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -53,10 +53,12 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
     buf.writeln('  theme: MaterialPinTheme(');
     buf.writeln('    shape: $shapeStr,');
     buf.writeln(
-        '    cellSize: Size(${_cellWidth.toStringAsFixed(0)}, ${_cellHeight.toStringAsFixed(0)}),');
+      '    cellSize: Size(${_cellWidth.toStringAsFixed(0)}, ${_cellHeight.toStringAsFixed(0)}),',
+    );
     buf.writeln('    spacing: ${_spacing.toStringAsFixed(0)},');
     buf.writeln(
-        '    borderRadius: BorderRadius.circular(${_borderRadius.toStringAsFixed(0)}),');
+      '    borderRadius: BorderRadius.circular(${_borderRadius.toStringAsFixed(0)}),',
+    );
     buf.writeln('    entryAnimation: $animStr,');
     if (_obscureText) buf.writeln('    obscureText: true,');
     if (!_showCursor) buf.writeln('    showCursor: false,');
@@ -170,10 +172,7 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
               const SizedBox(width: 16),
               FilledButton.icon(
                 onPressed: _copyCode,
-                icon: Icon(
-                  _copied ? Icons.check : Icons.copy,
-                  size: 18,
-                ),
+                icon: Icon(_copied ? Icons.check : Icons.copy, size: 18),
                 label: Text(_copied ? 'Copied!' : 'Copy Code'),
               ),
             ],
@@ -206,14 +205,21 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
           SegmentedButton<MaterialPinShape>(
             segments: const [
               ButtonSegment(
-                  value: MaterialPinShape.outlined, label: Text('Outlined')),
+                value: MaterialPinShape.outlined,
+                label: Text('Outlined'),
+              ),
               ButtonSegment(
-                  value: MaterialPinShape.filled, label: Text('Filled')),
+                value: MaterialPinShape.filled,
+                label: Text('Filled'),
+              ),
               ButtonSegment(
-                  value: MaterialPinShape.underlined,
-                  label: Text('Underline')),
+                value: MaterialPinShape.underlined,
+                label: Text('Underline'),
+              ),
               ButtonSegment(
-                  value: MaterialPinShape.circle, label: Text('Circle')),
+                value: MaterialPinShape.circle,
+                label: Text('Circle'),
+              ),
             ],
             selected: {_shape},
             onSelectionChanged: (v) => setState(() => _shape = v.first),
@@ -264,13 +270,21 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
           SegmentedButton<MaterialPinAnimation>(
             segments: const [
               ButtonSegment(
-                  value: MaterialPinAnimation.scale, label: Text('Scale')),
+                value: MaterialPinAnimation.scale,
+                label: Text('Scale'),
+              ),
               ButtonSegment(
-                  value: MaterialPinAnimation.fade, label: Text('Fade')),
+                value: MaterialPinAnimation.fade,
+                label: Text('Fade'),
+              ),
               ButtonSegment(
-                  value: MaterialPinAnimation.slide, label: Text('Slide')),
+                value: MaterialPinAnimation.slide,
+                label: Text('Slide'),
+              ),
               ButtonSegment(
-                  value: MaterialPinAnimation.none, label: Text('None')),
+                value: MaterialPinAnimation.none,
+                label: Text('None'),
+              ),
             ],
             selected: {_entryAnimation},
             onSelectionChanged: (v) =>
@@ -282,14 +296,22 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
           ),
           const SizedBox(height: 16),
           _settingLabel('Colors'),
-          _colorRow('Border', _borderColor,
-              (c) => setState(() => _borderColor = c)),
-          _colorRow('Focused', _focusedBorderColor,
-              (c) => setState(() => _focusedBorderColor = c)),
           _colorRow(
-              'Fill', _fillColor, (c) => setState(() => _fillColor = c)),
+            'Border',
+            _borderColor,
+            (c) => setState(() => _borderColor = c),
+          ),
           _colorRow(
-              'Error', _errorColor, (c) => setState(() => _errorColor = c)),
+            'Focused',
+            _focusedBorderColor,
+            (c) => setState(() => _focusedBorderColor = c),
+          ),
+          _colorRow('Fill', _fillColor, (c) => setState(() => _fillColor = c)),
+          _colorRow(
+            'Error',
+            _errorColor,
+            (c) => setState(() => _errorColor = c),
+          ),
           const SizedBox(height: 16),
           SwitchListTile(
             title: const Text('Obscure Text', style: TextStyle(fontSize: 14)),
@@ -322,8 +344,7 @@ class _PlaygroundSectionState extends State<PlaygroundSection> {
     );
   }
 
-  Widget _colorRow(
-      String label, Color value, ValueChanged<Color> onChanged) {
+  Widget _colorRow(String label, Color value, ValueChanged<Color> onChanged) {
     const colors = [
       Colors.transparent,
       Color(0xFF6B7280),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Brand palette for the showcase.
 abstract final class BrandColors {
@@ -60,8 +60,9 @@ ThemeData buildLightTheme() {
 }
 
 TextTheme _buildTextTheme(Brightness brightness) {
-  final color =
-      brightness == Brightness.dark ? Colors.white : const Color(0xFF1A1A2E);
+  final color = brightness == Brightness.dark
+      ? Colors.white
+      : const Color(0xFF1A1A2E);
   final mutedColor = brightness == Brightness.dark
       ? Colors.white70
       : const Color(0xFF6B7280);
@@ -102,21 +103,9 @@ TextTheme _buildTextTheme(Brightness brightness) {
       fontWeight: FontWeight.w600,
       color: color,
     ),
-    bodyLarge: TextStyle(
-      fontSize: 18,
-      color: mutedColor,
-      height: 1.7,
-    ),
-    bodyMedium: TextStyle(
-      fontSize: 16,
-      color: mutedColor,
-      height: 1.6,
-    ),
-    bodySmall: TextStyle(
-      fontSize: 14,
-      color: mutedColor,
-      height: 1.5,
-    ),
+    bodyLarge: TextStyle(fontSize: 18, color: mutedColor, height: 1.7),
+    bodyMedium: TextStyle(fontSize: 16, color: mutedColor, height: 1.6),
+    bodySmall: TextStyle(fontSize: 14, color: mutedColor, height: 1.5),
     labelLarge: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
