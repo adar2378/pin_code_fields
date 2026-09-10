@@ -7,8 +7,10 @@ Migrate to Flutter 3.47's standalone design-system packages.
 - **Material / Cupertino imports**: `package:flutter/material.dart` and `package:flutter/cupertino.dart` are replaced with `package:material_ui/material_ui.dart` and `package:cupertino_ui/cupertino_ui.dart`.
 - **New dependencies**: `material_ui` and `cupertino_ui` (the Flutter SDK still ships the old libraries in 3.47, but they are scheduled for deprecation).
 - **Minimum SDK**: Dart `^3.12.0`, Flutter `>=3.44.0` (tested on Flutter 3.47.1 / Dart 3.13.1).
+- **Theme lookups**: The package reads `material_ui`'s `Theme`. Apps still on `package:flutter/material.dart` will not have their `ThemeData` picked up, so PIN fields fall back to default colors.
+- **`MaterialPinThemeExtension`**: Must be registered on `material_ui`'s `ThemeData`. Registering it on the SDK `ThemeData` is a compile error.
 
-Apps that still import `package:flutter/material.dart` should either migrate with `dart fix --apply --code=migrate_design_widgets`, or wrap mixed trees with `MaterialUiCompatibilityBridge`. See [migration/10.0.0/MIGRATION_GUIDE.md](migration/10.0.0/MIGRATION_GUIDE.md).
+Your app must use `material_ui` to use 10.x. Migrate with `dart fix --apply --code=migrate_design_widgets`. If your app is still on `package:flutter/material.dart`, stay on `pin_code_fields: ^9.4.0`. `MaterialUiCompatibilityBridge` only helps the other direction: a migrated app with dependencies that still use SDK Material. See [migration/10.0.0/MIGRATION_GUIDE.md](migration/10.0.0/MIGRATION_GUIDE.md).
 
 ### Features ✨
 

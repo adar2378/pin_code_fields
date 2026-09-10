@@ -78,6 +78,8 @@ If you are still on `package:flutter/material.dart`, run:
 dart fix --apply --code=migrate_design_widgets
 ```
 
+Not ready to migrate your app to `material_ui`? Use `pin_code_fields: ^9.4.0`. 10.x does not pick up SDK Material themes.
+
 ### Quick Start - Material Design
 
 ```dart
@@ -432,6 +434,8 @@ v10.0.0 is a **major** release for Flutter 3.47: Material and Cupertino now live
 2. Bump the dependency to `pin_code_fields: ^10.0.0` and add `material_ui: ^1.0.0`.
 3. Replace `package:flutter/material.dart` with `package:material_ui/material_ui.dart` (`dart fix --apply --code=migrate_design_widgets`).
 4. If some of your dependencies still use the SDK Material library, wrap the app with `MaterialUiCompatibilityBridge`.
+
+If your app has to stay on `package:flutter/material.dart` for now, stay on `pin_code_fields: ^9.4.0`.
 
 📖 **Full migration guide**: [migration/10.0.0/MIGRATION_GUIDE.md](https://github.com/adar2378/pin_code_fields/blob/main/packages/pin_code_fields/migration/10.0.0/MIGRATION_GUIDE.md)
 

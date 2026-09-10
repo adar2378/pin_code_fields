@@ -4,6 +4,8 @@ v10.0.0 migrates the package to Flutter 3.47's standalone design-system packages
 
 See also: [What's new in Flutter 3.47](https://flutter.dev/blog/whats-new-in-flutter-3-47)
 
+> **Not ready to migrate your app to `material_ui`?** Stay on `pin_code_fields: ^9.4.0`. 10.x only works in apps that use `material_ui`. In an app still on `package:flutter/material.dart`, 10.x ignores your `ThemeData` (PIN fields render with default colors) and `MaterialPinThemeExtension` fails to compile.
+
 ## Why this is a major version
 
 Flutter 3.47 publishes [`material_ui`](https://pub.dev/packages/material_ui) and [`cupertino_ui`](https://pub.dev/packages/cupertino_ui) as 1.0 packages on pub.dev. The copies bundled in the Flutter SDK are scheduled for deprecation in the following stable release.
@@ -123,7 +125,10 @@ MaterialApp(
 ## Troubleshooting
 
 **Theme / type errors involving `ThemeData` or `ThemeExtension`**
-You are mixing SDK Material with `material_ui`. Migrate the import or add `MaterialUiCompatibilityBridge`.
+Your app still builds its theme with SDK Material. Migrate your app to `material_ui` (Step 3), or stay on `pin_code_fields` 9.x. `MaterialUiCompatibilityBridge` does not fix this: it only passes a `material_ui` theme down to widgets that use SDK Material.
+
+**PIN fields ignore my app theme (default purple colors)**
+Same cause: your `MaterialApp` / `ThemeData` comes from `package:flutter/material.dart`, so `material_ui`'s `Theme.of` finds no theme and uses defaults. Migrate your app, or stay on 9.x.
 
 **Analyzer: `depend_on_referenced_packages` for `material_ui`**
 Declare `material_ui` in your own `pubspec.yaml` even though `pin_code_fields` already depends on it.

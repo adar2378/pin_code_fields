@@ -7,8 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **pin_code_fields** is a Flutter package for creating highly customizable PIN code and OTP input fields. Version 9.0.0 introduces a **headless architecture** with separate core logic and Material Design implementation.
 
 - **Repository**: https://github.com/adar2378/pin_code_fields
-- **Min SDK**: Dart 3.5.0, Flutter 3.0.0+
-- **Dependencies**: Only Flutter SDK (minimal dependencies approach)
+- **Min SDK**: Dart 3.12.0, Flutter 3.44.0+ (v10+)
+- **Dependencies**: Flutter SDK, `material_ui`, `cupertino_ui` (Flutter 3.47 standalone design-system packages). Import from `package:material_ui/material_ui.dart`, never `package:flutter/material.dart`
+- **9.x maintenance**: `9.x` branch (SDK `flutter/material`). Fixes for 9.x users go there
 
 ## Monorepo Structure
 
