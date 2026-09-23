@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pin_code_fields` - `v10.0.1`](#pin_code_fields---v1001)
+
+---
+
+#### `pin_code_fields` - `v10.0.1`
+
+ - **FIX**: show selection toolbar on long press (#430).
+
+
 ## 2026-05-20
 
 ### Changes

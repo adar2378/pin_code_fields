@@ -1,3 +1,7 @@
+## 10.0.1
+
+ - **FIX**: show selection toolbar on long press (#430).
+
 ## 10.0.0
 
 ### Breaking Changes ⚠️
