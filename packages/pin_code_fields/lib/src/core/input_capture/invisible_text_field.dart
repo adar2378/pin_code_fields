@@ -109,6 +109,10 @@ class InvisibleTextField extends StatelessWidget {
         showCursor: false,
         showSelectionHandles: false,
         enableInteractiveSelection: selectionEnabled,
+        // Gestures are handled by the parent TextSelectionGestureDetector.
+        // Without this, RenderEditable's own long-press recognizer wins the
+        // arena and the selection toolbar never shows (same as TextField).
+        rendererIgnoresPointer: true,
         selectionControls: selectionEnabled ? selectionControls : null,
         contextMenuBuilder: selectionEnabled ? contextMenuBuilder : null,
         // Input configuration
