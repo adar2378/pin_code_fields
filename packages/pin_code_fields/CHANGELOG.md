@@ -1,3 +1,7 @@
+## 9.4.1
+
+ - **FIX**: show selection toolbar on long press (#430).
+
 ## 9.4.0
 
  - **FIX**: suppress semantic hint and focused state when disabled (#427).
