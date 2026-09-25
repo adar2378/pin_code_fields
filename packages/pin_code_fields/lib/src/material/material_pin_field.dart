@@ -41,6 +41,7 @@ class MaterialPinField extends StatefulWidget {
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.none,
     this.autofillHints,
+    this.autocorrect = false,
     this.enableAutofill = false,
     this.autofillContextAction = AutofillContextAction.commit,
     // Behavior
@@ -126,6 +127,13 @@ class MaterialPinField extends StatefulWidget {
 
   /// Autofill hints for the text field.
   final Iterable<String>? autofillHints;
+
+  /// Whether to enable autocorrection on the underlying text input.
+  ///
+  /// Defaults to `false`. On iOS, setting this to `true` makes the keyboard
+  /// hide the one-time code AutoFill suggestion once the user starts typing,
+  /// instead of showing a suggestion that does nothing when tapped.
+  final bool autocorrect;
 
   /// Whether to enable autofill functionality.
   ///
@@ -414,6 +422,7 @@ class _MaterialPinFieldState extends State<MaterialPinField>
       inputFormatters: widget.inputFormatters,
       textCapitalization: widget.textCapitalization,
       autofillHints: widget.autofillHints,
+      autocorrect: widget.autocorrect,
       enableAutofill: widget.enableAutofill,
       autofillContextAction: widget.autofillContextAction,
       enabled: widget.enabled,
