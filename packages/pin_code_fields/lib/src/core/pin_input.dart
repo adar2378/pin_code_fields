@@ -586,17 +586,22 @@ class _PinInputState extends State<PinInput>
   /// the wait prevents Sentry-reported App Hangs.
   static const _clipboardTimeout = Duration(milliseconds: 500);
 
-  /// Reads the clipboard with a timeout guard.
+  /// Reads the clipboard with an optional timeout guard.
+  ///
+  /// Pass `timeout: null` for user-initiated pastes: on iOS the read waits
+  /// for the "Allow Paste" prompt, which easily takes longer than
+  /// [_clipboardTimeout].
   ///
   /// Returns the plain-text content, or `null` if the read fails, times out,
   /// or yields empty data. Never throws.
-  Future<String?> _safeClipboardRead() async {
+  Future<String?> _safeClipboardRead({
+    Duration? timeout = _clipboardTimeout,
+  }) async {
     try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain)
-          .timeout(
-            _clipboardTimeout,
-            onTimeout: () => null,
-          );
+      final read = Clipboard.getData(Clipboard.kTextPlain);
+      final clipboardData = timeout == null
+          ? await read
+          : await read.timeout(timeout, onTimeout: () => null);
       final text = clipboardData?.text;
       return (text != null && text.isNotEmpty) ? text : null;
     } catch (_) {
@@ -612,7 +617,9 @@ class _PinInputState extends State<PinInput>
   Future<void> _handlePasteAction(EditableTextState editableTextState) async {
     editableTextState.hideToolbar();
 
-    final clipboardText = await _safeClipboardRead();
+    // No timeout: the user tapped Paste and may still be answering the
+    // iOS "Allow Paste" prompt.
+    final clipboardText = await _safeClipboardRead(timeout: null);
     if (clipboardText == null) return;
 
     // Respect user-provided clipboard validation for paste acceptance.

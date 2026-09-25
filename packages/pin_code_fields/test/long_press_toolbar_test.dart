@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -105,6 +106,49 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AdaptiveTextSelectionToolbar), findsOneWidget);
+  });
+
+  // On iOS the clipboard read waits for the "Allow Paste" prompt, so a
+  // user-initiated paste must not give up after the auto-detect timeout.
+  testWidgets('paste waits for a slow clipboard response', (tester) async {
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.getData') {
+          await Future<void>.delayed(const Duration(seconds: 2));
+          return <String, dynamic>{'text': '123456'};
+        }
+        if (call.method == 'Clipboard.hasStrings') {
+          return <String, dynamic>{'value': true};
+        }
+        return null;
+      },
+    );
+    addTearDown(
+      () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        null,
+      ),
+    );
+
+    String? completed;
+    await tester.pumpWidget(
+      _app(
+        PinInput(
+          length: 6,
+          builder: _cells,
+          onCompleted: (pin) => completed = pin,
+        ),
+      ),
+    );
+
+    await tester.longPress(find.byType(EditableText));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Paste'));
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pumpAndSettle();
+
+    expect(completed, '123456');
   });
 
   testWidgets('long press does not show toolbar when paste is disabled', (
