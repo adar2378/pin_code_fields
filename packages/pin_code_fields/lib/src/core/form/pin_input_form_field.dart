@@ -56,6 +56,7 @@ class PinInputFormField extends FormField<String> {
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.none,
     this.autofillHints,
+    this.autocorrect = false,
     // Behavior
     super.enabled,
     this.autoFocus = false,
@@ -121,6 +122,7 @@ class PinInputFormField extends FormField<String> {
                   inputFormatters: widget.inputFormatters,
                   textCapitalization: widget.textCapitalization,
                   autofillHints: widget.autofillHints,
+                  autocorrect: widget.autocorrect,
                   enabled: widget.enabled,
                   autoFocus: widget.autoFocus,
                   readOnly: widget.readOnly,
@@ -198,6 +200,13 @@ class PinInputFormField extends FormField<String> {
 
   /// Autofill hints for the text field.
   final Iterable<String>? autofillHints;
+
+  /// Whether to enable autocorrection on the underlying text input.
+  ///
+  /// Defaults to `false`. On iOS, setting this to `true` makes the keyboard
+  /// hide the one-time code AutoFill suggestion once the user starts typing,
+  /// instead of showing a suggestion that does nothing when tapped.
+  final bool autocorrect;
 
   /// Whether to auto-focus on mount.
   final bool autoFocus;
