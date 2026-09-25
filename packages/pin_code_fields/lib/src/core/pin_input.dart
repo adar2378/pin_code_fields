@@ -59,6 +59,7 @@ class PinInput extends StatefulWidget {
     this.inputFormatters,
     this.textCapitalization = TextCapitalization.none,
     this.autofillHints,
+    this.autocorrect = false,
     // Behavior
     this.enabled = true,
     this.autoFocus = false,
@@ -141,6 +142,13 @@ class PinInput extends StatefulWidget {
 
   /// Autofill hints for the text field.
   final Iterable<String>? autofillHints;
+
+  /// Whether to enable autocorrection on the underlying text input.
+  ///
+  /// Defaults to `false`. On iOS, setting this to `true` makes the keyboard
+  /// hide the one-time code AutoFill suggestion once the user starts typing,
+  /// instead of showing a suggestion that does nothing when tapped.
+  final bool autocorrect;
 
   /// Whether the field is enabled.
   ///
@@ -586,17 +594,22 @@ class _PinInputState extends State<PinInput>
   /// the wait prevents Sentry-reported App Hangs.
   static const _clipboardTimeout = Duration(milliseconds: 500);
 
-  /// Reads the clipboard with a timeout guard.
+  /// Reads the clipboard with an optional timeout guard.
+  ///
+  /// Pass `timeout: null` for user-initiated pastes: on iOS the read waits
+  /// for the "Allow Paste" prompt, which easily takes longer than
+  /// [_clipboardTimeout].
   ///
   /// Returns the plain-text content, or `null` if the read fails, times out,
   /// or yields empty data. Never throws.
-  Future<String?> _safeClipboardRead() async {
+  Future<String?> _safeClipboardRead({
+    Duration? timeout = _clipboardTimeout,
+  }) async {
     try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain)
-          .timeout(
-            _clipboardTimeout,
-            onTimeout: () => null,
-          );
+      final read = Clipboard.getData(Clipboard.kTextPlain);
+      final clipboardData = timeout == null
+          ? await read
+          : await read.timeout(timeout, onTimeout: () => null);
       final text = clipboardData?.text;
       return (text != null && text.isNotEmpty) ? text : null;
     } catch (_) {
@@ -612,7 +625,9 @@ class _PinInputState extends State<PinInput>
   Future<void> _handlePasteAction(EditableTextState editableTextState) async {
     editableTextState.hideToolbar();
 
-    final clipboardText = await _safeClipboardRead();
+    // No timeout: the user tapped Paste and may still be answering the
+    // iOS "Allow Paste" prompt.
+    final clipboardText = await _safeClipboardRead(timeout: null);
     if (clipboardText == null) return;
 
     // Respect user-provided clipboard validation for paste acceptance.
@@ -884,8 +899,8 @@ class _PinInputState extends State<PinInput>
                 // User's custom UI
                 widget.builder(context, cells),
 
-                // Invisible input layer - positioned at top so auto-scroll
-                // shows the full PIN field above the keyboard
+                // Invisible input layer - a 1px strip along the bottom edge
+                // so auto-scroll shows the full PIN field above the keyboard
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -910,6 +925,7 @@ class _PinInputState extends State<PinInput>
                     scrollPadding: widget.scrollPadding,
                     autofillHints:
                         widget.enableAutofill ? widget.autofillHints : null,
+                    autocorrect: widget.autocorrect,
                   ),
                 ),
               ],

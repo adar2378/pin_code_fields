@@ -31,6 +31,31 @@ void main() {
       expect(capturedCells![3].index, 3);
     });
 
+    // https://github.com/adar2378/pin_code_fields/issues/431
+    testWidgets('autocorrect defaults to false and is passed through', (
+      tester,
+    ) async {
+      Widget build({bool? autocorrect}) => MaterialApp(
+            home: Scaffold(
+              body: autocorrect == null
+                  ? PinInput(length: 4, builder: (_, __) => const SizedBox())
+                  : PinInput(
+                      length: 4,
+                      autocorrect: autocorrect,
+                      builder: (_, __) => const SizedBox(),
+                    ),
+            ),
+          );
+      bool editableAutocorrect() =>
+          tester.widget<EditableText>(find.byType(EditableText)).autocorrect;
+
+      await tester.pumpWidget(build());
+      expect(editableAutocorrect(), isFalse);
+
+      await tester.pumpWidget(build(autocorrect: true));
+      expect(editableAutocorrect(), isTrue);
+    });
+
     testWidgets('receives keyboard input', (tester) async {
       String? changedValue;
 
