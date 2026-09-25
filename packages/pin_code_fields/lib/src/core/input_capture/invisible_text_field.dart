@@ -26,6 +26,7 @@ class InvisibleTextField extends StatelessWidget {
     this.keyboardAppearance,
     this.scrollPadding = const EdgeInsets.all(20),
     this.autofillHints,
+    this.autocorrect = false,
   });
 
   /// Key for accessing the EditableTextState.
@@ -86,6 +87,12 @@ class InvisibleTextField extends StatelessWidget {
   /// - [AutofillHints.password] - For PIN/password entry
   final Iterable<String>? autofillHints;
 
+  /// Whether to enable autocorrection on the underlying text input.
+  ///
+  /// Defaults to `false`. On iOS, setting this to `true` makes the keyboard
+  /// hide the one-time code AutoFill suggestion once the user starts typing,
+  /// instead of showing a suggestion that does nothing when tapped.
+  final bool autocorrect;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +128,7 @@ class InvisibleTextField extends StatelessWidget {
       keyboardType: keyboardType,
       inputFormatters: _buildInputFormatters(),
       autofocus: false, // Handled externally
-      autocorrect: false,
+      autocorrect: autocorrect,
       enableSuggestions: false,
       textCapitalization: textCapitalization,
       textInputAction: textInputAction,
