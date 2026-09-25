@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pin_code_fields` - `v9.5.0`](#pin_code_fields---v950)
+
+---
+
+#### `pin_code_fields` - `v9.5.0`
+
+ - **FIX**: wait for iOS paste permission when pasting from the menu.
+ - **FIX**: show long-press context menu on screen (#432).
+ - **FEAT**: add autocorrect parameter to pin fields (#431).
+
+
 ## 2026-09-23
 
 ### Changes

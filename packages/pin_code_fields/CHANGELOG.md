@@ -1,3 +1,9 @@
+## 9.5.0
+
+ - **FIX**: wait for iOS paste permission when pasting from the menu.
+ - **FIX**: show long-press context menu on screen (#432).
+ - **FEAT**: add autocorrect parameter to pin fields (#431).
+
 ## 9.4.1
 
  - **FIX**: show selection toolbar on long press (#430).
