@@ -884,8 +884,8 @@ class _PinInputState extends State<PinInput>
                 // User's custom UI
                 widget.builder(context, cells),
 
-                // Invisible input layer - positioned at top so auto-scroll
-                // shows the full PIN field above the keyboard
+                // Invisible input layer - a 1px strip along the bottom edge
+                // so auto-scroll shows the full PIN field above the keyboard
                 Positioned(
                   bottom: 0,
                   left: 0,
