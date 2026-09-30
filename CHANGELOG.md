@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-10-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pin_code_fields` - `v10.1.1`](#pin_code_fields---v1011)
+
+---
+
+#### `pin_code_fields` - `v10.1.1`
+
+ - **FIX**: hide the invisible input from screen readers.
+
+
 ## 2026-09-25
 
 ### Changes

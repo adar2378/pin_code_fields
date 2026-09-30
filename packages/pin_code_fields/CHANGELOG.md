@@ -1,3 +1,7 @@
+## 10.1.1
+
+ - **FIX**: hide the invisible input from screen readers.
+
 ## 10.1.0
 
  - **FIX**: wait for iOS paste permission when pasting from the menu.
