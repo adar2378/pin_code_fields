@@ -832,6 +832,40 @@ void main() {
         semantics = tester.getSemantics(findPinSemantics());
         expect(semantics.hint, 'PIN completo');
       });
+
+      testWidgets('exposes a single text field node to screen readers',
+          (tester) async {
+        final handle = tester.ensureSemantics();
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PinInput(
+                length: 6,
+                autoFocus: true,
+                builder: (context, cells) =>
+                    const SizedBox(width: 300, height: 56),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '12');
+        await tester.pump();
+
+        // The hidden EditableText must not surface as an unlabelled
+        // second text field next to the PinInput one.
+        final textFields = find.semantics.byPredicate(
+          // ignore: deprecated_member_use
+          (node) => node.hasFlag(SemanticsFlag.isTextField),
+        );
+        expect(textFields, findsOne);
+        final node = textFields.evaluate().single;
+        expect(node.label, '6-digit PIN code field');
+        expect(node.value, '12');
+
+        handle.dispose();
+      });
     });
   });
 }

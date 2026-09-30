@@ -102,46 +102,50 @@ class InvisibleTextField extends StatelessWidget {
     // leaves the context menu built but never shown (#432).
     // fontSize: 1 (not 0.1) because web browsers need a properly sized
     // text field to handle input.
-    return EditableText(
-      key: editableTextKey,
-      controller: controller,
-      focusNode: focusNode,
-      readOnly: readOnly,
-      // Invisible but properly sized for web compatibility
-      style: const TextStyle(
-        color: Colors.transparent,
-        fontSize: 1,
+    // ExcludeSemantics keeps it out of the semantics tree (which Opacity
+    // used to do), so screen readers only see PinInput's labelled node.
+    return ExcludeSemantics(
+      child: EditableText(
+        key: editableTextKey,
+        controller: controller,
+        focusNode: focusNode,
+        readOnly: readOnly,
+        // Invisible but properly sized for web compatibility
+        style: const TextStyle(
+          color: Colors.transparent,
+          fontSize: 1,
+        ),
+        cursorColor: Colors.transparent,
+        backgroundCursorColor: Colors.transparent,
+        selectionColor: Colors.transparent,
+        showCursor: false,
+        showSelectionHandles: false,
+        enableInteractiveSelection: selectionEnabled,
+        // Gestures are handled by the parent TextSelectionGestureDetector.
+        // Without this, RenderEditable's own long-press recognizer wins the
+        // arena and the selection toolbar never shows (same as TextField).
+        rendererIgnoresPointer: true,
+        selectionControls: selectionEnabled ? selectionControls : null,
+        contextMenuBuilder: selectionEnabled ? contextMenuBuilder : null,
+        // Input configuration
+        keyboardType: keyboardType,
+        inputFormatters: _buildInputFormatters(),
+        autofocus: false, // Handled externally
+        autocorrect: autocorrect,
+        enableSuggestions: false,
+        textCapitalization: textCapitalization,
+        textInputAction: textInputAction,
+        onSubmitted: onSubmitted,
+        onEditingComplete: onEditingComplete,
+        onSelectionChanged: onSelectionChanged,
+        keyboardAppearance: keyboardAppearance ?? Theme.of(context).brightness,
+        scrollPadding: scrollPadding,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        clipBehavior: Clip.none,
+        // Autofill support
+        autofillHints: autofillHints,
       ),
-      cursorColor: Colors.transparent,
-      backgroundCursorColor: Colors.transparent,
-      selectionColor: Colors.transparent,
-      showCursor: false,
-      showSelectionHandles: false,
-      enableInteractiveSelection: selectionEnabled,
-      // Gestures are handled by the parent TextSelectionGestureDetector.
-      // Without this, RenderEditable's own long-press recognizer wins the
-      // arena and the selection toolbar never shows (same as TextField).
-      rendererIgnoresPointer: true,
-      selectionControls: selectionEnabled ? selectionControls : null,
-      contextMenuBuilder: selectionEnabled ? contextMenuBuilder : null,
-      // Input configuration
-      keyboardType: keyboardType,
-      inputFormatters: _buildInputFormatters(),
-      autofocus: false, // Handled externally
-      autocorrect: autocorrect,
-      enableSuggestions: false,
-      textCapitalization: textCapitalization,
-      textInputAction: textInputAction,
-      onSubmitted: onSubmitted,
-      onEditingComplete: onEditingComplete,
-      onSelectionChanged: onSelectionChanged,
-      keyboardAppearance: keyboardAppearance ?? Theme.of(context).brightness,
-      scrollPadding: scrollPadding,
-      textAlign: TextAlign.center,
-      maxLines: 1,
-      clipBehavior: Clip.none,
-      // Autofill support
-      autofillHints: autofillHints,
     );
   }
 
