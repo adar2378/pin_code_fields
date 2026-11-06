@@ -10,11 +10,11 @@ TextSelectionControls getDefaultSelectionControls(BuildContext context) {
     TargetPlatform.iOS ||
     TargetPlatform.macOS =>
       cupertinoTextSelectionHandleControls,
-    TargetPlatform.android ||
-    TargetPlatform.fuchsia =>
-      materialTextSelectionHandleControls,
     TargetPlatform.linux ||
     TargetPlatform.windows =>
       desktopTextSelectionHandleControls,
+
+    _ =>
+      materialTextSelectionHandleControls,
   };
 }
