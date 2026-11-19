@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`pin_code_fields` - `v10.1.2`](#pin_code_fields---v1012)
+
+---
+
+#### `pin_code_fields` - `v10.1.2`
+
+ - **FIX**: pass obscureText to the hidden text field.
+ - **FIX**: fall back to material selection controls on unknown platforms (#436).
+
+
 ## 2026-10-01
 
 ### Changes

@@ -1,3 +1,8 @@
+## 10.1.2
+
+ - **FIX**: pass obscureText to the hidden text field.
+ - **FIX**: fall back to material selection controls on unknown platforms (#436).
+
 ## 10.1.1
 
  - **FIX**: hide the invisible input from screen readers.
