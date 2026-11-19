@@ -27,6 +27,7 @@ class InvisibleTextField extends StatelessWidget {
     this.scrollPadding = const EdgeInsets.all(20),
     this.autofillHints,
     this.autocorrect = false,
+    this.obscureText = false,
   });
 
   /// Key for accessing the EditableTextState.
@@ -94,6 +95,13 @@ class InvisibleTextField extends StatelessWidget {
   /// instead of showing a suggestion that does nothing when tapped.
   final bool autocorrect;
 
+  /// Whether the platform text input is configured as a secure field.
+  ///
+  /// When `true`, iOS turns on `secureTextEntry` and Android uses the
+  /// number-password input variation. The visual masking is done by the
+  /// cells, not by this field.
+  final bool obscureText;
+
   @override
   Widget build(BuildContext context) {
     // Use EditableText for core functionality with autofill support.
@@ -133,6 +141,7 @@ class InvisibleTextField extends StatelessWidget {
         autofocus: false, // Handled externally
         autocorrect: autocorrect,
         enableSuggestions: false,
+        obscureText: obscureText,
         textCapitalization: textCapitalization,
         textInputAction: textInputAction,
         onSubmitted: onSubmitted,

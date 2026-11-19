@@ -926,6 +926,7 @@ class _PinInputState extends State<PinInput>
                     autofillHints:
                         widget.enableAutofill ? widget.autofillHints : null,
                     autocorrect: widget.autocorrect,
+                    obscureText: widget.obscureText,
                   ),
                 ),
               ],

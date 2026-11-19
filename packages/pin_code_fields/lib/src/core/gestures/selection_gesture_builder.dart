@@ -13,7 +13,6 @@ TextSelectionControls getDefaultSelectionControls(BuildContext context) {
     TargetPlatform.linux ||
     TargetPlatform.windows =>
       desktopTextSelectionHandleControls,
-
     _ =>
       materialTextSelectionHandleControls,
   };
