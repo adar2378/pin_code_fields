@@ -1,3 +1,7 @@
+## 9.5.2
+
+ - **FIX**: pass obscureText to the hidden text field.
+
 ## 9.5.1
 
  - **FIX**: hide the invisible input from screen readers.
