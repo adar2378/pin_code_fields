@@ -56,6 +56,49 @@ void main() {
       expect(editableAutocorrect(), isTrue);
     });
 
+    // https://github.com/adar2378/pin_code_fields/issues/437
+    group('obscureText reaches the platform text input', () {
+      Future<Map<String, dynamic>?> clientArgs(
+        WidgetTester tester,
+        Widget field,
+      ) async {
+        await tester.pumpWidget(MaterialApp(home: Scaffold(body: field)));
+        await tester.pump();
+        await tester.pump();
+        return tester.testTextInput.setClientArgs;
+      }
+
+      testWidgets('PinInput sends obscureText: true', (tester) async {
+        final args = await clientArgs(
+          tester,
+          PinInput(
+            length: 4,
+            obscureText: true,
+            obscuringCharacter: '**',
+            autoFocus: true,
+            builder: (_, __) => const SizedBox(),
+          ),
+        );
+        expect(args?['obscureText'], isTrue);
+      });
+
+      testWidgets('MaterialPinField sends obscureText: true', (tester) async {
+        final args = await clientArgs(
+          tester,
+          const MaterialPinField(length: 4, obscureText: true, autoFocus: true),
+        );
+        expect(args?['obscureText'], isTrue);
+      });
+
+      testWidgets('defaults to a non-secure input', (tester) async {
+        final args = await clientArgs(
+          tester,
+          const MaterialPinField(length: 4, autoFocus: true),
+        );
+        expect(args?['obscureText'], isFalse);
+      });
+    });
+
     testWidgets('receives keyboard input', (tester) async {
       String? changedValue;
 
