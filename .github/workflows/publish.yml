@@ -1,0 +1,40 @@
+# Publishes pin_code_fields to pub.dev when a release tag is pushed.
+# pub.dev admin: automated publishing from GitHub Actions is on for
+# adar2378/pin_code_fields with tag pattern 'pin_code_fields-v{{version}}'.
+#
+# Release: melos version --scope=pin_code_fields --no-dependent-constraints
+#          --no-dependent-versions, then git push --follow-tags.
+name: Publish pin_code_fields
+
+on:
+  push:
+    tags:
+      # Matches pin_code_fields-v10.1.2, not pin_code_fields_liquid_glass-v...
+      - 'pin_code_fields-v[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # OIDC token for pub.dev
+    defaults:
+      run:
+        working-directory: packages/pin_code_fields
+    steps:
+      - uses: actions/checkout@v4
+
+      # Configures the pub.dev OIDC token. Must run before Flutter setup.
+      - uses: dart-lang/setup-dart@v1
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Test
+        run: flutter test
+
+      - name: Publish
+        run: dart pub publish --force
